@@ -9,7 +9,9 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
-  { ignores: ['node_modules/**', '.next/**', 'out/**', 'build/**', 'next-env.d.ts'] },
+  {
+    ignores: ['node_modules/**', '.next/**', 'out/**', 'build/**', 'next-env.d.ts', 'coverage/**'],
+  },
   {
     extends: [
       js.configs.recommended,
@@ -36,8 +38,8 @@ export default tseslint.config(
       ...reactPlugin.configs.recommended.rules,
       ...reactPlugin.configs['jsx-runtime'].rules,
       ...reactPluginHooks.configs.recommended.rules,
-      // ...reactPluginNext.configs.recommended.rules,
-      // ...reactPluginNext.configs['core-web-vitals'].rules,
+      ...reactPluginNext.configs.recommended.rules,
+      ...reactPluginNext.configs['core-web-vitals'].rules,
       'react-compiler/react-compiler': 'error',
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-unsafe-assignment': 'error',
