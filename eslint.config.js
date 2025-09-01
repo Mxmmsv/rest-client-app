@@ -7,6 +7,7 @@ import reactPluginCompiler from 'eslint-plugin-react-compiler';
 import reactPluginHooks from 'eslint-plugin-react-hooks';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
+import sonarjs from 'eslint-plugin-sonarjs';
 
 export default tseslint.config(
   {
@@ -18,6 +19,7 @@ export default tseslint.config(
       ...tseslint.configs.strict,
       prettierPlugin,
       importPlugin.flatConfigs.recommended,
+      sonarjs.configs.recommended,
     ],
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
