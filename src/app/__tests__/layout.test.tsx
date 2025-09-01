@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { expect, test } from 'vitest';
 
 import RootLayout from '../layout';
@@ -8,10 +8,10 @@ function Children() {
 }
 
 test('Layout', () => {
-  const { container } = render(
+  render(
     <RootLayout>
       <Children />
     </RootLayout>
   );
-  expect(container).toBeInTheDocument();
+  expect(screen.getByText('SHAW')).toBeInTheDocument();
 });
