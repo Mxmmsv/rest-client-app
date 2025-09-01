@@ -11,7 +11,8 @@
     "lint:fix": "eslint . --fix",
     "format:fix": "prettier . --write",
     "prepare": "husky",
-    "test": "vitest"
+    "test": "vitest",
+    "test:browser": "vitest --config=vitest.browser.config.ts --coverage"
   },
   "lint-staged": {
     "*.{js,ts,tsx}": [
@@ -38,6 +39,8 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^5.0.2",
+    "@vitest/browser": "^3.2.4",
+    "@vitest/coverage-istanbul": "^3.2.4",
     "eslint": "^9.34.0",
     "eslint-config-next": "15.5.2",
     "eslint-config-prettier": "^10.1.8",
@@ -50,11 +53,13 @@
     "husky": "^9.1.7",
     "jsdom": "^26.1.0",
     "lint-staged": "^16.1.6",
+    "playwright": "^1.55.0",
     "prettier-plugin-tailwindcss": "^0.6.14",
     "tailwindcss": "^4",
     "typescript": "^5",
     "typescript-eslint": "^8.41.0",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "vitest-browser-react": "^1.0.1"
   }
 }
