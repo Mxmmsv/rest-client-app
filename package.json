@@ -12,7 +12,9 @@
     "format:fix": "prettier . --write",
     "prepare": "husky",
     "test": "vitest",
-    "test:browser": "vitest --config=vitest.browser.config.ts --coverage"
+    "test:browser": "vitest --config=vitest.browser.config.ts --coverage",
+    "test:e2e": "playwright test --ui",
+    "test:e2e:autogen": "playwright codegen"
   },
   "lint-staged": {
     "*.{js,ts,tsx}": [
@@ -32,6 +34,7 @@
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^15.5.2",
+    "@playwright/test": "^1.55.0",
     "@tailwindcss/postcss": "^4",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.8.0",
