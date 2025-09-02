@@ -1,5 +1,6 @@
 'use client';
 
+import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 
 import { useAppDispatch, useAppSelector } from '@/lib/store/hooks';
@@ -10,13 +11,13 @@ export default function Home() {
   const dispatch = useAppDispatch();
 
   return (
-    <div className="align-center flex gap-1">
+    <div className="align-center flex justify-center gap-1">
       <Button type="primary" disabled={value <= 0} onClick={() => dispatch(decrement())}>
-        -
+        <MinusOutlined />
       </Button>
       <span>{value}</span>
       <Button type="primary" disabled={value >= 10} onClick={() => dispatch(increment())}>
-        +
+        <PlusOutlined />
       </Button>
     </div>
   );
