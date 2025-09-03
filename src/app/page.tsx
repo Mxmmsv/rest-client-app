@@ -6,8 +6,10 @@ import { Button, Flex, Typography } from 'antd';
 import { useAppDispatch, useAppSelector } from '@/lib/store/hooks';
 import { increment, decrement } from '@/lib/store/slice/counterSlice';
 
+import { getCounterValue } from '../lib/store/selectors/counter';
+
 export default function Home() {
-  const value = useAppSelector((state) => state.counter.value);
+  const value = useAppSelector(getCounterValue);
   const dispatch = useAppDispatch();
 
   return (
