@@ -3,6 +3,8 @@ import './globals.css';
 
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 
+import StoreProvider from './StoreProvider';
+
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -18,7 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <AntdRegistry>{children}</AntdRegistry>
+        <StoreProvider>
+          <AntdRegistry>{children}</AntdRegistry>
+        </StoreProvider>
       </body>
     </html>
   );
