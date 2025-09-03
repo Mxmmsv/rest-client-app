@@ -12,11 +12,21 @@ export default function Home() {
 
   return (
     <div className="align-center flex justify-center gap-1">
-      <Button type="primary" disabled={value <= 0} onClick={() => dispatch(decrement())}>
+      <Button
+        type="primary"
+        disabled={value <= 0}
+        onClick={() => dispatch(decrement())}
+        aria-label="decrement"
+      >
         <MinusOutlined />
       </Button>
       <span>{value}</span>
-      <Button type="primary" disabled={value >= 10} onClick={() => dispatch(increment())}>
+      <Button
+        type="primary"
+        disabled={value >= 10}
+        onClick={() => dispatch(increment())}
+        aria-label="increment"
+      >
         <PlusOutlined />
       </Button>
     </div>
