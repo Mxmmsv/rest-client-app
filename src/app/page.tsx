@@ -1,7 +1,7 @@
 'use client';
 
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
+import { Button, Flex, Typography } from 'antd';
 
 import { useAppDispatch, useAppSelector } from '@/lib/store/hooks';
 import { increment, decrement } from '@/lib/store/slice/counterSlice';
@@ -11,7 +11,7 @@ export default function Home() {
   const dispatch = useAppDispatch();
 
   return (
-    <div className="align-center flex justify-center gap-1">
+    <Flex justify="center" align="center" gap="middle">
       <Button
         type="primary"
         disabled={value <= 0}
@@ -20,7 +20,7 @@ export default function Home() {
       >
         <MinusOutlined />
       </Button>
-      <span>{value}</span>
+      <Typography.Title>{value}</Typography.Title>
       <Button
         type="primary"
         disabled={value >= 10}
@@ -29,6 +29,6 @@ export default function Home() {
       >
         <PlusOutlined />
       </Button>
-    </div>
+    </Flex>
   );
 }
