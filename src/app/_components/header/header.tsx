@@ -8,8 +8,8 @@ const isAuth = false;
 
 function Header() {
   return (
-    <Layout.Header>
-      <Flex justify="space-between" align="center">
+    <Layout.Header className="sticky top-0 z-50 transition-all duration-300">
+      <Flex justify="space-between" align="center" className="h-full px-24">
         <Link href="/" className="flex items-center gap-8">
           <Image src="/logo.webp" alt="REST Client Logo" width={55} height={55} />
           <Typography.Title className="!mb-0 !text-inherit">REST Client</Typography.Title>
