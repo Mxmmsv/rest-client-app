@@ -1,7 +1,7 @@
 import { Button, Form, Input } from 'antd';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
-import { User, registerWithEmailAndPassword } from '@/lib/auth/auth';
+import { UserData, registerWithEmailAndPassword } from '@/lib/auth/auth';
 import { auth } from '@/lib/auth/firebase.config';
 
 type FieldType = {
@@ -25,7 +25,7 @@ export default function SignIn() {
     return;
   }
 
-  const onFinish = ({ email, password, name }: User) => {
+  const onFinish = ({ email, password, name }: UserData) => {
     registerWithEmailAndPassword({ email, password, name });
   };
 

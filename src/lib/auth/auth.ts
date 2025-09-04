@@ -9,7 +9,7 @@ export type AuthInfo = {
   password: string;
 };
 
-export type User = AuthInfo & {
+export type UserData = AuthInfo & {
   name: string;
 };
 
@@ -22,7 +22,7 @@ const logInWithEmailAndPassword = async ({ email, password }: AuthInfo) => {
   }
 };
 
-const registerWithEmailAndPassword = async ({ name, email, password }: User) => {
+const registerWithEmailAndPassword = async ({ name, email, password }: UserData) => {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     const user = res.user;
