@@ -1,8 +1,14 @@
-/* eslint-disable sonarjs/todo-tag */
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+  updateProfile,
+} from 'firebase/auth';
 import { collection, addDoc } from 'firebase/firestore';
 
 import { auth, db } from './firebase.config';
+
+import type { NotificationInstance } from 'antd/es/notification/interface';
 
 export type AuthInfo = {
   email: string;
@@ -13,29 +19,55 @@ export type UserData = AuthInfo & {
   name: string;
 };
 
-const logInWithEmailAndPassword = async ({ email, password }: AuthInfo) => {
+const logInWithEmailAndPassword = async ({
+  email,
+  password,
+  api,
+}: AuthInfo & { api: NotificationInstance }) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
+    api.success({ message: 'Success login!' });
   } catch (err) {
-    console.error(err);
-    //TODO implement toast
+    api.error({
+      message: 'Login failed',
+      description: (err as Error).message,
+    });
   }
 };
 
-const registerWithEmailAndPassword = async ({ name, email, password }: UserData) => {
+const registerWithEmailAndPassword = async ({
+  name,
+  email,
+  password,
+  api,
+}: UserData & { api: NotificationInstance }) => {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     const user = res.user;
     await addDoc(collection(db, 'users'), { uid: user.uid, name, authProvider: ' local ', email });
+    if (auth.currentUser) {
+      await updateProfile(auth.currentUser, { displayName: name });
+      await auth.currentUser.reload();
+    }
+    api.success({ message: 'Success register!' });
   } catch (err) {
-    console.error(err);
-    //TODO implement toast
+    api.error({
+      message: 'register failed',
+      description: (err as Error).message,
+    });
   }
 };
 
-const logout = () => {
-  signOut(auth);
-  //TODO implement toast
+const logout = ({ api }: { api: NotificationInstance }) => {
+  try {
+    signOut(auth);
+    api.success({ message: 'Success logout!' });
+  } catch (err) {
+    api.error({
+      message: 'Logout failed',
+      description: (err as Error).message,
+    });
+  }
 };
 
 export { logInWithEmailAndPassword, registerWithEmailAndPassword, logout };
