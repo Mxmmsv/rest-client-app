@@ -3,6 +3,8 @@
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Flex, Typography } from 'antd';
 
+import SignIn from '@/components/auth-components/signIn';
+import SignUp from '@/components/auth-components/singUp';
 import { useAppDispatch, useAppSelector } from '@/lib/store/hooks';
 import { increment, decrement } from '@/lib/store/slice/counterSlice';
 
@@ -13,24 +15,28 @@ export default function Home() {
   const dispatch = useAppDispatch();
 
   return (
-    <Flex justify="center" align="center" gap="middle">
-      <Button
-        type="primary"
-        disabled={value <= 0}
-        onClick={() => dispatch(decrement())}
-        aria-label="decrement"
-      >
-        <MinusOutlined />
-      </Button>
-      <Typography.Title>{value}</Typography.Title>
-      <Button
-        type="primary"
-        disabled={value >= 10}
-        onClick={() => dispatch(increment())}
-        aria-label="increment"
-      >
-        <PlusOutlined />
-      </Button>
-    </Flex>
+    <>
+      <Flex justify="center" align="center" gap="middle">
+        <Button
+          type="primary"
+          disabled={value <= 0}
+          onClick={() => dispatch(decrement())}
+          aria-label="decrement"
+        >
+          <MinusOutlined />
+        </Button>
+        <Typography.Title>{value}</Typography.Title>
+        <Button
+          type="primary"
+          disabled={value >= 10}
+          onClick={() => dispatch(increment())}
+          aria-label="increment"
+        >
+          <PlusOutlined />
+        </Button>
+      </Flex>
+      <SignIn />
+      <SignUp />
+    </>
   );
 }

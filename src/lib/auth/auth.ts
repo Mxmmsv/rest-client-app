@@ -1,10 +1,5 @@
 /* eslint-disable sonarjs/todo-tag */
-import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signOut,
-  updateProfile,
-} from 'firebase/auth';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
 import { collection, addDoc } from 'firebase/firestore';
 
 import { auth, db } from './firebase.config';
@@ -32,9 +27,6 @@ const registerWithEmailAndPassword = async ({ name, email, password }: User) => 
     const res = await createUserWithEmailAndPassword(auth, email, password);
     const user = res.user;
     await addDoc(collection(db, 'users'), { uid: user.uid, name, authProvider: ' local ', email });
-    if (auth.currentUser) {
-      await updateProfile(auth.currentUser, { displayName: name });
-    }
   } catch (err) {
     console.error(err);
     //TODO implement toast
