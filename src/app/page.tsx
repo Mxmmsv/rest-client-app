@@ -13,7 +13,7 @@ export default function Home() {
   const dispatch = useAppDispatch();
 
   return (
-    <Flex justify="center" align="center" gap="middle">
+    <Flex justify="center" align="center" gap="middle" className="h-[100vh]">
       <Button
         type="primary"
         disabled={value <= 0}
