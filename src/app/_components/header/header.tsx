@@ -12,10 +12,18 @@ function Header() {
       <Flex justify="space-between" align="center" className="h-full px-24">
         <Link href="/" className="flex items-center gap-8">
           <Image src="/logo.webp" alt="REST Client Logo" width={55} height={55} />
-          <Typography.Title className="!mb-0 !text-inherit">REST Client</Typography.Title>
+          <Typography.Title className="mb-0 text-inherit">REST Client</Typography.Title>
         </Link>
-        <Space>
-          <Button type="text" className="!text-white" icon={<GlobalOutlined />} />
+        <Flex justify="space-between" align="center" gap="middle">
+          <Button
+            type="primary"
+            variant="outlined"
+            style={{
+              color: 'var(--color-yellow)',
+              fontSize: '20px',
+            }}
+            icon={<GlobalOutlined />}
+          />
           {!isAuth ? (
             <Space>
               <Link href="/sign-in">
@@ -28,7 +36,7 @@ function Header() {
           ) : (
             <Button>Sign Out</Button>
           )}
-        </Space>
+        </Flex>
       </Flex>
     </Layout.Header>
   );
