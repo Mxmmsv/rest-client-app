@@ -1,10 +1,11 @@
-/* eslint-disable sonarjs/todo-tag */
+'use client';
 
-import { Button, Flex, Form, Input, notification, Typography } from 'antd';
+import { Button, Flex, Form, Input, Typography, Spin } from 'antd';
+import useNotification from 'antd/es/notification/useNotification';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
-import { logInWithEmailAndPassword, logout } from '@/lib/auth/auth';
 import { auth } from '@/lib/auth/firebase.config';
+import { useAuth } from '@/lib/auth/useAuth';
 
 type FieldType = {
   email: string;
@@ -13,7 +14,8 @@ type FieldType = {
 
 export default function SignIn() {
   const [user, loading, error] = useAuthState(auth);
-  const [api, contextHolder] = notification.useNotification();
+  const [api, contextHolder] = useNotification();
+  const { logInWithEmailAndPassword, logout } = useAuth();
 
   const onFinish = async ({ email, password }: FieldType) => {
     await logInWithEmailAndPassword({ email, password, api });
@@ -24,8 +26,11 @@ export default function SignIn() {
   };
 
   if (loading) {
-    //TODO Добавить loader-spinner с тусклым bg
-    return <div>...loading</div>;
+    return (
+      <Flex vertical justify="center" align="center">
+        <Spin />
+      </Flex>
+    );
   }
 
   if (error) {

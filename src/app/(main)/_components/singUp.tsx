@@ -1,8 +1,12 @@
-import { Button, Flex, Form, Input, notification } from 'antd';
+'use client';
+
+import { Button, Flex, Form, Input, Spin, Typography } from 'antd';
+import useNotification from 'antd/es/notification/useNotification';
+import { redirect } from 'next/navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
-import { UserData, registerWithEmailAndPassword } from '@/lib/auth/auth';
 import { auth } from '@/lib/auth/firebase.config';
+import { UserData, useAuth } from '@/lib/auth/useAuth';
 
 type FieldType = {
   email: string;
@@ -10,12 +14,17 @@ type FieldType = {
   name: string;
 };
 
-export default function SignIn() {
+export default function SignUp() {
   const [user, loading, error] = useAuthState(auth);
-  const [api, contextHolder] = notification.useNotification();
+  const { registerWithEmailAndPassword } = useAuth();
+  const [api, contextHolder] = useNotification();
 
   if (loading) {
-    return <div>...loading</div>;
+    return (
+      <Flex justify="center" align="center">
+        <Spin />
+      </Flex>
+    );
   }
 
   if (error) {
@@ -23,11 +32,7 @@ export default function SignIn() {
   }
 
   if (user) {
-    return (
-      <Flex justify="center" align="center">
-        {contextHolder}
-      </Flex>
-    );
+    redirect('/');
   }
 
   const onFinish = async ({ email, password, name }: UserData) => {
@@ -35,8 +40,9 @@ export default function SignIn() {
   };
 
   return (
-    <Flex justify="center" align="center">
+    <Flex justify="center" align="center" vertical>
       {contextHolder}
+      <Typography.Title>Welcome!</Typography.Title>
       <Form
         name="signUp"
         labelCol={{ span: 8 }}
