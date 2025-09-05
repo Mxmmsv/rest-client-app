@@ -10,7 +10,8 @@ body {
 }
 
 :root {
-  --color-base: #242461;
+  --color-base-dark: #0c0c33;
+  --color-base: #0c0c33be;
   --color-base-light: #1d86994d;
   --color-primary: #151547;
   --color-primary-light: #7479b9;
@@ -22,4 +23,16 @@ body {
 
 .header-title {
   color: var(--color-additional-light) !important;
+}
+
+.header {
+  transition: all 0.3s ease;
+}
+.header[data-sticky='true'] {
+  background: var(--color-base);
+  height: 3rem;
+}
+.header[data-sticky='false'] {
+  background: var(--color-base-dark);
+  height: 4rem;
 }

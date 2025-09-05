@@ -3,25 +3,38 @@ import { GlobalOutlined } from '@ant-design/icons';
 import { Button, Flex, Layout, Space, Typography } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 import { cn } from '@/lib/cn';
 
 const isAuth = false;
 
 function Header() {
+  const [isSticky, setIsSticky] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setIsSticky(window.scrollY > 10);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <Layout.Header className="sticky top-0 z-50 transition-all duration-300">
+    <Layout.Header
+      data-sticky={isSticky}
+      className={cn('sticky top-0 z-50 transition-all duration-300', 'header')}
+    >
       <Flex justify="space-between" align="center" className="h-full px-24">
-        <Link href="/" className={cn('flex items-center gap-8 transition-all', 'duration-500')}>
+        <Link href="/" className={cn('flex items-center gap-8', 'transition-all duration-500')}>
           <Image
             src="/logo.webp"
             alt="REST Client Logo"
-            width={55}
-            height={55}
+            width={isSticky ? 40 : 55}
+            height={isSticky ? 40 : 55}
             className={cn(
               'header-title transition-all',
               'duration-300 hover:scale-101 hover:drop-shadow-lg',
-              'hover:[filter:drop-shadow(0_0_4px_var(--color-additional))]'
+              'hover:[filter:drop-shadow(0_0_4px_var(--color-additional))]',
+              'transition-all duration-300'
             )}
           />
           <Typography.Title
