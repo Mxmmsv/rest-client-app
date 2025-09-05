@@ -2,6 +2,7 @@
 
 import { Button, Flex, Form, Input, Typography, Spin } from 'antd';
 import useNotification from 'antd/es/notification/useNotification';
+import { redirect } from 'next/navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 import { auth } from '@/lib/auth/firebase.config';
@@ -18,7 +19,7 @@ export default function SignIn() {
   const { logInWithEmailAndPassword, logout } = useAuth();
 
   const onFinish = async ({ email, password }: FieldType) => {
-    await logInWithEmailAndPassword({ email, password, api });
+    await logInWithEmailAndPassword({ email, password, api }).then(redirect('/'));
   };
 
   const onLogout = () => {
@@ -41,7 +42,7 @@ export default function SignIn() {
     return (
       <Flex vertical justify="center" align="center">
         {contextHolder}
-        <Typography.Title>{`Hi, ${user.displayName}`}</Typography.Title>
+        <Typography.Title>{`Hi, ${user.displayName || 'user'}`}</Typography.Title>
         <Typography.Title>You are already logged!</Typography.Title>
         <Button type="primary" onClick={onLogout}>
           Logout
@@ -53,6 +54,7 @@ export default function SignIn() {
   return (
     <Flex justify="center" align="center">
       {contextHolder}
+
       <Form name="signIn" labelCol={{ span: 8 }} onFinish={onFinish}>
         <Form.Item<FieldType>
           label="Email"
