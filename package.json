@@ -13,6 +13,7 @@
     "prepare": "husky",
     "test": "vitest",
     "test:coverage": "vitest --coverage",
+    "test:ui": "vitest --ui --coverage",
     "test:browser": "vitest --config=vitest.browser.config.ts --coverage",
     "test:e2e": "playwright test --ui",
     "test:e2e:autogen": "playwright codegen"
@@ -51,6 +52,7 @@
     "@vitejs/plugin-react": "^5.0.2",
     "@vitest/browser": "^3.2.4",
     "@vitest/coverage-istanbul": "^3.2.4",
+    "@vitest/ui": "^3.2.4",
     "eslint": "^9.34.0",
     "eslint-config-next": "15.5.2",
     "eslint-config-prettier": "^10.1.8",
