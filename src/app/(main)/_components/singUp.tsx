@@ -54,7 +54,10 @@ export default function SignUp() {
         <Form.Item<FieldType>
           label="Email"
           name="email"
-          rules={[{ required: true, message: 'Please input your email!' }]}
+          rules={[
+            { required: true, message: 'Please input your email!' },
+            { type: 'email', message: 'Please enter a valid email!' },
+          ]}
         >
           <Input />
         </Form.Item>
@@ -62,7 +65,14 @@ export default function SignUp() {
         <Form.Item<FieldType>
           label="Password"
           name="password"
-          rules={[{ required: true, message: 'Please input your password!' }]}
+          rules={[
+            { required: true, message: 'Please input your password!' },
+            {
+              pattern: /^(?=.*\p{L})(?=.*\d)(?=.*[^\p{L}\d]).{8,}$/u,
+              message:
+                'Password must be at least 8 characters long and contain a letter, a number, and a special character.',
+            },
+          ]}
         >
           <Input.Password />
         </Form.Item>
@@ -70,7 +80,10 @@ export default function SignUp() {
         <Form.Item<FieldType>
           label="Name"
           name="name"
-          rules={[{ required: false, message: 'Please input your name!' }]}
+          rules={[
+            { required: true, message: 'Please input your name!' },
+            { min: 2, message: 'Name must be at least 2 characters long.' },
+          ]}
         >
           <Input />
         </Form.Item>
