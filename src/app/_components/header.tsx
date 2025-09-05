@@ -10,12 +10,13 @@ export default function Header() {
         <Typography.Title>Rest Client</Typography.Title>
       </Link>
       <Flex justify="center" align="center" gap="middle">
-        <Button variant="link">
-          <Link href="/login">Login</Link>
-        </Button>
-        <Button variant="link">
-          <Link href="/register">Register</Link>
-        </Button>
+        <Link href="/login">
+          <Button variant="link">Login</Button>
+        </Link>
+
+        <Link href="/register">
+          <Button variant="link">Register</Button>
+        </Link>
       </Flex>
     </Flex>
   );
