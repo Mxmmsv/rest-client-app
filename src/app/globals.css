@@ -11,11 +11,15 @@ body {
 
 :root {
   --color-base: #242461;
-  --color-base-light: #12556162;
+  --color-base-light: #1d86994d;
   --color-primary: #151547;
   --color-primary-light: #7479b9;
   --color-additional: #6fa5d8;
   --color-additional-light: #ffecae;
-  --color-accent: #05af68;
+  --color-accent: #0c4930;
   --color-accent-light: #00ffbf7e;
+}
+
+.header-title {
+  color: var(--color-additional-light) !important;
 }

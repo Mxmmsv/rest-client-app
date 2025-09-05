@@ -6,8 +6,9 @@ export const customTheme: ThemeConfig = {
     colorText: 'var(--color-primary)',
     colorLink: 'var(--color-accent)',
     colorLinkHover: 'var(--color-accent-light)',
-    colorLinkActive: 'var(--color-accent-light)',
+    colorLinkActive: 'var(--color-additional)',
     fontSizeHeading1: 30,
+    borderRadius: 10,
   },
   components: {
     Layout: {
@@ -21,7 +22,7 @@ export const customTheme: ThemeConfig = {
       colorPrimaryActive: 'var(--color-accent-light)',
     },
     Typography: {
-      colorTextHeading: 'var(--color-additional-light)',
+      colorTextHeading: 'var(--color-accent)',
       titleMarginBottom: '0px',
     },
   },
