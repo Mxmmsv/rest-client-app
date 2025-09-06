@@ -7,7 +7,7 @@ export const customTheme: ThemeConfig = {
     colorLink: 'var(--color-accent)',
     colorLinkHover: 'var(--color-accent-light)',
     colorLinkActive: 'var(--color-additional)',
-    fontSizeHeading1: 30,
+    fontSizeHeading1: 25,
     borderRadius: 10,
   },
   components: {
@@ -24,6 +24,7 @@ export const customTheme: ThemeConfig = {
     Typography: {
       colorTextHeading: 'var(--color-accent)',
       titleMarginBottom: '0px',
+      fontFamily: '"Press Start 2P", system-ui',
     },
   },
 };

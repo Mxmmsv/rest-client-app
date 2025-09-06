@@ -24,7 +24,7 @@ function Header() {
       className={cn('sticky top-0 z-50 transition-all duration-300', 'header')}
     >
       <Flex justify="space-between" align="center" className="h-full px-24">
-        <Link href="/" className={cn('flex items-center gap-8', 'transition-all duration-500')}>
+        <Link href="/" className={cn('flex items-end gap-4', 'transition-all duration-500')}>
           <Image
             src="/logo.webp"
             alt="REST Client Logo"
@@ -44,7 +44,7 @@ function Header() {
               'hover:[filter:drop-shadow(0_0_4px_var(--color-additional))]'
             )}
           >
-            REST Client
+            PAWSTMAN
           </Typography.Title>
         </Link>
         <Flex justify="space-between" align="center" gap="middle">
