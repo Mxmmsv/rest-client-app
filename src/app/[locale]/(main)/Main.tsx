@@ -1,9 +1,11 @@
 'use client';
 
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { useTranslations } from 'next-intl';
 import React from 'react';
 
 import Footer from '@/components/footer/Footer';
+import LanguageToggle from '@/components/languageToggle/LanguageToggle';
 
 const { Header, Content } = Layout;
 
@@ -15,6 +17,8 @@ const items = Array.from({ length: 5 }).map((_, index) => ({
 const MainPage: React.FC = () => {
   const { token } = theme.useToken();
   const { colorBgContainer, borderRadiusLG } = token;
+
+  const t = useTranslations('MainPage');
 
   return (
     <Layout className="flex min-h-screen">
@@ -38,7 +42,8 @@ const MainPage: React.FC = () => {
             borderRadius: borderRadiusLG,
           }}
         >
-          Content
+          {t('welcome')}!
+          <LanguageToggle />
         </div>
       </Content>
       <Footer />

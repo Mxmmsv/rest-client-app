@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description: 'REST client app for final task in RSSchool',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

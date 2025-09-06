@@ -1,10 +1,12 @@
 import { Col, Row, Typography } from 'antd';
 import Image from 'next/image';
 const { Text, Link } = Typography;
+import { useTranslations } from 'next-intl';
 
 import TeamAvatars from './TeamAvatars';
 
 export default function Footer() {
+  const t = useTranslations('Footer');
   return (
     <Row
       justify="center"
@@ -17,7 +19,7 @@ export default function Footer() {
       </Col>
       <Col xs={24} sm={24} md={24} lg={8} xl={8}>
         ©{new Date().getFullYear()}
-        <Text>, Created by &quot;Yet Another Dream Team&ldquo;</Text>
+        <Text>, {t('created-by')} &quot;Yet Another Dream Team&ldquo;</Text>
       </Col>
       <Col xs={24} sm={24} md={24} lg={8} xl={8}>
         <Link
