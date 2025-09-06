@@ -1,10 +1,14 @@
+import { ConfigProvider } from 'antd';
+import enUS from 'antd/locale/en_US';
+import ruRU from 'antd/locale/ru_RU';
+import dayjs from 'dayjs';
 import { notFound } from 'next/navigation';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
+import 'dayjs/locale/ru';
 
-import { AntdLocaleProvider } from '@/app/providers/AntdLocaleProvider';
 import { routing } from '@/i18n/routing';
 
-import Page from '../../components/languageToggle/Page';
+const antLocales = { en: enUS, ru: ruRU };
 
 export default async function LocaleLayout({
   children,
@@ -14,16 +18,16 @@ export default async function LocaleLayout({
   params: { locale: string };
 }>) {
   const { locale } = await params;
+
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
 
+  dayjs.locale(locale);
+
   return (
     <NextIntlClientProvider locale={locale}>
-      <AntdLocaleProvider>
-        {children}
-        <Page />
-      </AntdLocaleProvider>
+      <ConfigProvider locale={antLocales[locale]}>{children}</ConfigProvider>
     </NextIntlClientProvider>
   );
 }

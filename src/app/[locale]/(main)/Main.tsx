@@ -6,6 +6,7 @@ import React from 'react';
 
 import Footer from '@/components/footer/Footer';
 import LanguageToggle from '@/components/languageToggle/LanguageToggle';
+import Page from '@/components/languageToggle/Page';
 
 const { Header, Content } = Layout;
 
@@ -44,6 +45,7 @@ const MainPage: React.FC = () => {
         >
           {t('welcome')}!
           <LanguageToggle />
+          <Page />
         </div>
       </Content>
       <Footer />

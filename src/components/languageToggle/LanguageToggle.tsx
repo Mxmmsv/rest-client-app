@@ -1,18 +1,15 @@
 'use client';
 
 import { Radio } from 'antd';
-import { useRouter, usePathname } from 'next/navigation';
-
-import { useAntdLocale } from '@/app/providers/AntdLocaleProvider';
+import { useRouter, usePathname, useParams } from 'next/navigation';
 
 const LanguageToggle: React.FC = () => {
-  const { locale, setLocale } = useAntdLocale();
   const router = useRouter();
   const pathname = usePathname();
+  const params = useParams();
+  const locale = params.locale as 'en' | 'ru';
 
   const handleChange = (newLocale: 'en' | 'ru') => {
-    setLocale(newLocale);
-
     const segments = pathname.split('/');
     segments[1] = newLocale;
     const newPath = segments.join('/');
