@@ -13,7 +13,7 @@
     "prepare": "husky",
     "test": "vitest",
     "test:coverage": "vitest --coverage",
-    "test:browser": "vitest --config=vitest.browser.config.ts --coverage",
+    "test:ui": "vitest --ui --coverage",
     "test:e2e": "playwright test --ui",
     "test:e2e:autogen": "playwright codegen"
   },
@@ -49,8 +49,8 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^5.0.2",
-    "@vitest/browser": "^3.2.4",
     "@vitest/coverage-istanbul": "^3.2.4",
+    "@vitest/ui": "^3.2.4",
     "eslint": "^9.34.0",
     "eslint-config-next": "15.5.2",
     "eslint-config-prettier": "^10.1.8",
@@ -70,7 +70,6 @@
     "typescript": "^5",
     "typescript-eslint": "^8.41.0",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.2.4",
-    "vitest-browser-react": "^1.0.1"
+    "vitest": "^3.2.4"
   }
 }

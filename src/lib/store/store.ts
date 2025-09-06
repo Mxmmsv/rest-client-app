@@ -11,5 +11,9 @@ export const makeStore = () => {
 };
 
 export type AppStore = ReturnType<typeof makeStore>;
-export type RootState = ReturnType<AppStore['getState']>;
+export type RootState = ReturnType<AppStore['getState']> & {
+  auth?: {
+    isAuthenticated: boolean;
+  };
+};
 export type AppDispatch = AppStore['dispatch'];

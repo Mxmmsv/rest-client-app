@@ -6,11 +6,11 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 import { cn } from '@/lib/cn';
-
-const isAuth = false;
+import { useAppSelector } from '@/lib/store/hooks';
 
 function Header() {
   const [isSticky, setIsSticky] = useState(false);
+  const isAuth = useAppSelector((state) => state.auth?.isAuthenticated ?? false);
 
   useEffect(() => {
     const handleScroll = () => setIsSticky(window.scrollY > 10);
