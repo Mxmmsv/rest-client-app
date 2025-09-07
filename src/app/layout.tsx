@@ -3,8 +3,9 @@ import './globals.css';
 
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 
+import Header from '@/components/header';
+
 import StoreProvider from './StoreProvider';
-import Header from './_components/header';
 
 import type { Metadata } from 'next';
 
