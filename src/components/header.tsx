@@ -7,7 +7,7 @@ export default function Header() {
   return (
     <Flex justify="center" align="center" gap="middle">
       <Link href="/">
-        <Typography.Title>Rest Client</Typography.Title>
+        <Typography.Title level={2}>Rest Client</Typography.Title>
       </Link>
       <Flex justify="center" align="center" gap="middle">
         <Link href="/login">

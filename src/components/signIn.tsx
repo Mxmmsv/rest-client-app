@@ -43,7 +43,7 @@ export default function SignIn() {
       <Flex vertical justify="center" align="center">
         {contextHolder}
         <Typography.Title>{`Hi, ${user.displayName || 'user'}`}</Typography.Title>
-        <Typography.Title>You are already logged!</Typography.Title>
+        <Typography.Title level={2}>You are already logged!</Typography.Title>
         <Button type="primary" onClick={onLogout}>
           Logout
         </Button>
