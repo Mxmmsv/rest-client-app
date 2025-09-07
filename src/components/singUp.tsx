@@ -40,7 +40,7 @@ export default function SignUp() {
   };
 
   return (
-    <Flex justify="center" align="center" vertical>
+    <Flex justify="center" align="center" vertical className="h-[100vh]">
       {contextHolder}
       <Typography.Title>Welcome!</Typography.Title>
       <Form
@@ -88,7 +88,7 @@ export default function SignUp() {
           <Input />
         </Form.Item>
 
-        <Form.Item label={null}>
+        <Form.Item label={null} className="flex justify-center">
           <Button type="primary" htmlType="submit">
             Submit
           </Button>

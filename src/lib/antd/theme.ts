@@ -8,7 +8,6 @@ export const customTheme: ThemeConfig = {
     colorLink: 'var(--color-accent)',
     colorLinkHover: 'var(--color-accent-light)',
     colorLinkActive: 'var(--color-additional)',
-    fontSizeHeading1: 25,
     borderRadius: 10,
   },
   components: {
@@ -24,7 +23,6 @@ export const customTheme: ThemeConfig = {
     },
     Typography: {
       colorTextHeading: 'var(--color-accent)',
-      titleMarginBottom: '0px',
       fontFamily: '"Orbitron", sans-serif',
     },
   },
