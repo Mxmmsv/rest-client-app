@@ -4,9 +4,8 @@ import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Flex, Typography } from 'antd';
 
 import { useAppDispatch, useAppSelector } from '@/lib/store/hooks';
+import { getCounterValue } from '@/lib/store/selectors/counter';
 import { increment, decrement } from '@/lib/store/slice/counterSlice';
-
-import { getCounterValue } from '../lib/store/selectors/counter';
 
 export default function Home() {
   const value = useAppSelector(getCounterValue);

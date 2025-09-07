@@ -4,7 +4,8 @@ import { Provider } from 'react-redux';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 import { createTestStore } from '@/app/__tests__/mock-redux';
-import Header from '@/app/_components/header/header';
+
+import Header from '../header';
 
 vi.mock('react', async () => {
   const actual = await vi.importActual('react');
@@ -31,9 +32,9 @@ describe('Header component', () => {
       </Provider>
     );
 
-    expect(screen.getByText(/sign in/i)).toBeInTheDocument();
-    expect(screen.getByText(/sign up/i)).toBeInTheDocument();
-    expect(screen.queryByText(/sign out/i)).not.toBeInTheDocument();
+    expect(screen.getByText(/login/i)).toBeInTheDocument();
+    expect(screen.getByText(/register/i)).toBeInTheDocument();
+    expect(screen.queryByText(/logout/i)).not.toBeInTheDocument();
   });
 
   it('should shows Sign Out when user is authenticated', () => {
@@ -44,9 +45,9 @@ describe('Header component', () => {
       </Provider>
     );
 
-    expect(screen.getByRole('button', { name: /sign out/i })).toBeInTheDocument();
-    expect(screen.queryByText(/sign in/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/sign up/i)).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /logout/i })).toBeInTheDocument();
+    expect(screen.queryByText(/login/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/register/i)).not.toBeInTheDocument();
   });
 
   it('should render logo with small size when isSticky is true', () => {

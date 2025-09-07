@@ -2,8 +2,8 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect } from 'vitest';
 
+import Home from '../(main)/page';
 import StoreProvider from '../StoreProvider';
-import Home from '../page';
 
 describe('Home component', () => {
   it('increments and decrements the counter on button click', async () => {

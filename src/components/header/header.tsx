@@ -59,15 +59,15 @@ function Header() {
           />
           {!isAuth ? (
             <Space>
-              <Link href="/sign-in">
-                <Button>Sign In</Button>
+              <Link href="/login">
+                <Button>Login</Button>
               </Link>
-              <Link href="/sign-up">
-                <Button type="primary">Sign Up</Button>
+              <Link href="/register">
+                <Button type="primary">Register</Button>
               </Link>
             </Space>
           ) : (
-            <Button>Sign Out</Button>
+            <Button>Logout</Button>
           )}
         </Flex>
       </Flex>
