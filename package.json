@@ -31,10 +31,13 @@
     "@ant-design/nextjs-registry": "^1.1.0",
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
     "@reduxjs/toolkit": "^2.8.2",
+    "antd": "^5.27.2",
     "clsx": "^2.1.1",
+    "firebase": "^12.2.1",
     "next": "15.5.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "react-firebase-hooks": "^5.1.1",
     "react-redux": "^9.2.0",
     "tailwind-merge": "^3.3.1"
   },
