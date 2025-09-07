@@ -5,16 +5,18 @@ import useNotification from 'antd/es/notification/useNotification';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
+import { auth } from '@/lib/auth/firebase.config';
 import { useAuth } from '@/lib/auth/useAuth';
 import { cn } from '@/lib/cn';
-import { useAppSelector } from '@/lib/store/hooks';
 
 function Header() {
   const [isSticky, setIsSticky] = useState(false);
-  const isAuth = useAppSelector((state) => state.auth?.isAuthenticated ?? false);
   const [api, contextHolder] = useNotification();
   const { logout } = useAuth();
+  const [user] = useAuthState(auth);
+  const isAuth = !!user;
 
   useEffect(() => {
     const handleScroll = () => setIsSticky(window.scrollY > 10);
