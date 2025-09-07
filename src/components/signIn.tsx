@@ -1,12 +1,14 @@
 'use client';
 
-import { Button, Flex, Form, Input, Typography, Spin } from 'antd';
+import { Button, Flex, Form, Input, Typography } from 'antd';
 import useNotification from 'antd/es/notification/useNotification';
 import { redirect } from 'next/navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 import { auth } from '@/lib/auth/firebase.config';
 import { useAuth } from '@/lib/auth/useAuth';
+
+import Loader from './Loader';
 
 type FieldType = {
   email: string;
@@ -27,11 +29,7 @@ export default function SignIn() {
   };
 
   if (loading) {
-    return (
-      <Flex vertical justify="center" align="center">
-        <Spin />
-      </Flex>
-    );
+    return <Loader />;
   }
 
   if (error) {
