@@ -8,20 +8,6 @@ import { useAuth } from '@/lib/auth/useAuth';
 import { mockUser } from '../__mock__/firebaseUser.mock';
 import SignIn from '../signIn';
 
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: vi.fn().mockImplementation((query) => ({
-    matches: false,
-    media: query as unknown,
-    onchange: null,
-    addListener: vi.fn(),
-    removeListener: vi.fn(),
-    addEventListener: vi.fn(),
-    removeEventListener: vi.fn(),
-    dispatchEvent: vi.fn(),
-  })),
-});
-
 vi.mock('react-firebase-hooks/auth', () => ({
   useAuthState: vi.fn(),
 }));
