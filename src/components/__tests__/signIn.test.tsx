@@ -76,20 +76,22 @@ describe('signIn component', () => {
     expect(screen.getByText(/Auth error/i)).toBeInTheDocument();
   });
 
-  it('shoud render logged-in layout', () => {
-    mockedUseAuthState.mockReturnValue([mockUser, false, undefined]);
+  describe('logged-in ', () => {
+    it('shoud render logged-in layout', () => {
+      mockedUseAuthState.mockReturnValue([mockUser, false, undefined]);
 
-    render(<SignIn />);
-    expect(screen.getByText(`Hi, ${mockUser.displayName}`)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Logout/i })).toBeInTheDocument();
-  });
+      render(<SignIn />);
+      expect(screen.getByText(`Hi, ${mockUser.displayName}`)).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /Logout/i })).toBeInTheDocument();
+    });
 
-  it('should render logged-in layout with null user displayName', () => {
-    mockedUseAuthState.mockReturnValue([{ ...mockUser, displayName: null }, false, undefined]);
+    it('should render logged-in layout with null user displayName', () => {
+      mockedUseAuthState.mockReturnValue([{ ...mockUser, displayName: null }, false, undefined]);
 
-    render(<SignIn />);
+      render(<SignIn />);
 
-    expect(screen.getByText('Hi, user')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Logout/i })).toBeInTheDocument();
+      expect(screen.getByText('Hi, user')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /Logout/i })).toBeInTheDocument();
+    });
   });
 });
