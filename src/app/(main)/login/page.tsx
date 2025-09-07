@@ -1,10 +1,5 @@
-'use client';
-import { Flex, Typography } from 'antd';
+import SignIn from '@/components/signIn';
 
-export default function SignIn() {
-  return (
-    <Flex justify="center" align="center">
-      <Typography.Title level={2}>Sign In</Typography.Title>
-    </Flex>
-  );
+export default function SignInPage() {
+  return <SignIn />;
 }
