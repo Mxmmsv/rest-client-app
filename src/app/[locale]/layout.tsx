@@ -10,14 +10,14 @@ import { routing } from '@/i18n/routing';
 
 const antLocales = { en: enUS, ru: ruRU };
 
-export default function LocaleLayout({
+export default async function LocaleLayout({
   children,
   params,
 }: Readonly<{
   children: React.ReactNode;
   params: { locale: string };
 }>) {
-  const { locale } = params;
+  const { locale } = await params;
 
   if (!hasLocale(routing.locales, locale)) {
     notFound();
