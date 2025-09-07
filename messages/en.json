@@ -4,5 +4,9 @@
   },
   "MainPage": {
     "welcome": "Welcome"
+  },
+  "NotFoundPage": {
+    "sorry": "Sorry, the page you are looking for can't be found.",
+    "button-back": "Back Home"
   }
 }
