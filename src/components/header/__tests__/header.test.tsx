@@ -33,6 +33,11 @@ vi.mock('antd/es/notification/useNotification', () => ({
 const mockedUseAuthState = vi.mocked(useAuthState);
 const mockedUseAuth = vi.mocked(useAuth);
 
+Object.defineProperty(window, 'ScrollY', {
+  value: 0,
+  writable: true,
+});
+
 describe('Header component', () => {
   const setStickyMock = vi.fn();
   const mockLogout = vi.fn();
@@ -55,6 +60,16 @@ describe('Header component', () => {
     expect(screen.getByText(/login/i)).toBeInTheDocument();
     expect(screen.getByText(/register/i)).toBeInTheDocument();
     expect(screen.queryByText(/logout/i)).not.toBeInTheDocument();
+  });
+
+  it('should have correct links for Login and Register buttons', () => {
+    render(<Header />);
+
+    const loginLink = screen.getByText(/login/i).closest('a');
+    const registerLink = screen.getByText(/register/i).closest('a');
+
+    expect(loginLink).toHaveAttribute('href', '/login');
+    expect(registerLink).toHaveAttribute('href', '/register');
   });
 
   it('should shows Logout when user is authenticated', () => {
@@ -93,5 +108,23 @@ describe('Header component', () => {
     const logo = screen.getByAltText('REST Client Logo');
     expect(logo).toHaveAttribute('width', '55');
     expect(logo).toHaveAttribute('height', '55');
+  });
+
+  it('should set isSticky to false when scrollY < 10', () => {
+    render(<Header />);
+
+    window.scrollY = 5;
+    fireEvent.scroll(window);
+
+    expect(setStickyMock).toHaveBeenCalledWith(false);
+  });
+
+  it('should set isSticky to true when scrollY > 10', () => {
+    render(<Header />);
+
+    window.scrollY = 15;
+    fireEvent.scroll(window);
+
+    expect(setStickyMock).toHaveBeenCalledWith(true);
   });
 });
