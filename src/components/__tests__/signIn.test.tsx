@@ -106,6 +106,24 @@ describe('signIn component', () => {
     expect(redirectMock).toHaveBeenCalledWith('/');
   });
 
+  it('should call logOut', () => {
+    const logOutMock = vi.fn().mockResolvedValue(undefined);
+
+    mockedUseAuth.mockReturnValue({
+      logInWithEmailAndPassword: vi.fn(),
+      logout: logOutMock,
+      registerWithEmailAndPassword: vi.fn(),
+    });
+
+    mockedUseAuthState.mockReturnValue([mockUser, false, undefined]);
+
+    render(<SignIn />);
+
+    const logOutButton = screen.getByRole('button', { name: /Logout/i });
+    fireEvent.click(logOutButton);
+    expect(logOutMock).toBeCalled();
+  });
+
   describe('logged-in ', () => {
     it('shoud render logged-in layout', () => {
       mockedUseAuthState.mockReturnValue([mockUser, false, undefined]);
