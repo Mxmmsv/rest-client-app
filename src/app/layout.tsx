@@ -3,6 +3,8 @@ import './globals.css';
 
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 
+import Header from '@/components/header';
+
 import StoreProvider from './StoreProvider';
 
 import type { Metadata } from 'next';
@@ -21,7 +23,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <StoreProvider>
-          <AntdRegistry>{children}</AntdRegistry>
+          <AntdRegistry>
+            <Header />
+            {children}
+          </AntdRegistry>
         </StoreProvider>
       </body>
     </html>
