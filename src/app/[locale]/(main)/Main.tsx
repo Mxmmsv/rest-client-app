@@ -2,7 +2,6 @@
 
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import { useTranslations } from 'next-intl';
-import React from 'react';
 
 import Footer from '@/components/footer/Footer';
 import LanguageToggle from '@/components/languageToggle/LanguageToggle';
@@ -15,7 +14,7 @@ const items = Array.from({ length: 5 }).map((_, index) => ({
   label: `nav ${index + 1}`,
 }));
 
-const MainPage: React.FC = () => {
+function MainPage() {
   const { token } = theme.useToken();
   const { colorBgContainer, borderRadiusLG } = token;
 
@@ -51,6 +50,6 @@ const MainPage: React.FC = () => {
       <Footer />
     </Layout>
   );
-};
+}
 
 export default MainPage;

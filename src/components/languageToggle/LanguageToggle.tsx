@@ -1,6 +1,6 @@
 'use client';
 
-import { Radio } from 'antd';
+import { Segmented } from 'antd';
 import { useRouter, usePathname, useParams } from 'next/navigation';
 
 const LanguageToggle: React.FC = () => {
@@ -18,11 +18,15 @@ const LanguageToggle: React.FC = () => {
   };
 
   return (
-    <div style={{ marginBottom: 16 }}>
-      <Radio.Group value={locale} onChange={(e) => handleChange(e.target.value)}>
-        <Radio.Button value="en">English</Radio.Button>
-        <Radio.Button value="ru">Русский</Radio.Button>
-      </Radio.Group>
+    <div style={{ margin: '30px 0' }}>
+      <Segmented
+        value={locale}
+        onChange={(val) => handleChange(val as 'en' | 'ru')}
+        options={[
+          { label: 'EN', value: 'en' },
+          { label: 'RU', value: 'ru' },
+        ]}
+      />
     </div>
   );
 };

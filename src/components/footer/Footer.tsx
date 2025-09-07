@@ -1,4 +1,4 @@
-import { Col, Row, Typography } from 'antd';
+import { Col, Flex, Row, Typography } from 'antd';
 import Image from 'next/image';
 const { Text, Link } = Typography;
 import { useTranslations } from 'next-intl';
@@ -18,8 +18,12 @@ export default function Footer() {
         <TeamAvatars />
       </Col>
       <Col xs={24} sm={24} md={24} lg={8} xl={8}>
-        ©{new Date().getFullYear()}
-        <Text>, {t('created-by')} &quot;Yet Another Dream Team&ldquo;</Text>
+        <Flex wrap gap="small" justify="center" align="center">
+          <Text>
+            ©{new Date().getFullYear()}, {t('created-by')}
+          </Text>
+          <Text>&quot;Yet Another Dream Team&#34;</Text>
+        </Flex>
       </Col>
       <Col xs={24} sm={24} md={24} lg={8} xl={8}>
         <Link
