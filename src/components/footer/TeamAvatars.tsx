@@ -1,23 +1,25 @@
-import { Avatar, Tooltip } from 'antd';
+import { Avatar, Tooltip, Typography } from 'antd';
 import React from 'react';
+
+const { Link } = Typography;
 
 const TeamAvatars: React.FC = () => (
   <Avatar.Group shape="circle" size="large">
-    <a href="https://github.com/AlyaEngineer">
+    <Link href="https://github.com/AlyaEngineer">
       <Tooltip title="Alla Tsaiukova" placement="top">
         <Avatar style={{ backgroundColor: '#fde3cf' }}>AT</Avatar>
       </Tooltip>
-    </a>
-    <a href="https://github.com/ek-ole">
+    </Link>
+    <Link href="https://github.com/ek-ole">
       <Tooltip title="Ekaterina Dmitrenko" placement="top">
         <Avatar style={{ backgroundColor: '#f56a00' }}>ED</Avatar>
       </Tooltip>
-    </a>
-    <a href="https://github.com/Mxmmsv">
+    </Link>
+    <Link href="https://github.com/Mxmmsv">
       <Tooltip title="Maxim Moiseev" placement="top">
         <Avatar style={{ backgroundColor: '#87d068' }}>MM</Avatar>
       </Tooltip>
-    </a>
+    </Link>
   </Avatar.Group>
 );
 
