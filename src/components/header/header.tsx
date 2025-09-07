@@ -1,16 +1,20 @@
 'use client';
 import { GlobalOutlined } from '@ant-design/icons';
 import { Button, Flex, Layout, Space, Typography } from 'antd';
+import useNotification from 'antd/es/notification/useNotification';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
+import { useAuth } from '@/lib/auth/useAuth';
 import { cn } from '@/lib/cn';
 import { useAppSelector } from '@/lib/store/hooks';
 
 function Header() {
   const [isSticky, setIsSticky] = useState(false);
   const isAuth = useAppSelector((state) => state.auth?.isAuthenticated ?? false);
+  const [api, contextHolder] = useNotification();
+  const { logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => setIsSticky(window.scrollY > 10);
@@ -18,11 +22,16 @@ function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleLogout = () => {
+    logout({ api });
+  };
+
   return (
     <Layout.Header
       data-sticky={isSticky}
       className={cn('sticky top-0 z-50 transition-all duration-300', 'header')}
     >
+      {contextHolder}
       <Flex justify="space-between" align="center" className="h-full px-24">
         <Link href="/" className={cn('flex items-end gap-4', 'transition-all duration-500')}>
           <Image
@@ -67,7 +76,7 @@ function Header() {
               </Link>
             </Space>
           ) : (
-            <Button>Logout</Button>
+            <Button onClick={handleLogout}>Logout</Button>
           )}
         </Flex>
       </Flex>
