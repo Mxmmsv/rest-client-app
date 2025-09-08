@@ -18,7 +18,6 @@ export default function Main() {
   if (error) {
     return (
       <Flex justify="center" vertical align="center" gap="middle" style={{ height: '100vh' }}>
-        {' '}
         Authentication error: {error.message}
       </Flex>
     );
