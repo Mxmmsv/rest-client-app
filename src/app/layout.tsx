@@ -3,7 +3,7 @@ import './globals.css';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { ConfigProvider } from 'antd';
 
-import Header from '@/components/header/Header';
+import Header from '@/components/header/header';
 import { customTheme } from '@/lib/antd/theme';
 
 import StoreProvider from './StoreProvider';
