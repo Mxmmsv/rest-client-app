@@ -10,6 +10,8 @@ import { UserData, useAuth } from '@/lib/auth/useAuth';
 
 import Loader from './Loader';
 
+const { Title } = Typography;
+
 type FieldType = {
   email: string;
   password: string;
@@ -40,7 +42,7 @@ export default function SignUp() {
   return (
     <Flex justify="center" align="center" vertical style={{ height: '100vh' }}>
       {contextHolder}
-      <Typography.Title>Welcome!</Typography.Title>
+      <Title>Welcome!</Title>
       <Form
         name="signUp"
         labelCol={{ span: 8 }}
