@@ -14,12 +14,12 @@ export default function UnauthMain() {
       </Paragraph>
       <Text strong>Pawstman helps you:</Text>
       <Paragraph>
-        • Test APIs with any method (GET, POST, PUT, DELETE)
+        • Test APIs with any method (GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS)
         <br />• Organize headers and body with a structured editor
         <br />• Save your history for later reference
         <br />• Manage environment variables for dynamic requests
         <br />• Generate code snippets for multiple languages
-        <br />• Enjoy a localized interface in multiple languages
+        <br />• Enjoy localized interface in English and Russian
       </Paragraph>
       <Space size="middle">
         <Link href="/login">
