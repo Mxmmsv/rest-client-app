@@ -16,7 +16,6 @@ function Header() {
   const [api, contextHolder] = useNotification();
   const { logout } = useAuth();
   const [user] = useAuthState(auth);
-  const isAuth = !!user;
 
   useEffect(() => {
     const handleScroll = () => setIsSticky(window.scrollY > 10);
@@ -68,7 +67,9 @@ function Header() {
             }}
             icon={<GlobalOutlined />}
           />
-          {!isAuth ? (
+          {user ? (
+            <Button onClick={handleLogout}>Logout</Button>
+          ) : (
             <Space>
               <Link href="/login">
                 <Button>Login</Button>
@@ -77,8 +78,6 @@ function Header() {
                 <Button type="primary">Register</Button>
               </Link>
             </Space>
-          ) : (
-            <Button onClick={handleLogout}>Logout</Button>
           )}
         </Flex>
       </Flex>
