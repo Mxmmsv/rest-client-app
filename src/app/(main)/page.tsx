@@ -1,5 +1,5 @@
-import { Flex } from 'antd';
+import RestClientForm from '@/components/restClientForm';
 
 export default function Main() {
-  return <Flex>aboba</Flex>;
+  return <RestClientForm />;
 }
