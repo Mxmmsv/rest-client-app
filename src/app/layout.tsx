@@ -1,9 +1,10 @@
 import '@ant-design/v5-patch-for-react-19';
 import './globals.css';
-
 import { AntdRegistry } from '@ant-design/nextjs-registry';
+import { ConfigProvider } from 'antd';
 
-import Header from '@/components/header';
+import Header from '@/components/header/header';
+import { customTheme } from '@/lib/antd/theme';
 
 import StoreProvider from './StoreProvider';
 
@@ -24,8 +25,10 @@ export default function RootLayout({
       <body>
         <StoreProvider>
           <AntdRegistry>
-            <Header />
-            {children}
+            <ConfigProvider theme={customTheme}>
+              <Header />
+              {children}
+            </ConfigProvider>
           </AntdRegistry>
         </StoreProvider>
       </body>

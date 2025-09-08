@@ -1,12 +1,14 @@
 'use client';
 
-import { Button, Flex, Form, Input, Spin, Typography } from 'antd';
+import { Button, Flex, Form, Input, Typography } from 'antd';
 import useNotification from 'antd/es/notification/useNotification';
 import { redirect } from 'next/navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 import { auth } from '@/lib/auth/firebase.config';
 import { UserData, useAuth } from '@/lib/auth/useAuth';
+
+import Loader from './Loader';
 
 type FieldType = {
   email: string;
@@ -20,11 +22,7 @@ export default function SignUp() {
   const [api, contextHolder] = useNotification();
 
   if (loading) {
-    return (
-      <Flex justify="center" align="center">
-        <Spin />
-      </Flex>
-    );
+    return <Loader />;
   }
 
   if (error) {
@@ -40,7 +38,7 @@ export default function SignUp() {
   };
 
   return (
-    <Flex justify="center" align="center" vertical>
+    <Flex justify="center" align="center" vertical style={{ height: '100vh' }}>
       {contextHolder}
       <Typography.Title>Welcome!</Typography.Title>
       <Form
@@ -88,7 +86,7 @@ export default function SignUp() {
           <Input />
         </Form.Item>
 
-        <Form.Item label={null}>
+        <Form.Item label={null} className="flex justify-center">
           <Button type="primary" htmlType="submit">
             Submit
           </Button>

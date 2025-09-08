@@ -1,0 +1,29 @@
+import { ThemeConfig } from 'antd';
+
+export const customTheme: ThemeConfig = {
+  token: {
+    fontFamily: '"IBM Plex Sans", sans-serif',
+    colorPrimary: 'var(--color-accent)',
+    colorText: 'var(--color-primary)',
+    colorLink: 'var(--color-accent)',
+    colorLinkHover: 'var(--color-accent-light)',
+    colorLinkActive: 'var(--color-additional)',
+    borderRadius: 10,
+  },
+  components: {
+    Layout: {
+      headerBg: 'var(--color-base)',
+      headerColor: 'var(--color-additional-light)',
+      headerPadding: '0 24px',
+    },
+    Button: {
+      colorPrimary: 'var(--color-additional)',
+      colorPrimaryHover: 'var(--color-primary-light)',
+      colorPrimaryActive: 'var(--color-accent-light)',
+    },
+    Typography: {
+      colorTextHeading: 'var(--color-accent)',
+      fontFamily: '"Orbitron", sans-serif',
+    },
+  },
+};
