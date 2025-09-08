@@ -12,7 +12,7 @@ export default function Main() {
   const dispatch = useAppDispatch();
 
   return (
-    <Flex justify="center" vertical align="center" gap="middle" className="h-[100vh]">
+    <Flex justify="center" vertical align="center" gap="middle" style={{ height: '100vh' }}>
       <Typography.Title level={2}>Aboba</Typography.Title>
       <Space>
         <Button

@@ -38,7 +38,7 @@ export default function SignIn() {
 
   if (user) {
     return (
-      <Flex vertical justify="center" align="center" className="h-[100vh]">
+      <Flex vertical justify="center" align="center" style={{ height: '100vh' }}>
         {contextHolder}
         <Typography.Title>{`Hi, ${user.displayName || 'user'}`}</Typography.Title>
         <Typography.Title level={2}>You are already logged!</Typography.Title>
@@ -50,7 +50,7 @@ export default function SignIn() {
   }
 
   return (
-    <Flex justify="center" align="center" className="h-[100vh]">
+    <Flex justify="center" align="center" style={{ height: '100vh' }}>
       {contextHolder}
 
       <Form name="signIn" labelCol={{ span: 8 }} onFinish={onFinish}>

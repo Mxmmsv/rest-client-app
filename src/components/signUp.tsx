@@ -38,7 +38,7 @@ export default function SignUp() {
   };
 
   return (
-    <Flex justify="center" align="center" vertical className="h-[100vh]">
+    <Flex justify="center" align="center" vertical style={{ height: '100vh' }}>
       {contextHolder}
       <Typography.Title>Welcome!</Typography.Title>
       <Form
