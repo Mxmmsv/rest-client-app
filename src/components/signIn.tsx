@@ -10,6 +10,8 @@ import { useAuth } from '@/lib/auth/useAuth';
 
 import Loader from './Loader';
 
+const { Title } = Typography;
+
 type FieldType = {
   email: string;
   password: string;
@@ -40,8 +42,8 @@ export default function SignIn() {
     return (
       <Flex vertical justify="center" align="center" style={{ height: '100vh' }}>
         {contextHolder}
-        <Typography.Title>{`Hi, ${user.displayName || 'user'}`}</Typography.Title>
-        <Typography.Title level={2}>You are already logged!</Typography.Title>
+        <Title>{`Hi, ${user.displayName || 'user'}`}</Title>
+        <Title level={2}>You are already logged!</Title>
         <Button type="primary" onClick={onLogout}>
           Logout
         </Button>
