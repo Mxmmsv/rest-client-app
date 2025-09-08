@@ -28,7 +28,6 @@ body {
 .header-title {
   color: var(--color-additional-light) !important;
   font-family: 'Press Start 2P', system-ui !important;
-  font-size: 25px !important;
   margin-bottom: 0 !important;
 }
 

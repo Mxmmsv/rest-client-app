@@ -48,6 +48,7 @@ function Header() {
             )}
           />
           <Typography.Title
+            level={3}
             className={cn(
               'header-title transition-all',
               'duration-300 hover:scale-101 hover:drop-shadow-lg',
