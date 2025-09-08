@@ -5,8 +5,8 @@ import { vi } from 'vitest';
 
 import { useAuth } from '@/lib/auth/useAuth';
 
-import { mockUser } from '../__mock__/firebaseUser.mock';
-import SignUp from '../signUp';
+import { mockUser } from '../../__mock__/firebaseUser.mock';
+import SignIn from '../signIn';
 
 vi.mock('react-firebase-hooks/auth', () => ({
   useAuthState: vi.fn(),
@@ -33,21 +33,24 @@ const mockedUseAuthState = vi.mocked(useAuthState);
 const mockedUseAuth = vi.mocked(useAuth);
 const mockedRedirect = vi.mocked(redirect);
 
-describe('SignUp component', () => {
-  it('should render register form with no user', async () => {
+describe('signIn component', () => {
+  it('shoud render sign-in form when no user', async () => {
     mockedUseAuthState.mockReturnValue([null, false, undefined]);
 
     await act(async () => {
-      render(<SignUp />);
+      render(<SignIn />);
     });
 
     expect(document.querySelector('.ant-form')).toBeInTheDocument();
+    expect(screen.getByLabelText(/Email/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Password/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Submit/i })).toBeInTheDocument();
   });
 
   it('shoud render loading spinner', () => {
     mockedUseAuthState.mockReturnValue([null, true, undefined]);
 
-    render(<SignUp />);
+    render(<SignIn />);
     expect(document.querySelector('.ant-spin')).toBeInTheDocument();
   });
 
@@ -61,54 +64,82 @@ describe('SignUp component', () => {
       },
     ]);
 
-    render(<SignUp />);
+    render(<SignIn />);
     expect(screen.getByText(/Auth error/i)).toBeInTheDocument();
   });
 
-  it('should redirect to main page after visit registration page with logged-in auth', () => {
+  it('should call logInWithEmailAndPassword and redirect on form submit', async () => {
+    const logInMock = vi.fn().mockResolvedValue(undefined);
     const redirectMock = vi.fn() as unknown as typeof redirect;
 
-    mockedRedirect.mockImplementation(redirectMock);
-    mockedUseAuthState.mockReturnValue([mockUser, false, undefined]);
-
-    render(<SignUp />);
-
-    expect(redirectMock).toHaveBeenCalledWith('/');
-  });
-
-  it('should call registerWithEmailAndPassword on form submit', async () => {
-    const registerMock = vi.fn().mockResolvedValue(undefined);
-
     mockedUseAuth.mockReturnValue({
-      logInWithEmailAndPassword: vi.fn(),
+      logInWithEmailAndPassword: logInMock,
       logout: vi.fn(),
-      registerWithEmailAndPassword: registerMock,
+      registerWithEmailAndPassword: vi.fn(),
     });
+
+    mockedRedirect.mockImplementation(redirectMock);
 
     mockedUseAuthState.mockReturnValue([null, false, undefined]);
 
-    render(<SignUp />);
+    render(<SignIn />);
 
     const emailInput = screen.getByLabelText(/Email/i);
     const passwordInput = screen.getByLabelText(/Password/i);
-    const nameInput = screen.getByLabelText(/name/i);
     const submitButton = screen.getByRole('button', { name: /Submit/i });
 
     await act(async () => {
       fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
       fireEvent.change(passwordInput, { target: { value: 'password123!' } });
-      fireEvent.change(nameInput, { target: { value: 'aboba' } });
       fireEvent.click(submitButton);
     });
 
-    expect(registerMock).toHaveBeenCalledWith(
+    expect(logInMock).toHaveBeenCalledWith(
       expect.objectContaining({
         email: 'test@example.com',
         // eslint-disable-next-line sonarjs/no-hardcoded-passwords
         password: 'password123!',
-        name: 'aboba',
         api: expect.any(Function) as unknown,
       })
     );
+
+    expect(redirectMock).toHaveBeenCalledWith('/');
+  });
+
+  it('should call logOut', () => {
+    const logOutMock = vi.fn().mockResolvedValue(undefined);
+
+    mockedUseAuth.mockReturnValue({
+      logInWithEmailAndPassword: vi.fn(),
+      logout: logOutMock,
+      registerWithEmailAndPassword: vi.fn(),
+    });
+
+    mockedUseAuthState.mockReturnValue([mockUser, false, undefined]);
+
+    render(<SignIn />);
+
+    const logOutButton = screen.getByRole('button', { name: /Logout/i });
+    fireEvent.click(logOutButton);
+    expect(logOutMock).toBeCalled();
+  });
+
+  describe('logged-in ', () => {
+    it('shoud render logged-in layout', () => {
+      mockedUseAuthState.mockReturnValue([mockUser, false, undefined]);
+
+      render(<SignIn />);
+      expect(screen.getByText(`Hi, ${mockUser.displayName}`)).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /Logout/i })).toBeInTheDocument();
+    });
+
+    it('should render logged-in layout with null user displayName', () => {
+      mockedUseAuthState.mockReturnValue([{ ...mockUser, displayName: null }, false, undefined]);
+
+      render(<SignIn />);
+
+      expect(screen.getByText('Hi, user')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /Logout/i })).toBeInTheDocument();
+    });
   });
 });

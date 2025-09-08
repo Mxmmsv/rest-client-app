@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-import { mockUser } from '@/components/__mock__/firebaseUser.mock';
 import { useAuth } from '@/lib/auth/useAuth';
 
+import { mockUser } from '../../__mock__/firebaseUser.mock';
 import Header from '../header';
 
 vi.mock('react', async () => {
