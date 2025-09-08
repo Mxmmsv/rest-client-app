@@ -2,14 +2,14 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect } from 'vitest';
 
-import Home from '../(main)/page';
-import StoreProvider from '../StoreProvider';
+import StoreProvider from '@/app/StoreProvider';
+import AuthMain from '@/components/main/AuthMain';
 
 describe('Home component', () => {
   it('increments and decrements the counter on button click', async () => {
     render(
       <StoreProvider>
-        <Home />
+        <AuthMain />
       </StoreProvider>
     );
 
