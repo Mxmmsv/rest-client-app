@@ -1,12 +1,14 @@
 'use client';
 
-import { Button, Flex, Form, Input, Typography, Spin } from 'antd';
+import { Button, Flex, Form, Input, Typography } from 'antd';
 import useNotification from 'antd/es/notification/useNotification';
 import { redirect } from 'next/navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 import { auth } from '@/lib/auth/firebase.config';
 import { useAuth } from '@/lib/auth/useAuth';
+
+import Loader from './Loader';
 
 type FieldType = {
   email: string;
@@ -27,11 +29,7 @@ export default function SignIn() {
   };
 
   if (loading) {
-    return (
-      <Flex vertical justify="center" align="center">
-        <Spin />
-      </Flex>
-    );
+    return <Loader />;
   }
 
   if (error) {
@@ -40,7 +38,7 @@ export default function SignIn() {
 
   if (user) {
     return (
-      <Flex vertical justify="center" align="center">
+      <Flex vertical justify="center" align="center" style={{ height: '100vh' }}>
         {contextHolder}
         <Typography.Title>{`Hi, ${user.displayName || 'user'}`}</Typography.Title>
         <Typography.Title level={2}>You are already logged!</Typography.Title>
@@ -52,7 +50,7 @@ export default function SignIn() {
   }
 
   return (
-    <Flex justify="center" align="center">
+    <Flex justify="center" align="center" style={{ height: '100vh' }}>
       {contextHolder}
 
       <Form name="signIn" labelCol={{ span: 8 }} onFinish={onFinish}>
@@ -72,7 +70,7 @@ export default function SignIn() {
           <Input.Password />
         </Form.Item>
 
-        <Form.Item label={null}>
+        <Form.Item label={null} className="flex justify-center">
           <Button type="primary" htmlType="submit">
             Submit
           </Button>
