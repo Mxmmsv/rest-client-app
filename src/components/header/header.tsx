@@ -11,6 +11,8 @@ import { auth } from '@/lib/auth/firebase.config';
 import { useAuth } from '@/lib/auth/useAuth';
 import { cn } from '@/lib/cn';
 
+const { Title } = Typography;
+
 function Header() {
   const [isSticky, setIsSticky] = useState(false);
   const [api, contextHolder] = useNotification();
@@ -47,7 +49,8 @@ function Header() {
               'transition-all duration-300'
             )}
           />
-          <Typography.Title
+          <Title
+            level={3}
             className={cn(
               'header-title transition-all',
               'duration-300 hover:scale-101 hover:drop-shadow-lg',
@@ -55,7 +58,7 @@ function Header() {
             )}
           >
             PAWSTMAN
-          </Typography.Title>
+          </Title>
         </Link>
         <Flex justify="space-between" align="center" gap="middle">
           <Button

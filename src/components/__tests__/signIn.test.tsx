@@ -5,8 +5,8 @@ import { vi } from 'vitest';
 
 import { useAuth } from '@/lib/auth/useAuth';
 
+import SignIn from '../SignIn';
 import { mockUser } from '../__mock__/firebaseUser.mock';
-import SignIn from '../signIn';
 
 vi.mock('react-firebase-hooks/auth', () => ({
   useAuthState: vi.fn(),

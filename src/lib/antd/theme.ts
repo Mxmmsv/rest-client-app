@@ -2,7 +2,7 @@ import { ThemeConfig } from 'antd';
 
 export const customTheme: ThemeConfig = {
   token: {
-    fontFamily: '"IBM Plex Sans", sans-serif',
+    fontFamily: '"Quantico", sans-serif',
     colorPrimary: 'var(--color-accent)',
     colorText: 'var(--color-primary)',
     colorLink: 'var(--color-accent)',
@@ -23,7 +23,7 @@ export const customTheme: ThemeConfig = {
     },
     Typography: {
       colorTextHeading: 'var(--color-accent)',
-      fontFamily: '"Orbitron", sans-serif',
+      fontSize: 18,
     },
   },
 };
