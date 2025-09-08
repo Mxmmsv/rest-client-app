@@ -1,4 +1,4 @@
-name: SonarCloud
+name: SonarCloud Analysis
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   sonar:
-    name: Analyze with SonarCloud
+    name: SonarCloud Scan
     runs-on: ubuntu-latest
 
     steps:
@@ -32,10 +32,12 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
-      - name: Run tests with coverage
-        run: npm run test -- --coverage
+      - name: Run tests
+        run: npm run test
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v5
+        with:
+          projectBaseDir: .
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

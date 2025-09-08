@@ -17,7 +17,7 @@ export default defineConfig({
     setupFiles: ['./vitest-setup.ts'],
     coverage: {
       provider: 'istanbul',
-      reporter: ['text', 'html', 'lcov'],
+      reporter: ['text', 'html'],
       include: ['src/**/*.{js,jsx,ts,tsx}'],
       exclude: [
         'src/**/*.test.{js,jsx,ts,tsx}',
