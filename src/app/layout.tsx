@@ -3,7 +3,6 @@ import './globals.css';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { ConfigProvider } from 'antd';
 
-import Header from '@/components/header/Header';
 import { customTheme } from '@/lib/antd/theme';
 
 import StoreProvider from './StoreProvider';
@@ -25,10 +24,7 @@ export default function RootLayout({
       <body>
         <StoreProvider>
           <AntdRegistry>
-            <ConfigProvider theme={customTheme}>
-              <Header />
-              {children}
-            </ConfigProvider>
+            <ConfigProvider theme={customTheme}>{children}</ConfigProvider>
           </AntdRegistry>
         </StoreProvider>
       </body>

@@ -1,5 +1,5 @@
 'use client';
-import { GlobalOutlined } from '@ant-design/icons';
+
 import { Button, Flex, Layout, Space, Typography } from 'antd';
 import useNotification from 'antd/es/notification/useNotification';
 import Image from 'next/image';
@@ -10,6 +10,8 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/lib/auth/firebase.config';
 import { useAuth } from '@/lib/auth/useAuth';
 import { cn } from '@/lib/cn';
+
+import LanguageToggle from '../languageToggle/LanguageToggle';
 
 const { Title } = Typography;
 
@@ -61,15 +63,7 @@ function Header() {
           </Title>
         </Link>
         <Flex justify="space-between" align="center" gap="middle">
-          <Button
-            type="primary"
-            variant="outlined"
-            style={{
-              color: 'var(--color-yellow)',
-              fontSize: '20px',
-            }}
-            icon={<GlobalOutlined />}
-          />
+          <LanguageToggle />
           {user ? (
             <Button onClick={handleLogout}>Logout</Button>
           ) : (
