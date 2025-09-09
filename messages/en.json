@@ -2,6 +2,14 @@
   "Footer": {
     "created-by": "Created by"
   },
+  "Team": {
+    "alla": "Alla Tsaiukova",
+    "allaInitials": "AT",
+    "ekaterina": "Ekaterina Dmitrenko",
+    "ekaterinaInitials": "ED",
+    "maxim": "Maxim Moiseev",
+    "maximInitials": "MM"
+  },
   "MainPage": {
     "welcome": "Welcome"
   },

@@ -5,8 +5,6 @@ import { useTranslations } from 'next-intl';
 
 import Footer from '@/components/footer/Footer';
 import LanguageToggle from '@/components/languageToggle/LanguageToggle';
-import Page from '@/components/languageToggle/Page';
-
 const { Header, Content } = Layout;
 
 const items = Array.from({ length: 5 }).map((_, index) => ({
@@ -44,7 +42,6 @@ function MainPage() {
         >
           {t('welcome')}!
           <LanguageToggle />
-          <Page />
         </div>
       </Content>
       <Footer />

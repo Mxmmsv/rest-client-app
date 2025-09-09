@@ -8,14 +8,14 @@ import 'dayjs/locale/ru';
 
 import { routing } from '@/i18n/routing';
 
-const antLocales = { en: enUS, ru: ruRU };
+const antLocales = { en: enUS, ru: ruRU } as const;
 
 export default async function LocaleLayout({
   children,
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }>) {
   const { locale } = await params;
 
@@ -25,9 +25,11 @@ export default async function LocaleLayout({
 
   dayjs.locale(locale);
 
+  const antLocale = antLocales[locale as keyof typeof antLocales] || enUS;
+
   return (
     <NextIntlClientProvider locale={locale}>
-      <ConfigProvider locale={antLocales[locale]}>{children}</ConfigProvider>
+      <ConfigProvider locale={antLocale}>{children}</ConfigProvider>
     </NextIntlClientProvider>
   );
 }

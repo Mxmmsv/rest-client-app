@@ -1,26 +1,25 @@
 import { Avatar, Tooltip, Typography } from 'antd';
+import { useTranslations } from 'next-intl';
 import React from 'react';
+
+import { TEAM_MEMBERS } from '@/constants/team';
 
 const { Link } = Typography;
 
-const TeamAvatars: React.FC = () => (
-  <Avatar.Group shape="circle" size="large">
-    <Link href="https://github.com/AlyaEngineer">
-      <Tooltip title="Alla Tsaiukova" placement="top">
-        <Avatar style={{ backgroundColor: '#fde3cf' }}>AT</Avatar>
-      </Tooltip>
-    </Link>
-    <Link href="https://github.com/ek-ole">
-      <Tooltip title="Ekaterina Dmitrenko" placement="top">
-        <Avatar style={{ backgroundColor: '#f56a00' }}>ED</Avatar>
-      </Tooltip>
-    </Link>
-    <Link href="https://github.com/Mxmmsv">
-      <Tooltip title="Maxim Moiseev" placement="top">
-        <Avatar style={{ backgroundColor: '#87d068' }}>MM</Avatar>
-      </Tooltip>
-    </Link>
-  </Avatar.Group>
-);
+const TeamAvatars: React.FC = () => {
+  const t = useTranslations('Team');
+
+  return (
+    <Avatar.Group shape="circle" size="large">
+      {TEAM_MEMBERS.map((member) => (
+        <Link key={member.github} href={member.github} target="_blank" rel="noopener noreferrer">
+          <Tooltip title={t(member.id)} placement="top">
+            <Avatar style={{ backgroundColor: member.color }}>{t(member.id + 'Initials')}</Avatar>
+          </Tooltip>
+        </Link>
+      ))}
+    </Avatar.Group>
+  );
+};
 
 export default TeamAvatars;

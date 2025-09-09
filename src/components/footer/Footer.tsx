@@ -22,7 +22,7 @@ export default function Footer() {
           <Text>
             ©{new Date().getFullYear()}, {t('created-by')}
           </Text>
-          <Text>&quot;Yet Another Dream Team&#34;</Text>
+          <Text>&quot;Yet Another Dream Team&quot;</Text>
         </Flex>
       </Col>
       <Col xs={24} sm={24} md={24} lg={8} xl={8}>
