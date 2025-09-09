@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-import { mockUser } from '@/components/__mock__/firebaseUser.mock';
 import { useAuth } from '@/lib/auth/useAuth';
 
-import Header from '../header';
+import { mockUser } from '../../__mock__/firebaseUser.mock';
+import Header from '../Header';
 
 vi.mock('react', async () => {
   const actual = await vi.importActual('react');

@@ -10,6 +10,7 @@
     "lint": "eslint",
     "lint:fix": "eslint . --fix",
     "format:fix": "prettier . --write",
+    "typecheck": "tsc --noEmit",
     "prepare": "husky",
     "test": "vitest",
     "test:coverage": "vitest --coverage",

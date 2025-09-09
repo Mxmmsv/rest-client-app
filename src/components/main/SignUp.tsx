@@ -8,7 +8,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/lib/auth/firebase.config';
 import { UserData, useAuth } from '@/lib/auth/useAuth';
 
-import Loader from './Loader';
+import Loader from '../Loader';
 
 const { Title } = Typography;
 

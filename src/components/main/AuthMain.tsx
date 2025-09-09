@@ -1,40 +1,5 @@
-'use client';
-
-import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Flex, Space, Typography } from 'antd';
-
-import { useAppDispatch, useAppSelector } from '@/lib/store/hooks';
-import { getCounterValue } from '@/lib/store/selectors/counter';
-import { increment, decrement } from '@/lib/store/slice/counterSlice';
-
-const { Title } = Typography;
+import RestClientForm from './RestClientForm';
 
 export default function AuthMain() {
-  const value = useAppSelector(getCounterValue);
-  const dispatch = useAppDispatch();
-
-  return (
-    <Flex justify="center" vertical align="center" gap="middle" style={{ height: '100vh' }}>
-      <Title level={2}>Aboba</Title>
-      <Space>
-        <Button
-          type="primary"
-          disabled={value <= 0}
-          onClick={() => dispatch(decrement())}
-          aria-label="decrement"
-        >
-          <MinusOutlined />
-        </Button>
-        <Title level={3}>{value}</Title>
-        <Button
-          type="primary"
-          disabled={value >= 10}
-          onClick={() => dispatch(increment())}
-          aria-label="increment"
-        >
-          <PlusOutlined />
-        </Button>
-      </Space>
-    </Flex>
-  );
+  return <RestClientForm />;
 }
