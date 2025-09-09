@@ -6,7 +6,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { useAuth } from '@/lib/auth/useAuth';
 
 import { mockUser } from '../../__mock__/firebaseUser.mock';
-import Header from '../header';
+import Header from '../Header';
 
 vi.mock('react', async () => {
   const actual = await vi.importActual('react');
