@@ -13,8 +13,10 @@ body {
 }
 
 :root {
+  --bg-body: #ffecae;
+  --color-bg-container: #00ffbf7e;
   --color-base-dark: #0c0c33;
-  --color-base: #0c0c33be;
+  --color-base: #3a3a4d;
   --color-base-light: #1d86994d;
   --color-primary: #151547;
   --color-primary-light: #7479b9;

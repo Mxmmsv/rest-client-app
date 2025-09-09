@@ -5,8 +5,8 @@ import { vi } from 'vitest';
 
 import { useAuth } from '@/lib/auth/useAuth';
 
+import SignUp from '../SignUp';
 import { mockUser } from '../__mock__/firebaseUser.mock';
-import SignUp from '../signUp';
 
 vi.mock('react-firebase-hooks/auth', () => ({
   useAuthState: vi.fn(),
@@ -29,6 +29,10 @@ vi.mock('antd/es/notification/useNotification', () => ({
   default: () => [vi.fn(), <div key="ctx">NotificationCtx</div>],
 }));
 
+vi.mock('../Loader', () => ({
+  default: () => <div role="status">Loading...</div>,
+}));
+
 const mockedUseAuthState = vi.mocked(useAuthState);
 const mockedUseAuth = vi.mocked(useAuth);
 const mockedRedirect = vi.mocked(redirect);
@@ -48,7 +52,7 @@ describe('SignUp component', () => {
     mockedUseAuthState.mockReturnValue([null, true, undefined]);
 
     render(<SignUp />);
-    expect(document.querySelector('.ant-spin')).toBeInTheDocument();
+    expect(screen.getByRole('status')).toBeInTheDocument();
   });
 
   it('shoud render error message', () => {
