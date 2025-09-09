@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quantico:wght@400;700&display=swap');
+
+@import 'tailwindcss';
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--color-base-light);
+}
+
+:root {
+  --color-base-dark: #0c0c33;
+  --color-base: #0c0c33be;
+  --color-base-light: #1d86994d;
+  --color-primary: #151547;
+  --color-primary-light: #7479b9;
+  --color-additional: #6fa5d8;
+  --color-additional-light: #ffecae;
+  --color-accent: #0c4930;
+  --color-accent-light: #00ffbf7e;
+}
+
+.header-title {
+  color: var(--color-additional-light) !important;
+  font-family: 'Press Start 2P', system-ui !important;
+  margin-bottom: 0 !important;
+}
+
+.header {
+  transition: all 0.3s ease;
+}
+.header[data-sticky='true'] {
+  background: var(--color-base);
+  height: 3rem;
+}
+.header[data-sticky='false'] {
+  background: var(--color-base-dark);
+  height: 4rem;
+}
