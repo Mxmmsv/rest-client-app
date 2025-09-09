@@ -38,6 +38,16 @@ Object.defineProperty(window, 'ScrollY', {
   writable: true,
 });
 
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    prefetch: vi.fn(),
+  }),
+  usePathname: () => '/',
+  useParams: () => ({ locale: 'en' }),
+}));
+
 describe('Header component', () => {
   const setStickyMock = vi.fn();
   const mockLogout = vi.fn();
