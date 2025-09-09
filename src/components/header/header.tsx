@@ -42,8 +42,8 @@ function Header() {
           <Image
             src="/logo.webp"
             alt="REST Client Logo"
-            width={isSticky ? 40 : 55}
-            height={isSticky ? 40 : 55}
+            width={40}
+            height={40}
             className={cn(
               'header-title transition-all',
               'duration-300 hover:scale-101 hover:drop-shadow-lg',
