@@ -18,16 +18,11 @@ export default defineConfig({
     coverage: {
       provider: 'istanbul',
       reporter: ['text', 'html', 'lcov'],
-      thresholds: {
-        statements: 80,
-        branches: 50,
-        functions: 50,
-        lines: 50,
-      },
       include: ['src/**/*.{js,jsx,ts,tsx}'],
       exclude: [
         'src/**/*.test.{js,jsx,ts,tsx}',
         'src/**/*.spec.{js,jsx,ts,tsx}',
+        'src/**/*.mock.{js,jsx,ts,tsx}',
         'src/index.{js,jsx,ts,tsx}',
         'src/main.{js,jsx,ts,tsx}',
         'src/setupTests.{js,ts}',

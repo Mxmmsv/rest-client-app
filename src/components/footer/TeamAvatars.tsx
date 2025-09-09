@@ -6,7 +6,7 @@ import { TEAM_MEMBERS } from '@/constants/team';
 
 const { Link } = Typography;
 
-const TeamAvatars: React.FC = () => {
+function TeamAvatars() {
   const t = useTranslations('Team');
 
   return (
@@ -20,6 +20,6 @@ const TeamAvatars: React.FC = () => {
       ))}
     </Avatar.Group>
   );
-};
+}
 
 export default TeamAvatars;

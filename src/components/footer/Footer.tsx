@@ -1,3 +1,5 @@
+'use client';
+
 import { Col, Flex, Row, Typography } from 'antd';
 import Image from 'next/image';
 const { Text, Link } = Typography;
