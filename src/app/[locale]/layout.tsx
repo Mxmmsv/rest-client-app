@@ -7,6 +7,7 @@ import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import 'dayjs/locale/ru';
 
 import Footer from '@/components/footer/Footer';
+import Header from '@/components/header/header';
 import { routing } from '@/i18n/routing';
 
 const antLocales = { en: enUS, ru: ruRU } as const;
@@ -31,6 +32,7 @@ export default async function LocaleLayout({
   return (
     <NextIntlClientProvider locale={locale}>
       <ConfigProvider locale={antLocale}>
+        <Header />
         {children}
         <Footer />
       </ConfigProvider>
