@@ -45,6 +45,7 @@ export default tseslint.config(
       'react-compiler/react-compiler': 'error',
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-unsafe-assignment': 'error',
+      'import/namespace': ['error', { allowComputed: true }],
       'import/order': [
         'error',
         {

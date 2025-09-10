@@ -27,5 +27,9 @@ export const customTheme: ThemeConfig = {
       colorTextHeading: 'var(--color-accent)',
       fontSize: 18,
     },
+    Card: {
+      colorBgContainer: 'var(--color-additional-light)',
+      bodyPadding: 5,
+    },
   },
 };

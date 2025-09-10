@@ -3,6 +3,7 @@
 import { Button, Flex, Form, Input, Select } from 'antd';
 import { useState } from 'react';
 
+import ResponseViewer from '@/components/ResponseViewer';
 import { restClient, type HttpMethod } from '@/lib/restClient/restClient';
 
 const methodColors: Record<HttpMethod, string> = {
@@ -79,22 +80,7 @@ export default function RestClientForm() {
         </Form.Item>
       </Form>
 
-      {result && (
-        <pre
-          style={{
-            width: '100%',
-            maxWidth: '800px',
-            background: '#1e1e1e',
-            color: '#d4d4d4',
-            padding: '1rem',
-            borderRadius: 8,
-            overflowX: 'auto',
-            textAlign: 'left',
-          }}
-        >
-          {JSON.stringify(result, null, 2)}
-        </pre>
-      )}
+      {result && <ResponseViewer data={result} />}
     </Flex>
   );
 }
