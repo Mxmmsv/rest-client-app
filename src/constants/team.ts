@@ -3,18 +3,18 @@ export const TEAM_MEMBERS = [
     id: 'alla',
     github: 'https://github.com/AlyaEngineer',
     initials: 'AT',
-    color: '#fde3cf',
+    color: '#1b4965',
   },
   {
     id: 'ekaterina',
     github: 'https://github.com/ek-ole',
     initials: 'ED',
-    color: '#f56a00',
+    color: '#cae9ff',
   },
   {
     id: 'maxim',
     github: 'https://github.com/Mxmmsv',
     initials: 'MM',
-    color: '#87d068',
+    color: '#5fa8d3',
   },
 ];
