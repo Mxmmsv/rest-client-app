@@ -31,5 +31,16 @@ export const customTheme: ThemeConfig = {
       colorBgContainer: 'var(--color-additional-light)',
       bodyPadding: 5,
     },
+    Select: {
+      activeBorderColor: 'var(--color-additional)',
+      hoverBorderColor: 'var(--color-additional)',
+      optionSelectedBg: 'var(--color-accent)',
+      activeOutlineColor: 'var(--color-additional)',
+      selectorBg: 'var(--color-additional-light)',
+    },
+    Input: {
+      activeBorderColor: 'var(--color-additional)',
+      hoverBorderColor: 'var(--color-additional)',
+    },
   },
 };
