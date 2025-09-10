@@ -36,7 +36,7 @@ export const customTheme: ThemeConfig = {
       hoverBorderColor: 'var(--color-additional)',
       optionSelectedBg: 'var(--color-accent)',
       activeOutlineColor: 'var(--color-additional)',
-      selectorBg: 'var(--color-additional-light)',
+      // selectorBg: 'var(--color-bg-object)',
     },
     Input: {
       activeBorderColor: 'var(--color-additional)',

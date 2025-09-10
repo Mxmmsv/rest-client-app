@@ -16,6 +16,7 @@ const selectStyle: CSSProperties = {
   height: 25,
   borderRadius: 4,
   padding: '0px',
+  minWidth: '20px',
 };
 
 export default function ResponseViewer({ data }: Readonly<Props>) {
@@ -40,7 +41,16 @@ export default function ResponseViewer({ data }: Readonly<Props>) {
           style={selectStyle}
         />
       </Flex>
-      <SyntaxHighlighter language="json" style={selectedTheme as { [key: string]: CSSProperties }}>
+      <SyntaxHighlighter
+        language="json"
+        style={selectedTheme as { [key: string]: CSSProperties }}
+        customStyle={{
+          maxHeight: '60vh',
+          overflow: 'auto',
+          borderRadius: 8,
+          padding: '12px',
+        }}
+      >
         {jsonString}
       </SyntaxHighlighter>
     </Card>
