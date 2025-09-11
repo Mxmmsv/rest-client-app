@@ -17,7 +17,7 @@ const { Text } = Typography;
 
 const MONACO_THEMES = ['vs', 'vs-dark', 'hc-black', 'hc-light'];
 
-export default function CodeEditor({
+export default function CodeSpace({
   value,
   onChange,
   readOnly = false,

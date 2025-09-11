@@ -4,7 +4,7 @@ import { Button, Flex, Form, Input, Select } from 'antd';
 import { useWatch } from 'antd/es/form/Form';
 import { useState } from 'react';
 
-import CodeEditor from '@/components/CodeSpace';
+import CodeSpace from '@/components/CodeSpace';
 import { restClient, type HttpMethod } from '@/lib/restClient/restClient';
 
 const methodColors: Record<HttpMethod, string> = {
@@ -30,7 +30,13 @@ export default function RestClientForm() {
   const [form] = Form.useForm<FormValues>();
   const bodyValue = useWatch('body', form);
 
-  const onFinish = async (values: { method: HttpMethod; URL: string; body: string }) => {
+  const [responseInfo, setResponseInfo] = useState<{
+    status: number | null;
+    statusText: string;
+    duration: number | null;
+  }>({ status: null, statusText: '', duration: null });
+
+  const onFinish = async (values: FormValues) => {
     console.log('Body from form:', values.body);
     setLoading(true);
     try {
@@ -44,14 +50,22 @@ export default function RestClientForm() {
           return;
         }
       }
-      const data = await restClient<ApiResult, unknown>({
+
+      const response = await restClient<ApiResult, unknown>({
         method: values.method,
         url: values.URL,
         body: parsedBody,
       });
-      setResult(data);
+
+      setResult(response.data);
+      setResponseInfo({
+        status: response.status,
+        statusText: response.statusText,
+        duration: response.duration,
+      });
     } catch (err) {
       setResult({ error: (err as Error).message });
+      setResponseInfo({ status: null, statusText: '', duration: null });
     } finally {
       setLoading(false);
     }
@@ -60,10 +74,15 @@ export default function RestClientForm() {
   return (
     <Flex vertical gap="large" align="center">
       <Form
+        form={form}
         name="restClientForm"
         layout="inline"
         onFinish={onFinish}
-        initialValues={{ method: 'GET', URL: 'https://rickandmortyapi.com/api/character' }}
+        initialValues={{
+          method: 'GET',
+          URL: 'https://rickandmortyapi.com/api/character',
+          body: '',
+        }}
       >
         <Form.Item name="method">
           <Select
@@ -100,7 +119,7 @@ export default function RestClientForm() {
         </Form.Item>
 
         <Form.Item name="body">
-          <CodeEditor
+          <CodeSpace
             value={bodyValue || ''}
             onChange={(value) => {
               form.setFieldsValue({ body: value });
@@ -111,7 +130,14 @@ export default function RestClientForm() {
         </Form.Item>
       </Form>
 
-      <CodeEditor
+      {responseInfo.status && (
+        <div>
+          Status: {responseInfo.status} {responseInfo.statusText}
+          {responseInfo.duration && ` | Time: ${responseInfo.duration}ms`}
+        </div>
+      )}
+
+      <CodeSpace
         value={JSON.stringify(result, null, 2)}
         readOnly={true}
         height="400px"

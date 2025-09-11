@@ -7,12 +7,20 @@ interface RestClientParams<TBody> {
   headers?: Record<string, string>;
 }
 
+export interface RestClientResponse<TResponse> {
+  data: TResponse;
+  status: number;
+  statusText: string;
+  duration: number;
+}
+
 export async function restClient<TResponse, TBody>({
   method,
   url,
   body,
   headers,
-}: RestClientParams<TBody>): Promise<TResponse> {
+}: RestClientParams<TBody>): Promise<RestClientResponse<TResponse>> {
+  const startTime = Date.now();
   const options: RequestInit = {
     method,
     headers: {
@@ -26,14 +34,23 @@ export async function restClient<TResponse, TBody>({
   }
 
   const response = await fetch(url, options);
+  const duration = Date.now() - startTime;
 
   if (!response.ok) {
     throw new Error(`Request failed with status ${response.status}`);
   }
 
+  let data: TResponse;
   try {
-    return (await response.json()) as TResponse;
+    data = (await response.json()) as TResponse;
   } catch {
-    return (await response.text()) as TResponse;
+    data = (await response.text()) as TResponse;
   }
+
+  return {
+    data,
+    status: response.status,
+    statusText: response.statusText,
+    duration,
+  };
 }
