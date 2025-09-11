@@ -1,14 +1,18 @@
 'use client';
 
 import { Flex, Form } from 'antd';
-import { useState } from 'react';
 
 import { restClient, type HttpMethod } from '@/lib/restClient/restClient';
-import { ApiResult, FormValues } from '@/types/rest-client';
+import { ApiResult, FormValues, ResponseInfo } from '@/types/rest-client';
 
 import BodyEditor from '../rest-client/BodyEditor';
 import RequestPanel from '../rest-client/RequestPanel';
-import ResponsePanel from '../rest-client/ResponsePanel';
+
+type Props = {
+  onResponse: (result: ApiResult, info: ResponseInfo) => void;
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
+};
 
 const methodColors: Record<HttpMethod, string> = {
   GET: '#6BDD9A',
@@ -20,16 +24,8 @@ const methodColors: Record<HttpMethod, string> = {
   OPTIONS: '#F15EB0',
 };
 
-export default function RestClientForm() {
-  const [result, setResult] = useState<ApiResult>();
-  const [loading, setLoading] = useState(false);
+export default function RestClientForm({ onResponse, loading, setLoading }: Readonly<Props>) {
   const [form] = Form.useForm<FormValues>();
-
-  const [responseInfo, setResponseInfo] = useState<{
-    status: number | null;
-    statusText: string;
-    duration: number | null;
-  }>({ status: null, statusText: '', duration: null });
 
   const onFinish = async (values: FormValues) => {
     console.log('Body from form:', values.body);
@@ -40,7 +36,14 @@ export default function RestClientForm() {
         try {
           parsedBody = JSON.parse(values.body);
         } catch {
-          setResult({ error: 'Invalid JSON format in request body' });
+          onResponse(
+            { error: 'Invalid JSON format in request body' },
+            {
+              status: null,
+              statusText: '',
+              duration: null,
+            }
+          );
           setLoading(false);
           return;
         }
@@ -52,42 +55,46 @@ export default function RestClientForm() {
         body: parsedBody,
       });
 
-      setResult(response.data);
-      setResponseInfo({
+      onResponse(response.data, {
         status: response.status,
         statusText: response.statusText,
         duration: response.duration,
       });
     } catch (err) {
-      setResult({ error: (err as Error).message });
-      setResponseInfo({ status: null, statusText: '', duration: null });
+      onResponse(
+        { error: (err as Error).message },
+        {
+          status: null,
+          statusText: '',
+          duration: null,
+        }
+      );
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Flex vertical gap="large" align="center">
+    <Flex vertical gap="large" align="center" justify="center">
       <Form
         form={form}
         name="restClientForm"
         layout="vertical"
         onFinish={onFinish}
+        style={{ width: '100%' }}
         initialValues={{
           method: 'GET',
           URL: 'https://rickandmortyapi.com/api/character',
           body: '',
         }}
       >
-        <Flex gap="middle" align="flex-start">
+        <Flex gap="middle" align="center" justify="center">
           <RequestPanel loading={loading} methodColors={methodColors} />
         </Flex>
         <Form.Item name="body">
           <BodyEditor form={form} />
         </Form.Item>
       </Form>
-
-      <ResponsePanel result={result} responseInfo={responseInfo} />
     </Flex>
   );
 }

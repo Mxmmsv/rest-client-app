@@ -1,6 +1,8 @@
 'use client';
 
-import CodeSpace from '@/components/CodeSpace';
+import { Flex } from 'antd';
+
+import CodeSpace from '@/components/rest-client/CodeSpace';
 import { ApiResult, ResponseInfo } from '@/types/rest-client';
 
 type Props = {
@@ -10,20 +12,14 @@ type Props = {
 
 export default function ResponsePanel({ result, responseInfo }: Readonly<Props>) {
   return (
-    <>
-      {responseInfo.status && (
-        <div>
-          Status: {responseInfo.status} {responseInfo.statusText}
-          {responseInfo.duration && ` | Time: ${responseInfo.duration}ms`}
-        </div>
-      )}
-
+    <Flex align="center" justify="center">
       <CodeSpace
         value={JSON.stringify(result, null, 2)}
         readOnly={true}
-        height="400px"
+        height="80vh"
         language="json"
+        responseInfo={responseInfo}
       />
-    </>
+    </Flex>
   );
 }

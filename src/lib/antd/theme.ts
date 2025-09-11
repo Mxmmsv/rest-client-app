@@ -15,8 +15,9 @@ export const customTheme: ThemeConfig = {
       headerBg: 'var(--color-base)',
       headerColor: 'var(--color-additional-light)',
       headerPadding: '0 24px',
-      bodyBg: 'var(--color-additional-light)',
-      // footerBg: 'var(--color-accent-light)',
+      bodyBg: 'var(--color-base-light)',
+      siderBg: 'var(--color-base-light)',
+      footerBg: 'var(--color-additional-light)',
     },
     Button: {
       colorPrimary: 'var(--color-additional)',
@@ -31,7 +32,8 @@ export const customTheme: ThemeConfig = {
     },
     Card: {
       colorBgContainer: 'var(--color-additional-light)',
-      bodyPadding: 5,
+      bodyPadding: 10,
+      bodyPaddingSM: 4,
     },
     Select: {
       activeBorderColor: 'var(--color-additional)',
