@@ -3,7 +3,7 @@
 import { Button, Flex, Form, Input, Select } from 'antd';
 import { useState } from 'react';
 
-import ResponseViewer from '@/components/ResponseViewer';
+import CodeEditor from '@/components/CodeSpace';
 import { restClient, type HttpMethod } from '@/lib/restClient/restClient';
 
 const methodColors: Record<HttpMethod, string> = {
@@ -21,13 +21,25 @@ type ApiResult = Record<string, string> | { error: string };
 export default function RestClientForm() {
   const [result, setResult] = useState<ApiResult>();
   const [loading, setLoading] = useState(false);
+  const [requestBody, setRequestBody] = useState('');
 
   const onFinish = async (values: { method: HttpMethod; URL: string }) => {
     setLoading(true);
     try {
-      const data = await restClient<ApiResult, ApiResult>({
+      let parsedBody: unknown = undefined;
+      if (requestBody.trim()) {
+        try {
+          parsedBody = JSON.parse(requestBody);
+        } catch {
+          setResult({ error: 'Invalid JSON format in request body' });
+          setLoading(false);
+          return;
+        }
+      }
+      const data = await restClient<ApiResult, unknown>({
         method: values.method,
         url: values.URL,
+        body: parsedBody,
       });
       setResult(data);
     } catch (err) {
@@ -80,7 +92,15 @@ export default function RestClientForm() {
         </Form.Item>
       </Form>
 
-      {result && <ResponseViewer data={result} />}
+      <CodeEditor value={requestBody} onChange={setRequestBody} height="200px" language="json" />
+      <Button>Send</Button>
+
+      <CodeEditor
+        value={JSON.stringify(result, null, 2)}
+        readOnly={true}
+        height="400px"
+        language="json"
+      />
     </Flex>
   );
 }
