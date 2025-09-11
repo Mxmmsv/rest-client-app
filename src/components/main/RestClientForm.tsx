@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, Flex, Form, Input, Select } from 'antd';
+import { useWatch } from 'antd/es/form/Form';
 import { useState } from 'react';
 
 import CodeEditor from '@/components/CodeSpace';
@@ -17,19 +18,26 @@ const methodColors: Record<HttpMethod, string> = {
 };
 
 type ApiResult = Record<string, string> | { error: string };
+type FormValues = {
+  method: HttpMethod;
+  URL: string;
+  body: string;
+};
 
 export default function RestClientForm() {
   const [result, setResult] = useState<ApiResult>();
   const [loading, setLoading] = useState(false);
-  const [requestBody, setRequestBody] = useState('');
+  const [form] = Form.useForm<FormValues>();
+  const bodyValue = useWatch('body', form);
 
-  const onFinish = async (values: { method: HttpMethod; URL: string }) => {
+  const onFinish = async (values: { method: HttpMethod; URL: string; body: string }) => {
+    console.log('Body from form:', values.body);
     setLoading(true);
     try {
       let parsedBody: unknown = undefined;
-      if (requestBody.trim()) {
+      if (values.body?.trim()) {
         try {
-          parsedBody = JSON.parse(requestBody);
+          parsedBody = JSON.parse(values.body);
         } catch {
           setResult({ error: 'Invalid JSON format in request body' });
           setLoading(false);
@@ -90,10 +98,18 @@ export default function RestClientForm() {
             Send
           </Button>
         </Form.Item>
-      </Form>
 
-      <CodeEditor value={requestBody} onChange={setRequestBody} height="200px" language="json" />
-      <Button>Send</Button>
+        <Form.Item name="body">
+          <CodeEditor
+            value={bodyValue || ''}
+            onChange={(value) => {
+              form.setFieldsValue({ body: value });
+            }}
+            height="200px"
+            language="json"
+          />
+        </Form.Item>
+      </Form>
 
       <CodeEditor
         value={JSON.stringify(result, null, 2)}

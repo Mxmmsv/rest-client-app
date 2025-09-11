@@ -48,8 +48,7 @@ export default function CodeEditor({
         onChange={onChange ? (newValue) => onChange(newValue || '') : undefined}
         options={{
           readOnly,
-          minimap: { enabled: false },
-          scrollBeyondLastLine: false,
+          minimap: { enabled: true },
           fontSize: 14,
           lineNumbers: readOnly ? 'off' : 'on',
           folding: true,
