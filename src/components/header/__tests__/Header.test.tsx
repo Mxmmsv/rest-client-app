@@ -1,5 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { useEffect, useState } from 'react';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
@@ -13,8 +13,11 @@ vi.mock('react', async () => {
   return {
     ...actual,
     useState: vi.fn(),
-    useEffect: vi.fn(),
   };
+});
+
+afterEach(() => {
+  cleanup();
 });
 
 vi.mock('react-firebase-hooks/auth', () => ({
@@ -54,7 +57,6 @@ describe('Header component', () => {
 
   beforeEach(() => {
     vi.mocked(useState).mockImplementation(() => [false, setStickyMock]);
-    vi.mocked(useEffect).mockImplementation((fn) => fn());
     mockedUseAuth.mockReturnValue({
       logInWithEmailAndPassword: vi.fn(),
       registerWithEmailAndPassword: vi.fn(),

@@ -14,6 +14,7 @@ import { cn } from '@/lib/cn';
 import LanguageToggle from '../languageToggle/LanguageToggle';
 
 const { Title } = Typography;
+const { Header: AntHeader } = Layout;
 
 function Header() {
   const [isSticky, setIsSticky] = useState(false);
@@ -32,7 +33,7 @@ function Header() {
   };
 
   return (
-    <Layout.Header
+    <AntHeader
       data-sticky={isSticky}
       className={cn('sticky top-0 z-50 transition-all duration-300', 'header')}
     >
@@ -63,11 +64,22 @@ function Header() {
           </Title>
         </Link>
         <Flex justify="space-between" align="center" gap="middle">
-          <LanguageToggle />
           {user ? (
-            <Button onClick={handleLogout}>Logout</Button>
+            <Space>
+              <LanguageToggle />
+              <Button onClick={handleLogout}>Logout</Button>
+              <Link href="/">
+                <Button
+                  type="link"
+                  style={{ fontSize: '18px', color: 'var(--color-additional-light)' }}
+                >
+                  Home
+                </Button>
+              </Link>
+            </Space>
           ) : (
             <Space>
+              <LanguageToggle />
               <Link href="/login">
                 <Button>Login</Button>
               </Link>
@@ -78,7 +90,7 @@ function Header() {
           )}
         </Flex>
       </Flex>
-    </Layout.Header>
+    </AntHeader>
   );
 }
 
