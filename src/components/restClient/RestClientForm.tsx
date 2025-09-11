@@ -1,9 +1,13 @@
 'use client';
 
-import { Button, Flex, Form, Input, Select } from 'antd';
+import { Button, Col, Flex, Form, Input, Row, Select } from 'antd';
 import { useState } from 'react';
 
 import { restClient, type HttpMethod } from '@/lib/restClient/restClient';
+
+import ResponseBodySection from './ResponseBodySection';
+import useCodeGenerator from './hooks/useCodeGenerator';
+import { ApiResult } from './types';
 
 const methodColors: Record<HttpMethod, string> = {
   GET: '#6BDD9A',
@@ -15,11 +19,21 @@ const methodColors: Record<HttpMethod, string> = {
   OPTIONS: '#F15EB0',
 };
 
-type ApiResult = Record<string, string> | { error: string };
-
 export default function RestClientForm() {
+  const [form] = Form.useForm();
   const [result, setResult] = useState<ApiResult>();
   const [loading, setLoading] = useState(false);
+
+  const {
+    snippet,
+    language,
+    variant,
+    languageOptions,
+    variantOptions,
+    setLanguage,
+    setVariant,
+    handleGenerateCode,
+  } = useCodeGenerator();
 
   const onFinish = async (values: { method: HttpMethod; URL: string }) => {
     setLoading(true);
@@ -39,10 +53,14 @@ export default function RestClientForm() {
   return (
     <Flex vertical gap="large" align="center">
       <Form
+        form={form}
         name="restClientForm"
         layout="inline"
         onFinish={onFinish}
-        initialValues={{ method: 'GET', URL: 'https://rickandmortyapi.com/api/character' }}
+        initialValues={{
+          method: 'GET',
+          URL: 'https://rickandmortyapi.com/api/character',
+        }}
       >
         <Form.Item name="method">
           <Select
@@ -52,11 +70,7 @@ export default function RestClientForm() {
               label: method,
             }))}
             labelRender={(option) => (
-              <span
-                style={{
-                  color: option?.value ? methodColors[option.value as HttpMethod] : undefined,
-                }}
-              >
+              <span style={{ color: methodColors[option?.value as HttpMethod] }}>
                 {option?.label}
               </span>
             )}
@@ -77,24 +91,51 @@ export default function RestClientForm() {
             Send
           </Button>
         </Form.Item>
+
+        <Form.Item>
+          <Button
+            onClick={() => {
+              handleGenerateCode(form.getFieldsValue() as { method: HttpMethod; URL: string });
+            }}
+            disabled={!language || !variant}
+          >
+            Generate code
+          </Button>
+        </Form.Item>
+
+        <Form.Item>
+          <Select
+            placeholder="Language"
+            style={{ width: 180 }}
+            options={languageOptions}
+            value={language}
+            onChange={(value) => {
+              setLanguage(value);
+              setVariant(undefined);
+            }}
+          />
+        </Form.Item>
+
+        <Form.Item>
+          <Select
+            placeholder="Variant"
+            style={{ width: 180 }}
+            options={variantOptions}
+            value={variant}
+            onChange={(value) => setVariant(value)}
+            disabled={!language}
+          />
+        </Form.Item>
       </Form>
 
-      {result && (
-        <pre
-          style={{
-            width: '100%',
-            maxWidth: '800px',
-            background: '#1e1e1e',
-            color: '#d4d4d4',
-            padding: '1rem',
-            borderRadius: 8,
-            overflowX: 'auto',
-            textAlign: 'left',
-          }}
-        >
-          {JSON.stringify(result, null, 2)}
-        </pre>
-      )}
+      <Row style={{ width: '100%' }}>
+        <Col span={12}>
+          <ResponseBodySection result={result} titleText="Response:" />
+        </Col>
+        <Col span={12}>
+          <ResponseBodySection result={snippet} titleText="Code generated:" />
+        </Col>
+      </Row>
     </Flex>
   );
 }
