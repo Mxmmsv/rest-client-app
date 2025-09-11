@@ -16,7 +16,7 @@ export const customTheme: ThemeConfig = {
       headerColor: 'var(--color-additional-light)',
       headerPadding: '0 24px',
       bodyBg: 'var(--color-additional-light)',
-      footerBg: 'var(--color-accent-light)',
+      // footerBg: 'var(--color-accent-light)',
     },
     Button: {
       colorPrimary: 'var(--color-additional)',
