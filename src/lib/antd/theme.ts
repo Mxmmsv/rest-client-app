@@ -22,6 +22,8 @@ export const customTheme: ThemeConfig = {
       colorPrimary: 'var(--color-additional)',
       colorPrimaryHover: 'var(--color-primary-light)',
       colorPrimaryActive: 'var(--color-accent-light)',
+      colorPrimaryText: 'var(--color-additional-light)',
+      colorLink: 'var(--color-additional-light)',
     },
     Typography: {
       colorTextHeading: 'var(--color-accent)',

@@ -66,8 +66,6 @@ function Header() {
         <Flex justify="space-between" align="center" gap="middle">
           {user ? (
             <Space>
-              <LanguageToggle />
-              <Button onClick={handleLogout}>Logout</Button>
               <Link href="/">
                 <Button
                   type="link"
@@ -76,6 +74,8 @@ function Header() {
                   Home
                 </Button>
               </Link>
+              <LanguageToggle />
+              <Button onClick={handleLogout}>Logout</Button>
             </Space>
           ) : (
             <Space>
