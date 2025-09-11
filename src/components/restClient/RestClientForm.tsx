@@ -1,10 +1,10 @@
 'use client';
 
-import { Button, Flex, Form, Input, Select } from 'antd';
+import { Button, Col, Flex, Form, Input, Row, Select } from 'antd';
+import { getLanguageList, getOptions, convert } from 'postman-code-generators';
 import { Request as PostmanRequest } from 'postman-collection';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
-import CodeGenerate from '@/components/restClient/CodeGenerate';
 import { restClient, type HttpMethod } from '@/lib/restClient/restClient';
 
 import ResponseBodySection from './ResponseBodySection';
@@ -24,16 +24,57 @@ export default function RestClientForm() {
   const [form] = Form.useForm();
   const [result, setResult] = useState<ApiResult>();
   const [loading, setLoading] = useState(false);
-  const [postmanRequest, setPostmanRequest] = useState<PostmanRequest | null>(null);
+  const [snippet, setSnippet] = useState<string>();
+  const [language, setLanguage] = useState<string>();
+  const [variant, setVariant] = useState<string>();
 
-  const sendPostmanRequest = (values: { method: HttpMethod; URL: string }) => {
-    setPostmanRequest(
-      new PostmanRequest({
-        url: values.URL,
-        method: values.method,
-        header: [{ key: 'Authorization', value: 'Bearer token' }],
-      })
-    );
+  const languages = useMemo(() => getLanguageList(), []);
+  const languageOptions = useMemo(
+    () => languages.map((l) => ({ label: l.label, value: l.key })),
+    [languages]
+  );
+
+  const variantOptions = useMemo(() => {
+    const lang = languages.find((l) => l.key === language);
+    return lang?.variants.map((v) => ({ label: v.key, value: v.key })) || [];
+  }, [language, languages]);
+
+  const buildPostmanRequest = (values: { method: HttpMethod; URL: string }) =>
+    new PostmanRequest({
+      url: values.URL,
+      method: values.method,
+      header: [{ key: 'Authorization', value: 'Bearer token' }],
+    });
+
+  const generateCode = async (
+    langKey: string,
+    variantKey: string,
+    request: PostmanRequest
+  ): Promise<string> => {
+    return new Promise<string>((resolve, reject) => {
+      const handleConvert = (err2: unknown, snippetCode: string) => {
+        if (err2) {
+          reject(err2);
+        } else {
+          resolve(snippetCode);
+        }
+      };
+
+      const handleOptions = (_err: unknown, opts: Record<string, string | unknown>) => {
+        convert(langKey, variantKey, request, opts, handleConvert);
+      };
+
+      getOptions(langKey, variantKey, handleOptions);
+    });
+  };
+
+  const handleGenerateCode = async () => {
+    const values = form.getFieldsValue() as { method: HttpMethod; URL: string };
+    const request = buildPostmanRequest(values);
+    if (language && variant) {
+      const code = await generateCode(language, variant, request);
+      setSnippet(code);
+    }
   };
 
   const onFinish = async (values: { method: HttpMethod; URL: string }) => {
@@ -58,7 +99,10 @@ export default function RestClientForm() {
         name="restClientForm"
         layout="inline"
         onFinish={onFinish}
-        initialValues={{ method: 'GET', URL: 'https://rickandmortyapi.com/api/character' }}
+        initialValues={{
+          method: 'GET',
+          URL: 'https://rickandmortyapi.com/api/character',
+        }}
       >
         <Form.Item name="method">
           <Select
@@ -68,11 +112,7 @@ export default function RestClientForm() {
               label: method,
             }))}
             labelRender={(option) => (
-              <span
-                style={{
-                  color: option?.value ? methodColors[option.value as HttpMethod] : undefined,
-                }}
-              >
+              <span style={{ color: methodColors[option?.value as HttpMethod] }}>
                 {option?.label}
               </span>
             )}
@@ -93,20 +133,47 @@ export default function RestClientForm() {
             Send
           </Button>
         </Form.Item>
+
         <Form.Item>
-          <Button
-            onClick={() => {
-              const values = form.getFieldsValue() as { method: HttpMethod; URL: string };
-              sendPostmanRequest(values);
-            }}
-          >
+          <Button onClick={handleGenerateCode} disabled={!language || !variant}>
             Generate code
           </Button>
         </Form.Item>
+
+        <Form.Item>
+          <Select
+            placeholder="Language"
+            style={{ width: 180 }}
+            options={languageOptions}
+            value={language}
+            onChange={(value) => {
+              setLanguage(value);
+              setVariant(undefined);
+              setSnippet(undefined);
+            }}
+          />
+        </Form.Item>
+
+        <Form.Item>
+          <Select
+            placeholder="Variant"
+            style={{ width: 180 }}
+            options={variantOptions}
+            value={variant}
+            onChange={(value) => setVariant(value)}
+            disabled={!language}
+          />
+        </Form.Item>
       </Form>
 
-      <CodeGenerate request={postmanRequest} />
-      <ResponseBodySection result={result} titleText="Response:" />
+      <Row>
+        <Col span={8}>
+          <ResponseBodySection result={snippet} titleText="Code generated:" />
+        </Col>
+        <Col span={8} offset={8}>
+          <ResponseBodySection result={result} titleText="Response:" />
+        </Col>
+      </Row>
     </Flex>
   );
 }

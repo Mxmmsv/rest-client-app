@@ -1,1 +1,1 @@
-export type ApiResult = Record<string, string> | { error: string };
+export type ApiResult = unknown | { error: string };

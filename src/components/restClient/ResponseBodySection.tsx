@@ -5,8 +5,15 @@ import { ApiResult } from './types';
 export default function ResponseBody({
   result,
   titleText = 'body title',
-}: Readonly<{ result: ApiResult | undefined | string; titleText: string }>) {
-  const { Title, Paragraph } = Typography;
+  method,
+  httpCode,
+}: Readonly<{
+  result: ApiResult | undefined | string;
+  titleText: string;
+  method?: string;
+  httpCode?: string;
+}>) {
+  const { Title, Paragraph, Text } = Typography;
 
   if (!result) {
     return (
@@ -18,14 +25,28 @@ export default function ResponseBody({
             height: '50vh',
             overflowX: 'auto',
           }}
-        ></Empty>
+        >
+          <pre
+            style={{
+              width: '100%',
+              height: '50vh',
+              whiteSpace: 'pre-wrap',
+              wordBreak: 'break-word',
+              overflowX: 'auto',
+            }}
+          ></pre>
+        </Empty>
       </Flex>
     );
   }
 
   return (
-    <Flex vertical align="center">
+    <Flex vertical align="center" style={{ width: '100%' }}>
       <Title level={5}>{titleText}</Title>
+      <Flex>
+        {method && <Text>Method:{method}</Text>}
+        {httpCode && <Text>HTTP response code{httpCode}</Text>}
+      </Flex>
       <Paragraph>
         <pre
           style={{
