@@ -1,9 +1,14 @@
 'use client';
 
 import { Button, Flex, Form, Input, Select } from 'antd';
+import { Request as PostmanRequest } from 'postman-collection';
 import { useState } from 'react';
 
+import CodeGenerate from '@/components/restClient/CodeGenerate';
 import { restClient, type HttpMethod } from '@/lib/restClient/restClient';
+
+import ResponseBodySection from './ResponseBodySection';
+import { ApiResult } from './types';
 
 const methodColors: Record<HttpMethod, string> = {
   GET: '#6BDD9A',
@@ -15,11 +20,21 @@ const methodColors: Record<HttpMethod, string> = {
   OPTIONS: '#F15EB0',
 };
 
-type ApiResult = Record<string, string> | { error: string };
-
 export default function RestClientForm() {
+  const [form] = Form.useForm();
   const [result, setResult] = useState<ApiResult>();
   const [loading, setLoading] = useState(false);
+  const [postmanRequest, setPostmanRequest] = useState<PostmanRequest | null>(null);
+
+  const sendPostmanRequest = (values: { method: HttpMethod; URL: string }) => {
+    setPostmanRequest(
+      new PostmanRequest({
+        url: values.URL,
+        method: values.method,
+        header: [{ key: 'Authorization', value: 'Bearer token' }],
+      })
+    );
+  };
 
   const onFinish = async (values: { method: HttpMethod; URL: string }) => {
     setLoading(true);
@@ -39,6 +54,7 @@ export default function RestClientForm() {
   return (
     <Flex vertical gap="large" align="center">
       <Form
+        form={form}
         name="restClientForm"
         layout="inline"
         onFinish={onFinish}
@@ -77,24 +93,20 @@ export default function RestClientForm() {
             Send
           </Button>
         </Form.Item>
+        <Form.Item>
+          <Button
+            onClick={() => {
+              const values = form.getFieldsValue() as { method: HttpMethod; URL: string };
+              sendPostmanRequest(values);
+            }}
+          >
+            Generate code
+          </Button>
+        </Form.Item>
       </Form>
 
-      {result && (
-        <pre
-          style={{
-            width: '100%',
-            maxWidth: '800px',
-            background: '#1e1e1e',
-            color: '#d4d4d4',
-            padding: '1rem',
-            borderRadius: 8,
-            overflowX: 'auto',
-            textAlign: 'left',
-          }}
-        >
-          {JSON.stringify(result, null, 2)}
-        </pre>
-      )}
+      <CodeGenerate request={postmanRequest} />
+      <ResponseBodySection result={result} titleText="Response:" />
     </Flex>
   );
 }
