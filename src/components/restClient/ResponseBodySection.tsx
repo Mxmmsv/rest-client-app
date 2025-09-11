@@ -5,19 +5,15 @@ import { ApiResult } from './types';
 export default function ResponseBody({
   result,
   titleText = 'body title',
-  method,
-  httpCode,
 }: Readonly<{
   result: ApiResult | undefined | string;
   titleText: string;
-  method?: string;
-  httpCode?: string;
 }>) {
-  const { Title, Paragraph, Text } = Typography;
+  const { Title, Paragraph } = Typography;
 
   if (!result) {
     return (
-      <Flex vertical align="center">
+      <Flex vertical align="center" style={{ width: '100%' }}>
         <Title level={5}>{titleText}</Title>
         <Empty
           style={{
@@ -43,10 +39,6 @@ export default function ResponseBody({
   return (
     <Flex vertical align="center" style={{ width: '100%' }}>
       <Title level={5}>{titleText}</Title>
-      <Flex>
-        {method && <Text>Method:{method}</Text>}
-        {httpCode && <Text>HTTP response code{httpCode}</Text>}
-      </Flex>
       <Paragraph>
         <pre
           style={{
