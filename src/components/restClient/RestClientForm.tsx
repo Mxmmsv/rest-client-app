@@ -1,13 +1,12 @@
 'use client';
 
 import { Button, Col, Flex, Form, Input, Row, Select } from 'antd';
-import { getLanguageList, getOptions, convert } from 'postman-code-generators';
-import { Request as PostmanRequest } from 'postman-collection';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import { restClient, type HttpMethod } from '@/lib/restClient/restClient';
 
 import ResponseBodySection from './ResponseBodySection';
+import useCodeGenerator from './hooks/useCodeGenerator';
 import { ApiResult } from './types';
 
 const methodColors: Record<HttpMethod, string> = {
@@ -24,58 +23,17 @@ export default function RestClientForm() {
   const [form] = Form.useForm();
   const [result, setResult] = useState<ApiResult>();
   const [loading, setLoading] = useState(false);
-  const [snippet, setSnippet] = useState<string>();
-  const [language, setLanguage] = useState<string>();
-  const [variant, setVariant] = useState<string>();
 
-  const languages = useMemo(() => getLanguageList(), []);
-  const languageOptions = useMemo(
-    () => languages.map((l) => ({ label: l.label, value: l.key })),
-    [languages]
-  );
-
-  const variantOptions = useMemo(() => {
-    const lang = languages.find((l) => l.key === language);
-    return lang?.variants.map((v) => ({ label: v.key, value: v.key })) || [];
-  }, [language, languages]);
-
-  const buildPostmanRequest = (values: { method: HttpMethod; URL: string }) =>
-    new PostmanRequest({
-      url: values.URL,
-      method: values.method,
-      header: [{ key: 'Authorization', value: 'Bearer token' }],
-    });
-
-  const generateCode = async (
-    langKey: string,
-    variantKey: string,
-    request: PostmanRequest
-  ): Promise<string> => {
-    return new Promise<string>((resolve, reject) => {
-      const handleConvert = (err2: unknown, snippetCode: string) => {
-        if (err2) {
-          reject(err2);
-        } else {
-          resolve(snippetCode);
-        }
-      };
-
-      const handleOptions = (_err: unknown, opts: Record<string, string | unknown>) => {
-        convert(langKey, variantKey, request, opts, handleConvert);
-      };
-
-      getOptions(langKey, variantKey, handleOptions);
-    });
-  };
-
-  const handleGenerateCode = async () => {
-    const values = form.getFieldsValue() as { method: HttpMethod; URL: string };
-    const request = buildPostmanRequest(values);
-    if (language && variant) {
-      const code = await generateCode(language, variant, request);
-      setSnippet(code);
-    }
-  };
+  const {
+    snippet,
+    language,
+    variant,
+    languageOptions,
+    variantOptions,
+    setLanguage,
+    setVariant,
+    handleGenerateCode,
+  } = useCodeGenerator();
 
   const onFinish = async (values: { method: HttpMethod; URL: string }) => {
     setLoading(true);
@@ -135,7 +93,12 @@ export default function RestClientForm() {
         </Form.Item>
 
         <Form.Item>
-          <Button onClick={handleGenerateCode} disabled={!language || !variant}>
+          <Button
+            onClick={() => {
+              handleGenerateCode(form.getFieldsValue() as { method: HttpMethod; URL: string });
+            }}
+            disabled={!language || !variant}
+          >
             Generate code
           </Button>
         </Form.Item>
@@ -149,7 +112,6 @@ export default function RestClientForm() {
             onChange={(value) => {
               setLanguage(value);
               setVariant(undefined);
-              setSnippet(undefined);
             }}
           />
         </Form.Item>
@@ -166,12 +128,12 @@ export default function RestClientForm() {
         </Form.Item>
       </Form>
 
-      <Row>
-        <Col span={8}>
-          <ResponseBodySection result={snippet} titleText="Code generated:" />
-        </Col>
-        <Col span={8} offset={8}>
+      <Row style={{ width: '100%' }}>
+        <Col span={12}>
           <ResponseBodySection result={result} titleText="Response:" />
+        </Col>
+        <Col span={12}>
+          <ResponseBodySection result={snippet} titleText="Code generated:" />
         </Col>
       </Row>
     </Flex>
