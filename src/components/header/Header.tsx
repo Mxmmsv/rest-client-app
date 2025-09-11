@@ -22,7 +22,7 @@ function Header() {
   const [user] = useAuthState(auth);
 
   useEffect(() => {
-    const handleScroll = () => setIsSticky(window.scrollY > 10);
+    const handleScroll = () => setIsSticky(window.scrollY > 1);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -42,8 +42,8 @@ function Header() {
           <Image
             src="/logo.webp"
             alt="REST Client Logo"
-            width={40}
-            height={40}
+            width={isSticky ? 40 : 55}
+            height={isSticky ? 40 : 55}
             className={cn(
               'header-title transition-all',
               'duration-300 hover:scale-101 hover:drop-shadow-lg',

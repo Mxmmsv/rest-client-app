@@ -29,7 +29,7 @@ vi.mock('antd/es/notification/useNotification', () => ({
   default: () => [vi.fn(), <div key="ctx">NotificationCtx</div>],
 }));
 
-vi.mock('../Loader', () => ({
+vi.mock('@/components/Loader', () => ({
   default: () => <div role="status">Loading...</div>,
 }));
 

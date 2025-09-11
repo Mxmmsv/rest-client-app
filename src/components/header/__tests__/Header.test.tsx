@@ -102,19 +102,37 @@ describe('Header component', () => {
     expect(mockLogout).toHaveBeenCalled();
   });
 
-  it('should set isSticky to false when scrollY < 10', () => {
+  it('should render logo with small size when isSticky is true', () => {
+    vi.mocked(useState).mockImplementation(() => [true, setStickyMock]);
     render(<Header />);
 
-    window.scrollY = 5;
+    const logo = screen.getByAltText('REST Client Logo');
+    expect(logo).toHaveAttribute('width', '40');
+    expect(logo).toHaveAttribute('height', '40');
+  });
+
+  it('should render logo with large size when isSticky is false', () => {
+    vi.mocked(useState).mockImplementation(() => [false, setStickyMock]);
+    render(<Header />);
+
+    const logo = screen.getByAltText('REST Client Logo');
+    expect(logo).toHaveAttribute('width', '55');
+    expect(logo).toHaveAttribute('height', '55');
+  });
+
+  it('should set isSticky to false when scrollY < 1', () => {
+    render(<Header />);
+
+    window.scrollY = 0;
     fireEvent.scroll(window);
 
     expect(setStickyMock).toHaveBeenCalledWith(false);
   });
 
-  it('should set isSticky to true when scrollY > 10', () => {
+  it('should set isSticky to true when scrollY > 1', () => {
     render(<Header />);
 
-    window.scrollY = 15;
+    window.scrollY = 2;
     fireEvent.scroll(window);
 
     expect(setStickyMock).toHaveBeenCalledWith(true);
