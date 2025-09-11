@@ -1,11 +1,14 @@
 'use client';
 
-import { Button, Flex, Form, Input, Select } from 'antd';
-import { useWatch } from 'antd/es/form/Form';
+import { Flex, Form } from 'antd';
 import { useState } from 'react';
 
-import CodeSpace from '@/components/CodeSpace';
 import { restClient, type HttpMethod } from '@/lib/restClient/restClient';
+import { ApiResult, FormValues } from '@/types/rest-client';
+
+import BodyEditor from '../rest-client/BodyEditor';
+import RequestPanel from '../rest-client/RequestPanel';
+import ResponsePanel from '../rest-client/ResponsePanel';
 
 const methodColors: Record<HttpMethod, string> = {
   GET: '#6BDD9A',
@@ -17,18 +20,10 @@ const methodColors: Record<HttpMethod, string> = {
   OPTIONS: '#F15EB0',
 };
 
-type ApiResult = Record<string, string> | { error: string };
-type FormValues = {
-  method: HttpMethod;
-  URL: string;
-  body: string;
-};
-
 export default function RestClientForm() {
   const [result, setResult] = useState<ApiResult>();
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm<FormValues>();
-  const bodyValue = useWatch('body', form);
 
   const [responseInfo, setResponseInfo] = useState<{
     status: number | null;
@@ -76,7 +71,7 @@ export default function RestClientForm() {
       <Form
         form={form}
         name="restClientForm"
-        layout="inline"
+        layout="vertical"
         onFinish={onFinish}
         initialValues={{
           method: 'GET',
@@ -84,65 +79,15 @@ export default function RestClientForm() {
           body: '',
         }}
       >
-        <Form.Item name="method">
-          <Select
-            style={{ width: 110 }}
-            options={Object.keys(methodColors).map((method) => ({
-              value: method,
-              label: method,
-            }))}
-            labelRender={(option) => (
-              <span
-                style={{
-                  color: option?.value ? methodColors[option.value as HttpMethod] : undefined,
-                }}
-              >
-                {option?.label}
-              </span>
-            )}
-            optionRender={(option) => (
-              <span style={{ color: methodColors[option.value as HttpMethod] }}>
-                {option.label}
-              </span>
-            )}
-          />
-        </Form.Item>
-
-        <Form.Item name="URL" style={{ minWidth: 400 }}>
-          <Input placeholder="Enter API URL" />
-        </Form.Item>
-
-        <Form.Item>
-          <Button type="primary" htmlType="submit" loading={loading}>
-            Send
-          </Button>
-        </Form.Item>
-
+        <Flex gap="middle" align="flex-start">
+          <RequestPanel loading={loading} methodColors={methodColors} />
+        </Flex>
         <Form.Item name="body">
-          <CodeSpace
-            value={bodyValue || ''}
-            onChange={(value) => {
-              form.setFieldsValue({ body: value });
-            }}
-            height="200px"
-            language="json"
-          />
+          <BodyEditor form={form} />
         </Form.Item>
       </Form>
 
-      {responseInfo.status && (
-        <div>
-          Status: {responseInfo.status} {responseInfo.statusText}
-          {responseInfo.duration && ` | Time: ${responseInfo.duration}ms`}
-        </div>
-      )}
-
-      <CodeSpace
-        value={JSON.stringify(result, null, 2)}
-        readOnly={true}
-        height="400px"
-        language="json"
-      />
+      <ResponsePanel result={result} responseInfo={responseInfo} />
     </Flex>
   );
 }
