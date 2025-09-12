@@ -13,8 +13,9 @@ body {
 }
 
 :root {
+  --color-bg-object: #faf2d9;
   --color-base-dark: #0c0c33;
-  --color-base: #0c0c33be;
+  --color-base: #3a3a4d;
   --color-base-light: #1d86994d;
   --color-primary: #151547;
   --color-primary-light: #7479b9;
@@ -40,4 +41,21 @@ body {
 .header[data-sticky='false'] {
   background: var(--color-base-dark);
   height: 4rem;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-object);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-additional);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-primary-light);
 }

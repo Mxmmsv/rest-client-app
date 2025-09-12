@@ -29,6 +29,10 @@ vi.mock('antd/es/notification/useNotification', () => ({
   default: () => [vi.fn(), <div key="ctx">NotificationCtx</div>],
 }));
 
+vi.mock('@/components/Loader', () => ({
+  default: () => <div role="status">Loading...</div>,
+}));
+
 const mockedUseAuthState = vi.mocked(useAuthState);
 const mockedUseAuth = vi.mocked(useAuth);
 const mockedRedirect = vi.mocked(redirect);
@@ -51,7 +55,7 @@ describe('signIn component', () => {
     mockedUseAuthState.mockReturnValue([null, true, undefined]);
 
     render(<SignIn />);
-    expect(document.querySelector('.ant-spin')).toBeInTheDocument();
+    expect(screen.getByRole('status')).toBeInTheDocument();
   });
 
   it('shoud render error message', () => {
