@@ -16,5 +16,10 @@
   "NotFoundPage": {
     "sorry": "Sorry, the page you are looking for can't be found.",
     "button-back": "Back Home"
+  },
+  "Messages": {
+    "error": "Something went wrong!",
+    "retry": "Try refreshing the page or coming back later.",
+    "retry-button": "Try again"
   }
 }
