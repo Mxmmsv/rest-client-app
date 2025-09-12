@@ -1,6 +1,7 @@
 'use client';
 
 import { Flex, Form } from 'antd';
+import { useState } from 'react';
 
 import { restClient, type HttpMethod } from '@/lib/restClient/restClient';
 import { ApiResult, FormValues, ResponseInfo } from '@/types/rest-client';
@@ -26,26 +27,32 @@ const methodColors: Record<HttpMethod, string> = {
 
 export default function RestClientForm({ onResponse, loading, setLoading }: Readonly<Props>) {
   const [form] = Form.useForm<FormValues>();
+  const [contentType, setContentType] = useState<'json' | 'text'>('json');
 
   const onFinish = async (values: FormValues) => {
     console.log('Body from form:', values.body);
+    console.log('Body type:', contentType);
     setLoading(true);
     try {
       let parsedBody: unknown = undefined;
       if (values.body?.trim()) {
-        try {
-          parsedBody = JSON.parse(values.body);
-        } catch {
-          onResponse(
-            { error: 'Invalid JSON format in request body' },
-            {
-              status: null,
-              statusText: '',
-              duration: null,
-            }
-          );
-          setLoading(false);
-          return;
+        if (contentType === 'json') {
+          try {
+            parsedBody = JSON.parse(values.body);
+          } catch {
+            onResponse(
+              { error: 'Invalid JSON format in request body' },
+              {
+                status: null,
+                statusText: '',
+                duration: null,
+              }
+            );
+            setLoading(false);
+            return;
+          }
+        } else {
+          parsedBody = values.body;
         }
       }
 
@@ -53,7 +60,13 @@ export default function RestClientForm({ onResponse, loading, setLoading }: Read
         method: values.method,
         url: values.URL,
         body: parsedBody,
+        headers: {
+          'Content-Type': contentType === 'json' ? 'application/json' : 'text/plain',
+        },
       });
+      console.log('Full response:', response);
+      console.log('Response data:', response.data);
+      console.log('Response keys:', Object.keys(response.data));
 
       onResponse(response.data, {
         status: response.status,
@@ -92,7 +105,7 @@ export default function RestClientForm({ onResponse, loading, setLoading }: Read
           <RequestPanel loading={loading} methodColors={methodColors} />
         </Flex>
         <Form.Item name="body">
-          <BodyEditor form={form} />
+          <BodyEditor form={form} contentType={contentType} onContentTypeChange={setContentType} />
         </Form.Item>
       </Form>
     </Flex>

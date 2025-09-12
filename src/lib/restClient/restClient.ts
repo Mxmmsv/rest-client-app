@@ -24,13 +24,16 @@ export async function restClient<TResponse, TBody>({
   const options: RequestInit = {
     method,
     headers: {
-      'Content-Type': 'application/json',
       ...(headers || {}),
     },
   };
 
   if (body && method !== 'GET' && method !== 'HEAD') {
-    options.body = JSON.stringify(body);
+    if (headers?.['Content-Type'] === 'text/plain' && typeof body === 'string') {
+      options.body = body;
+    } else {
+      options.body = JSON.stringify(body);
+    }
   }
 
   const response = await fetch(url, options);
