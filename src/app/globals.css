@@ -1,6 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Quantico:wght@400;700&display=swap');
-
 @import 'tailwindcss';
 
 * {
@@ -10,9 +7,12 @@
 
 body {
   background-color: var(--color-base-light);
+  font-family: var(--font-quantico);
 }
 
 :root {
+  --font-press_start_2p_font: 'Press_Start_2P';
+  --font-quantico_font: 'Quantico';
   --color-base-dark: #0c0c33;
   --color-base: #0c0c33be;
   --color-base-light: #1d86994d;
@@ -26,7 +26,7 @@ body {
 
 .header-title {
   color: var(--color-additional-light) !important;
-  font-family: 'Press Start 2P', system-ui !important;
+  font-family: var(--font-press-start-2p) !important;
   margin-bottom: 0 !important;
 }
 
