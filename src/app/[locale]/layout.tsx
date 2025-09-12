@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import { notFound } from 'next/navigation';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import 'dayjs/locale/ru';
+import { getMessages } from 'next-intl/server';
 
 import Footer from '@/components/footer/Footer';
 import Header from '@/components/header/Header';
@@ -29,8 +30,10 @@ export default async function LocaleLayout({
 
   const antLocale = antLocales[locale as keyof typeof antLocales] || enUS;
 
+  const messages = await getMessages();
+
   return (
-    <NextIntlClientProvider locale={locale}>
+    <NextIntlClientProvider locale={locale} messages={messages}>
       <ConfigProvider locale={antLocale}>
         <Header />
         {children}
