@@ -45,10 +45,16 @@ export default function CodeSpace({
         />
       </Flex>
       <Flex>
-        {responseInfo?.status && (
-          <Flex>
-            Status: {responseInfo.status} {responseInfo.statusText}
-            {responseInfo.duration && ` | Time: ${responseInfo.duration}ms`}
+        {responseInfo && (
+          <Flex gap="small">
+            <Typography.Text
+              type={responseInfo.status && responseInfo.status < 400 ? 'success' : 'danger'}
+            >
+              Status: {responseInfo.status || 'Error'} {responseInfo.statusText}
+            </Typography.Text>
+            {responseInfo.duration && (
+              <Typography.Text type="secondary">Time: {responseInfo.duration}ms</Typography.Text>
+            )}
           </Flex>
         )}
       </Flex>
