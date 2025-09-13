@@ -1,9 +1,10 @@
-import { NotificationInstance } from 'antd/es/notification/interface';
 import { getLanguageList, getOptions, convert } from 'postman-code-generators';
 import { Request as PostmanRequest } from 'postman-collection';
 import { useMemo, useState } from 'react';
 
 import { HttpMethod } from '@/lib/restClient/restClient';
+
+import type { NotificationInstance } from 'antd/es/notification/interface';
 
 export default function useCodeGenerator(api: NotificationInstance) {
   const [snippet, setSnippet] = useState<string>();
@@ -29,8 +30,8 @@ export default function useCodeGenerator(api: NotificationInstance) {
     });
 
   const generateCode = async (
-    langKey: string,
-    variantKey: string,
+    lang: string,
+    variant: string,
     request: PostmanRequest
   ): Promise<string> => {
     return new Promise<string>((resolve, reject) => {
@@ -43,10 +44,10 @@ export default function useCodeGenerator(api: NotificationInstance) {
       };
 
       const handleOptions = (_err: unknown, opts: Record<string, string | unknown>) => {
-        convert(langKey, variantKey, request, opts, handleConvert);
+        convert(lang, variant, request, opts, handleConvert);
       };
 
-      getOptions(langKey, variantKey, handleOptions);
+      getOptions(lang, variant, handleOptions);
     });
   };
 
