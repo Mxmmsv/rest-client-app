@@ -1,8 +1,9 @@
 'use client';
 
 import { Flex } from 'antd';
-import Lottie from 'lottie-react';
+import dynamic from 'next/dynamic';
 
+const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 import animationData from '@/animations/loader.json';
 
 export default function Loader() {
