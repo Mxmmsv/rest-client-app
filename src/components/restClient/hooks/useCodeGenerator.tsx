@@ -1,10 +1,11 @@
+import { NotificationInstance } from 'antd/es/notification/interface';
 import { getLanguageList, getOptions, convert } from 'postman-code-generators';
 import { Request as PostmanRequest } from 'postman-collection';
 import { useMemo, useState } from 'react';
 
 import { HttpMethod } from '@/lib/restClient/restClient';
 
-export default function useCodeGenerator() {
+export default function useCodeGenerator(api: NotificationInstance) {
   const [snippet, setSnippet] = useState<string>();
   const [language, setLanguage] = useState<string>();
   const [variant, setVariant] = useState<string>();
@@ -51,6 +52,11 @@ export default function useCodeGenerator() {
 
   const handleGenerateCode = async ({ method, URL }: { method: HttpMethod; URL: string }) => {
     const values = { method, URL };
+
+    if (!method || !URL) {
+      return api.warning({ message: 'Plese select method and write URL' });
+    }
+
     const request = buildPostmanRequest(values);
     if (language && variant) {
       const code = await generateCode(language, variant, request);

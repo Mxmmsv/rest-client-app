@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Col, Flex, Form, Input, Row, Select } from 'antd';
+import { Button, Col, Flex, Form, Input, Row, Select, notification } from 'antd';
 import { useState } from 'react';
 
 import { restClient, type HttpMethod } from '@/lib/restClient/restClient';
@@ -24,6 +24,8 @@ export default function RestClientForm() {
   const [result, setResult] = useState<ApiResult>();
   const [loading, setLoading] = useState(false);
 
+  const [api, contextHolder] = notification.useNotification();
+
   const {
     snippet,
     language,
@@ -33,7 +35,7 @@ export default function RestClientForm() {
     setLanguage,
     setVariant,
     handleGenerateCode,
-  } = useCodeGenerator();
+  } = useCodeGenerator(api);
 
   const onFinish = async (values: { method: HttpMethod; URL: string }) => {
     setLoading(true);
@@ -52,6 +54,7 @@ export default function RestClientForm() {
 
   return (
     <Flex vertical gap="large" align="center">
+      {contextHolder}
       <Form
         form={form}
         name="restClientForm"
