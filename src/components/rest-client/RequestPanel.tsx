@@ -6,10 +6,19 @@ import { type HttpMethod } from '@/lib/restClient/restClient';
 
 type Props = {
   loading: boolean;
-  methodColors: Record<HttpMethod, string>;
 };
 
-export default function RequestPanel({ loading, methodColors }: Readonly<Props>) {
+const methodColors: Record<HttpMethod, string> = {
+  GET: '#6BDD9A',
+  POST: '#FFE47E',
+  PUT: '#74AEF6',
+  PATCH: '#C0A8E1',
+  DELETE: '#F79A8E',
+  HEAD: '#6BDD9A',
+  OPTIONS: '#F15EB0',
+};
+
+export default function RequestPanel({ loading }: Readonly<Props>) {
   return (
     <>
       <Form.Item name="method">

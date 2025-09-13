@@ -1,7 +1,7 @@
 import { Layout, Typography } from 'antd';
 import { useState } from 'react';
 
-import { ApiResult, ResponseInfo } from '@/types/rest-client';
+import type { ApiResult, ResponseInfo } from '@/components/rest-client/types/rest-client';
 
 import ResponsePanel from '../rest-client/ResponsePanel';
 

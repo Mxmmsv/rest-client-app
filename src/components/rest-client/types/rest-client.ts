@@ -1,4 +1,4 @@
-import { HttpMethod } from '@/lib/restClient/restClient';
+import type { HttpMethod } from '@/lib/restClient/restClient';
 
 export type FormValues = {
   method: HttpMethod;

@@ -4,7 +4,7 @@ import { Editor } from '@monaco-editor/react';
 import { Card, Flex, Select, Typography } from 'antd';
 import { useState } from 'react';
 
-import { ResponseInfo } from '@/types/rest-client';
+import type { ResponseInfo } from '@/components/rest-client/types/rest-client';
 
 type Props = {
   value: string;
@@ -64,7 +64,7 @@ export default function CodeSpace({
           language={language}
           theme={currentTheme}
           value={value}
-          onChange={onChange ? (newValue) => onChange(newValue || '') : undefined}
+          onChange={(newValue) => onChange?.(newValue || '')}
           options={{
             readOnly,
             minimap: { enabled: true },

@@ -3,8 +3,12 @@
 import { Flex, Form } from 'antd';
 import { useState } from 'react';
 
-import { restClient, type HttpMethod } from '@/lib/restClient/restClient';
-import { ApiResult, FormValues, ResponseInfo } from '@/types/rest-client';
+import type {
+  ApiResult,
+  FormValues,
+  ResponseInfo,
+} from '@/components/rest-client/types/rest-client';
+import { restClient } from '@/lib/restClient/restClient';
 
 import BodyEditor from '../rest-client/BodyEditor';
 import RequestPanel from '../rest-client/RequestPanel';
@@ -13,16 +17,6 @@ type Props = {
   onResponse: (result: ApiResult, info: ResponseInfo) => void;
   loading: boolean;
   setLoading: (loading: boolean) => void;
-};
-
-const methodColors: Record<HttpMethod, string> = {
-  GET: '#6BDD9A',
-  POST: '#FFE47E',
-  PUT: '#74AEF6',
-  PATCH: '#C0A8E1',
-  DELETE: '#F79A8E',
-  HEAD: '#6BDD9A',
-  OPTIONS: '#F15EB0',
 };
 
 export default function RestClientForm({ onResponse, loading, setLoading }: Readonly<Props>) {
@@ -102,7 +96,7 @@ export default function RestClientForm({ onResponse, loading, setLoading }: Read
         }}
       >
         <Flex gap="middle" align="center" justify="center">
-          <RequestPanel loading={loading} methodColors={methodColors} />
+          <RequestPanel loading={loading} />
         </Flex>
         <Form.Item name="body">
           <BodyEditor form={form} contentType={contentType} onContentTypeChange={setContentType} />

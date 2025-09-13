@@ -2,10 +2,12 @@
 
 import { FormOutlined } from '@ant-design/icons';
 import { Button, Flex, Form, message, Select, Typography } from 'antd';
-import { FormInstance, useWatch } from 'antd/es/form/Form';
+import { useWatch } from 'antd/es/form/Form';
 
 import CodeSpace from '@/components/rest-client/CodeSpace';
-import { FormValues } from '@/types/rest-client';
+import type { FormValues } from '@/components/rest-client/types/rest-client';
+
+import type { FormInstance } from 'antd/es/form/Form';
 
 const { Text } = Typography;
 

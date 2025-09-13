@@ -6,7 +6,8 @@ import { redirect } from 'next/navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 import { auth } from '@/lib/auth/firebase.config';
-import { UserData, useAuth } from '@/lib/auth/useAuth';
+import type { UserData } from '@/lib/auth/useAuth';
+import { useAuth } from '@/lib/auth/useAuth';
 
 import Loader from '../Loader';
 
