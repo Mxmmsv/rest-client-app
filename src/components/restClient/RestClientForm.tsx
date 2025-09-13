@@ -93,17 +93,6 @@ export default function RestClientForm() {
         </Form.Item>
 
         <Form.Item>
-          <Button
-            onClick={() => {
-              handleGenerateCode(form.getFieldsValue() as { method: HttpMethod; URL: string });
-            }}
-            disabled={!language || !variant}
-          >
-            Generate code
-          </Button>
-        </Form.Item>
-
-        <Form.Item>
           <Select
             placeholder="Language"
             style={{ width: 180 }}
@@ -125,6 +114,17 @@ export default function RestClientForm() {
             onChange={(value) => setVariant(value)}
             disabled={!language}
           />
+        </Form.Item>
+
+        <Form.Item>
+          <Button
+            onClick={() => {
+              handleGenerateCode(form.getFieldsValue() as { method: HttpMethod; URL: string });
+            }}
+            disabled={!language || !variant}
+          >
+            Generate code
+          </Button>
         </Form.Item>
       </Form>
 
