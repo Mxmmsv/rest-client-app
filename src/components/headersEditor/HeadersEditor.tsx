@@ -1,14 +1,22 @@
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Divider, Form, Input, Space } from 'antd';
-import React from 'react';
+import { CloseSquareFilled, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import { AutoComplete, Button, Checkbox, Divider, Form, Input, Space } from 'antd';
+import React, { useState } from 'react';
 
-import { HeadersEditorProps, HeadersFormValues } from '@/types/headersSectionTypes';
+import { defaultHeaderValues } from '@/constants/defaultHeaderValues';
+import { Header, HeadersEditorProps, HeadersFormValues } from '@/types/headersSectionTypes';
 
 export default function HeadersEditor({ onChange }: Readonly<HeadersEditorProps>) {
+  const [options] = useState<{ value: string }[]>(
+    Object.keys(defaultHeaderValues).map((header) => ({ value: header }))
+  );
+
+  const [form] = Form.useForm<HeadersFormValues>();
+
   return (
     <>
       <Divider orientation="left">Headers Section</Divider>
       <Form
+        form={form}
         name="dynamic_form_nest_item"
         style={{ minWidth: 250 }}
         autoComplete="off"
@@ -44,14 +52,33 @@ export default function HeadersEditor({ onChange }: Readonly<HeadersEditorProps>
                     name={[name, 'header']}
                     rules={[{ required: true, message: 'Missing header key' }]}
                   >
-                    <Input placeholder="header key" />
+                    <AutoComplete
+                      options={options}
+                      placeholder="header key"
+                      style={{ minWidth: 180 }}
+                      allowClear={{ clearIcon: <CloseSquareFilled /> }}
+                      filterOption={(input, option) =>
+                        (option?.value || '').toLowerCase().includes(input.toLowerCase())
+                      }
+                      onSelect={(selectedHeader: string) => {
+                        const current = form.getFieldValue(['headers', name]) as Header;
+                        form.setFieldValue(['headers', name], {
+                          ...current,
+                          header: selectedHeader.toLowerCase(),
+                          value: (defaultHeaderValues[selectedHeader] || '').toLowerCase(),
+                        });
+                      }}
+                    />
                   </Form.Item>
                   <Form.Item
                     {...restField}
                     name={[name, 'value']}
                     rules={[{ required: true, message: 'Missing header value' }]}
                   >
-                    <Input placeholder="header value" />
+                    <Input
+                      allowClear={{ clearIcon: <CloseSquareFilled /> }}
+                      placeholder="header value"
+                    />
                   </Form.Item>
 
                   <DeleteOutlined onClick={() => remove(name)} />
