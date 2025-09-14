@@ -1,5 +1,5 @@
 import { CloseSquareFilled, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
-import { AutoComplete, Button, Checkbox, Divider, Form, Input, Space } from 'antd';
+import { AutoComplete, Button, Checkbox, Divider, Form, Space } from 'antd';
 import React, { useState } from 'react';
 
 import { defaultHeaderValues } from '@/constants/defaultHeaderValues';
@@ -14,7 +14,7 @@ export default function HeadersEditor({ onChange }: Readonly<HeadersEditorProps>
 
   return (
     <>
-      <Divider orientation="left">Headers Section</Divider>
+      <Divider orientation="left">Headers</Divider>
       <Form
         form={form}
         name="dynamic_form_nest_item"
@@ -27,7 +27,7 @@ export default function HeadersEditor({ onChange }: Readonly<HeadersEditorProps>
               acc[row.header] = row.value || '';
               return acc;
             }, {});
-          console.log('Headers list:', enabledHeaders);
+
           onChange?.(enabledHeaders);
         }}
         initialValues={{
@@ -55,7 +55,7 @@ export default function HeadersEditor({ onChange }: Readonly<HeadersEditorProps>
                     <AutoComplete
                       options={options}
                       placeholder="header key"
-                      style={{ minWidth: 180 }}
+                      style={{ minWidth: 150 }}
                       allowClear={{ clearIcon: <CloseSquareFilled /> }}
                       filterOption={(input, option) =>
                         (option?.value || '').toLowerCase().includes(input.toLowerCase())
@@ -75,13 +75,14 @@ export default function HeadersEditor({ onChange }: Readonly<HeadersEditorProps>
                     name={[name, 'value']}
                     rules={[{ required: true, message: 'Missing header value' }]}
                   >
-                    <Input
-                      allowClear={{ clearIcon: <CloseSquareFilled /> }}
+                    <AutoComplete
                       placeholder="header value"
+                      style={{ minWidth: 150 }}
+                      allowClear={{ clearIcon: <CloseSquareFilled /> }}
                     />
                   </Form.Item>
 
-                  <DeleteOutlined onClick={() => remove(name)} />
+                  <Button type="text" icon={<DeleteOutlined />} onClick={() => remove(name)} />
                 </Space>
               ))}
               <Form.Item>

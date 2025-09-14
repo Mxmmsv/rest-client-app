@@ -25,7 +25,7 @@ export default function UrlPreview({ endpoint, headers }: Readonly<UrlPreviewPro
     <Form>
       <Divider orientation="left">URL Preview</Divider>
       <Form.Item name="url">
-        <Row wrap={false}>
+        <Row wrap={false} style={{ gap: '8px' }}>
           <Col flex="auto">
             <Input readOnly placeholder="URL preview" value={fullUrl} />
           </Col>
