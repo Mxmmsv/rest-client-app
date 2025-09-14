@@ -22,15 +22,13 @@ export default function ErrorPage({ reset, className }: Readonly<ErrorPageProps>
   return (
     <Layout className={className}>
       <Content style={{ padding: '0 48px', margin: '46px 0 0 0' }}>
-        <div
+        <Flex
+          justify="center"
+          align="center"
           style={{
             background: colorBgContainer,
-            minHeight: 280,
+            minHeight: 380,
             borderRadius: borderRadiusLG,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: 'inherit',
           }}
         >
           <Result
@@ -51,7 +49,7 @@ export default function ErrorPage({ reset, className }: Readonly<ErrorPageProps>
               </Button>
             }
           />
-        </div>
+        </Flex>
       </Content>
     </Layout>
   );
