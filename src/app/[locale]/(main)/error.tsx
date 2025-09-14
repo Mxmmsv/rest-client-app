@@ -2,7 +2,7 @@
 
 import ErrorPage from '@/components/ErrorPage';
 
-export default function GlobalError({
+export default function RouteSegmentError({
   error,
   reset,
 }: Readonly<{ error: Error; reset: () => void }>) {

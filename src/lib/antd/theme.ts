@@ -2,7 +2,7 @@ import { ThemeConfig } from 'antd';
 
 export const customTheme: ThemeConfig = {
   token: {
-    fontFamily: 'var(--font-quantico_font)',
+    fontFamily: 'var(--font-primary-font)',
     colorPrimary: 'var(--color-accent)',
     colorText: 'var(--color-primary)',
     colorLink: 'var(--color-accent)',

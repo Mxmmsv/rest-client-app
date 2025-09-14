@@ -37,7 +37,7 @@ export default function GlobalError({
                   style={{
                     fontSize: '20px',
                     textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)',
-                    fontFamily: 'var(--font-quantico_font)',
+                    fontFamily: 'var(--font-primary-font)',
                   }}
                 >
                   Something went wrong during rendering.
@@ -47,7 +47,7 @@ export default function GlobalError({
                   style={{
                     fontSize: '16px',
                     textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)',
-                    fontFamily: 'var(--font-quantico_font)',
+                    fontFamily: 'var(--font-primary-font)',
                   }}
                 >
                   Don’t worry, it’s not your fault. Try refreshing the page or come back in a few
@@ -60,7 +60,7 @@ export default function GlobalError({
                 key="console"
                 style={{
                   fontSize: '16px',
-                  fontFamily: 'var(--font-quantico_font)',
+                  fontFamily: 'var(--font-primary-font)',
                   padding: '8px 16px',
                   borderRadius: '10px',
                 }}

@@ -9,17 +9,17 @@ import { customTheme } from '@/lib/antd/theme';
 import StoreProvider from './StoreProvider';
 
 import type { Metadata } from 'next';
-const press_start_2p_font = Press_Start_2P({
+const logo_font = Press_Start_2P({
   subsets: ['latin', 'cyrillic'],
   weight: '400',
-  variable: '--font-press-start-2p',
+  variable: '--font-logo-font',
   display: 'swap',
 });
 
-const quantico_font = Quantico({
+const primary_font = Quantico({
   subsets: ['latin'],
   weight: ['400', '700'],
-  variable: '--font-quantico',
+  variable: '--font-primary-font',
   display: 'swap',
 });
 
@@ -34,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${press_start_2p_font.variable} ${quantico_font.variable}`}>
+    <html lang="en" className={`${logo_font.variable} ${primary_font.variable}`}>
       <body>
         <StoreProvider>
           <AntdRegistry>
