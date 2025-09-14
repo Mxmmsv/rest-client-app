@@ -2,7 +2,6 @@
 
 import { Button, Flex, Result, Typography, Layout, theme } from 'antd';
 import { useTranslations } from 'next-intl';
-import { useEffect } from 'react';
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -13,14 +12,10 @@ export interface ErrorPageProps {
   className?: string;
 }
 
-export default function ErrorPage({ error, reset, className }: Readonly<ErrorPageProps>) {
+export default function ErrorPage({ reset, className }: Readonly<ErrorPageProps>) {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-
-  useEffect(() => {
-    console.error(error);
-  }, [error]);
 
   const t = useTranslations('Messages');
 
