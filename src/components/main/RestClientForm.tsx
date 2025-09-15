@@ -24,8 +24,6 @@ export default function RestClientForm({ onResponse, loading, setLoading }: Read
   const [contentType, setContentType] = useState<'json' | 'text'>('json');
 
   const onFinish = async (values: FormValues) => {
-    console.log('Body from form:', values.body);
-    console.log('Body type:', contentType);
     setLoading(true);
     try {
       let parsedBody: unknown = undefined;
@@ -58,9 +56,6 @@ export default function RestClientForm({ onResponse, loading, setLoading }: Read
           'Content-Type': contentType === 'json' ? 'application/json' : 'text/plain',
         },
       });
-      console.log('Full response:', response);
-      console.log('Response data:', response.data);
-      console.log('Response keys:', Object.keys(response.data));
 
       onResponse(response.data, {
         status: response.status,
