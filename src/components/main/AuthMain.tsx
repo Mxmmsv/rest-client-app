@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import type { ApiResult, ResponseInfo } from '@/components/restClient/types/rest-client';
 
+import LeftPanel from '../restClient/LeftPanel';
 import ResponsePanel from '../restClient/ResponsePanel';
 import RestClientForm from '../restClient/RestClientForm';
 
@@ -25,8 +26,8 @@ export default function AuthMain() {
 
   return (
     <Layout style={{ minHeight: '80vh' }}>
-      <Sider width="15%">
-        <Title level={3}>History & Analytics</Title>
+      <Sider width="25%">
+        <LeftPanel />
       </Sider>
 
       <Content>
