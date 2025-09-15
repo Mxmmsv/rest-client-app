@@ -1,11 +1,10 @@
 import { Layout, Typography } from 'antd';
 import { useState } from 'react';
 
-import type { ApiResult, ResponseInfo } from '@/components/rest-client/types/rest-client';
+import type { ApiResult, ResponseInfo } from '@/components/restClient/types/rest-client';
 
-import ResponsePanel from '../rest-client/ResponsePanel';
-
-import RestClientForm from './RestClientForm';
+import ResponsePanel from '../restClient/ResponsePanel';
+import RestClientForm from '../restClient/RestClientForm';
 
 const { Title } = Typography;
 const { Sider, Content } = Layout;

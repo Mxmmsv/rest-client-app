@@ -2,8 +2,8 @@
 
 import { Flex } from 'antd';
 
-import CodeSpace from '@/components/rest-client/CodeSpace';
-import type { ApiResult, ResponseInfo } from '@/components/rest-client/types/rest-client';
+import CodeSpace from '@/components/restClient/CodeSpace';
+import type { ApiResult, ResponseInfo } from '@/components/restClient/types/rest-client';
 
 type Props = {
   result: ApiResult | undefined;

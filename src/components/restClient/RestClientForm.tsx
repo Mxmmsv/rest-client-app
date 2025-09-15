@@ -7,11 +7,11 @@ import type {
   ApiResult,
   FormValues,
   ResponseInfo,
-} from '@/components/rest-client/types/rest-client';
+} from '@/components/restClient/types/rest-client';
 import { restClient } from '@/lib/restClient/restClient';
 
-import BodyEditor from '../rest-client/BodyEditor';
-import RequestPanel from '../rest-client/RequestPanel';
+import BodyEditor from './BodyEditor';
+import RequestPanel from './RequestPanel';
 
 type Props = {
   onResponse: (result: ApiResult, info: ResponseInfo) => void;

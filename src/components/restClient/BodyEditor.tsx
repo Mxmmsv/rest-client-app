@@ -4,8 +4,8 @@ import { FormOutlined } from '@ant-design/icons';
 import { Button, Flex, Form, message, Select, Typography } from 'antd';
 import { useWatch } from 'antd/es/form/Form';
 
-import CodeSpace from '@/components/rest-client/CodeSpace';
-import type { FormValues } from '@/components/rest-client/types/rest-client';
+import CodeSpace from '@/components/restClient/CodeSpace';
+import type { FormValues } from '@/components/restClient/types/rest-client';
 
 import type { FormInstance } from 'antd/es/form/Form';
 
