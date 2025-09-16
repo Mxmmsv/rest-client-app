@@ -12,6 +12,7 @@ const { Title } = Typography;
 const { Sider, Content } = Layout;
 
 export default function AuthMain() {
+  const { variables, addVariable, deleteVariable } = useVariables();
   const [result, setResult] = useState<ApiResult>();
   const [loading, setLoading] = useState(false);
   const [responseInfo, setResponseInfo] = useState<{
@@ -19,7 +20,6 @@ export default function AuthMain() {
     statusText: string;
     duration: number | null;
   }>({ status: null, statusText: '', duration: null });
-  const { variables } = useVariables();
 
   const handleResponse = (result: ApiResult, info: ResponseInfo) => {
     setResult(result);
@@ -29,7 +29,11 @@ export default function AuthMain() {
   return (
     <Layout style={{ minHeight: '80vh' }}>
       <Sider width="25%">
-        <LeftPanel />
+        <LeftPanel
+          variables={variables}
+          addVariable={addVariable}
+          deleteVariable={deleteVariable}
+        />
       </Sider>
 
       <Content>

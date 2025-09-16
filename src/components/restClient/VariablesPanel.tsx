@@ -3,12 +3,21 @@ import { DeleteTwoTone, PlusOutlined } from '@ant-design/icons';
 import { Button, Input, Table, Space, Typography, Flex } from 'antd';
 import { useState } from 'react';
 
-import { useVariables, type Variable } from '@/components/restClient/hooks/useVariables';
+import { type Variable } from '@/components/restClient/hooks/useVariables';
 
 const { Title } = Typography;
 
-export default function VariablesPanel() {
-  const { variables, addVariable, deleteVariable } = useVariables();
+type Props = {
+  variables: Variable[];
+  addVariable: (variable: Variable) => void;
+  deleteVariable: (index: number) => void;
+};
+
+export default function VariablesPanel({
+  variables,
+  addVariable,
+  deleteVariable,
+}: Readonly<Props>) {
   const [newVar, setNewVar] = useState<Variable>({ name: '', value: '' });
 
   const columns = [
@@ -65,7 +74,7 @@ export default function VariablesPanel() {
       </Space.Compact>
       <Table
         style={{ width: '90%' }}
-        dataSource={variables}
+        dataSource={variables.map((v, index) => ({ ...v, key: index }))}
         columns={columns}
         size="small"
         pagination={false}
