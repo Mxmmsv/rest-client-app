@@ -1,0 +1,56 @@
+'use client';
+
+import { Button, Flex, Result, Typography, Layout, theme } from 'antd';
+import { useTranslations } from 'next-intl';
+
+const { Content } = Layout;
+const { Text } = Typography;
+
+export interface ErrorPageProps {
+  error: Error & { digest?: string };
+  reset?: () => void;
+  className?: string;
+}
+
+export default function ErrorPage({ reset, className }: Readonly<ErrorPageProps>) {
+  const {
+    token: { colorBgContainer, borderRadiusLG },
+  } = theme.useToken();
+
+  const t = useTranslations('Messages');
+
+  return (
+    <Layout className={className}>
+      <Content style={{ padding: '0 48px', margin: '46px 0 0 0' }}>
+        <Flex
+          justify="center"
+          align="center"
+          style={{
+            background: colorBgContainer,
+            minHeight: 380,
+            borderRadius: borderRadiusLG,
+          }}
+        >
+          <Result
+            status="warning"
+            title={
+              <Flex gap="middle" vertical>
+                <Text type="danger">{t('error')}</Text>
+                <Text type="danger">{t('retry')}</Text>
+              </Flex>
+            }
+            extra={
+              <Button
+                type="primary"
+                key="console"
+                onClick={() => (reset ? reset() : window.location.reload())}
+              >
+                {t('retry-button')}
+              </Button>
+            }
+          />
+        </Flex>
+      </Content>
+    </Layout>
+  );
+}
