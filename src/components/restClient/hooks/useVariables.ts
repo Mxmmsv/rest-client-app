@@ -1,15 +1,24 @@
 import { useEffect, useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+
+import { auth } from '@/lib/auth/firebase.config';
 
 export interface Variable {
   name: string;
   value: string;
 }
 
+const getStorageKey = (userId: string) => `rest-client-variables-${userId}`;
+
 export const useVariables = () => {
+  const [user] = useAuthState(auth);
   const [variables, setVariables] = useState<Variable[]>([]);
 
   useEffect(() => {
-    const stored = localStorage.getItem('rest-client-variables');
+    if (!user) return;
+
+    const key = getStorageKey(user.uid);
+    const stored = localStorage.getItem(key);
     if (stored) {
       try {
         setVariables(JSON.parse(stored));
@@ -17,11 +26,14 @@ export const useVariables = () => {
         setVariables([]);
       }
     }
-  }, []);
+  }, [user]);
 
   const saveVariables = (newVariables: Variable[]) => {
+    if (!user) return;
+
     setVariables(newVariables);
-    localStorage.setItem('rest-client-variables', JSON.stringify(newVariables));
+    const key = getStorageKey(user.uid);
+    localStorage.setItem(key, JSON.stringify(newVariables));
   };
 
   const addVariable = (variable: Variable) => {
