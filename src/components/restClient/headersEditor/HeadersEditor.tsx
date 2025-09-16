@@ -3,7 +3,20 @@ import { AutoComplete, Button, Checkbox, Divider, Form, Space } from 'antd';
 import React, { useMemo } from 'react';
 
 import { defaultHeaderValues } from '@/constants/defaultHeaderValues';
-import type { Header, HeadersEditorProps, HeadersFormValues } from '@/types/headersSectionTypes';
+
+type HeadersEditorProps = {
+  setHeaders?: (headers: Record<string, string>) => void;
+};
+
+type Header = {
+  header: string;
+  value: string;
+  enabled?: boolean;
+};
+
+type HeadersFormValues = {
+  headers: Header[];
+};
 
 export default function HeadersEditor({ setHeaders }: Readonly<HeadersEditorProps>) {
   const options = useMemo(
@@ -102,7 +115,7 @@ export default function HeadersEditor({ setHeaders }: Readonly<HeadersEditorProp
           )}
         </Form.List>
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" onClick={() => form.submit()}>
             Use this header(s)
           </Button>
         </Form.Item>

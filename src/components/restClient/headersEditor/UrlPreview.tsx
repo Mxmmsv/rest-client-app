@@ -3,7 +3,10 @@ import { Button, Col, Divider, Input } from 'antd';
 import { Row } from 'antd/lib';
 import { useMemo } from 'react';
 
-import type { UrlPreviewProps } from '@/types/headersSectionTypes';
+type UrlPreviewProps = {
+  endpoint: string;
+  headers: Record<string, string>;
+};
 
 export default function UrlPreview({ endpoint, headers }: Readonly<UrlPreviewProps>) {
   const fullUrl = useMemo(() => {
