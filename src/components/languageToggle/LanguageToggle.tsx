@@ -18,7 +18,7 @@ const LanguageToggle: React.FC = () => {
   };
 
   return (
-    <div style={{ margin: '30px 0' }}>
+    <div>
       <Segmented
         value={locale}
         onChange={(val) => handleChange(val as 'en' | 'ru')}

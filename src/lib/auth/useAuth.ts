@@ -1,4 +1,3 @@
-import { NotificationInstance } from 'antd/es/notification/interface';
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -8,6 +7,8 @@ import {
 import { collection, addDoc } from 'firebase/firestore';
 
 import { auth, db } from './firebase.config';
+
+import type { NotificationInstance } from 'antd/es/notification/interface';
 
 export type AuthInfo = {
   email: string;
