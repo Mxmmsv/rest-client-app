@@ -5,7 +5,7 @@ const { Title, Paragraph, Text } = Typography;
 
 export default function UnauthMain() {
   return (
-    <Flex justify="center" vertical align="center" gap="middle" style={{ height: '80vh' }}>
+    <Flex justify="center" vertical align="center" gap="middle">
       <Title>Welcome to Pawstman!</Title>
       <Paragraph style={{ maxWidth: '60vw', textAlign: 'center' }}>
         Pawstman is your lightweight and powerful companion for API development. Send requests,
