@@ -9,7 +9,7 @@ export interface HeadersFormValues {
 }
 
 export interface HeadersEditorProps {
-  onChange?: (headers: Record<string, string>) => void;
+  setHeaders?: (headers: Record<string, string>) => void;
 }
 
 export interface UrlPreviewProps {

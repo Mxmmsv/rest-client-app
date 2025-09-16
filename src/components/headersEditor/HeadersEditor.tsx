@@ -1,14 +1,24 @@
 import { CloseSquareFilled, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { AutoComplete, Button, Checkbox, Divider, Form, Space } from 'antd';
-import React, { useState } from 'react';
+import React, { useMemo } from 'react';
 
 import { defaultHeaderValues } from '@/constants/defaultHeaderValues';
-import { Header, HeadersEditorProps, HeadersFormValues } from '@/types/headersSectionTypes';
+import type { Header, HeadersEditorProps, HeadersFormValues } from '@/types/headersSectionTypes';
 
-export default function HeadersEditor({ onChange }: Readonly<HeadersEditorProps>) {
-  const [options] = useState<{ value: string }[]>(
-    Object.keys(defaultHeaderValues).map((header) => ({ value: header }))
+export default function HeadersEditor({ setHeaders }: Readonly<HeadersEditorProps>) {
+  const options = useMemo(
+    () => Object.keys(defaultHeaderValues).map((header) => ({ value: header })),
+    []
   );
+
+  const handleSelect = (name: number, selectedHeader: string) => {
+    const current = form.getFieldValue(['headers', name]) as Header;
+    form.setFieldValue(['headers', name], {
+      ...current,
+      header: selectedHeader.toLowerCase(),
+      value: (defaultHeaderValues[selectedHeader] || '').toLowerCase(),
+    });
+  };
 
   const [form] = Form.useForm<HeadersFormValues>();
 
@@ -28,7 +38,7 @@ export default function HeadersEditor({ onChange }: Readonly<HeadersEditorProps>
               return acc;
             }, {});
 
-          onChange?.(enabledHeaders);
+          setHeaders?.(enabledHeaders);
         }}
         initialValues={{
           headers: [{ header: '', value: '', enabled: true }],
@@ -38,7 +48,7 @@ export default function HeadersEditor({ onChange }: Readonly<HeadersEditorProps>
           {(fields, { add, remove }) => (
             <>
               {fields.map(({ key, name, ...restField }) => (
-                <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
+                <Space key={key} style={{ display: 'flex' }} align="baseline">
                   <Form.Item
                     {...restField}
                     name={[name, 'enabled']}
@@ -60,14 +70,7 @@ export default function HeadersEditor({ onChange }: Readonly<HeadersEditorProps>
                       filterOption={(input, option) =>
                         (option?.value || '').toLowerCase().includes(input.toLowerCase())
                       }
-                      onSelect={(selectedHeader: string) => {
-                        const current = form.getFieldValue(['headers', name]) as Header;
-                        form.setFieldValue(['headers', name], {
-                          ...current,
-                          header: selectedHeader.toLowerCase(),
-                          value: (defaultHeaderValues[selectedHeader] || '').toLowerCase(),
-                        });
-                      }}
+                      onSelect={(value) => handleSelect(name, value)}
                     />
                   </Form.Item>
                   <Form.Item
