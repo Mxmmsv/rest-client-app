@@ -1,18 +1,15 @@
 'use client';
 
-import { Button, Col, Flex, Form, Input, Row, Select, notification } from 'antd';
+import { Button, Flex, Form, Input, Select, notification } from 'antd';
 import { useState } from 'react';
 
-import type {
-  ApiResult,
-  FormValues,
-  ResponseInfo,
-} from '@/components/restClient/types/rest-client';
 import { restClient, type HttpMethod } from '@/lib/restClient/restClient';
 
 import BodyEditor from './BodyEditor';
-import ResponseBodySection from './ResponseBodySection';
 import useCodeGenerator from './hooks/useCodeGenerator';
+
+import type { ApiResult, FormValues, ResponseInfo } from './types';
+import type { Dispatch, SetStateAction } from 'react';
 
 const methodColors: Record<HttpMethod, string> = {
   GET: '#6BDD9A',
@@ -24,20 +21,22 @@ const methodColors: Record<HttpMethod, string> = {
   OPTIONS: '#F15EB0',
 };
 
-type Props = {
+type RestClientFormProps = {
   onResponse: (result: ApiResult, info: ResponseInfo) => void;
+  onGeneratedCode: Dispatch<SetStateAction<string>>;
 };
 
-export default function RestClientForm({ onResponse }: Readonly<Props>) {
+export default function RestClientForm({
+  onResponse,
+  onGeneratedCode,
+}: Readonly<RestClientFormProps>) {
   const [form] = Form.useForm<FormValues>();
   const [contentType, setContentType] = useState<'json' | 'text'>('json');
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<ApiResult>();
 
   const [api, contextHolder] = notification.useNotification();
 
   const {
-    snippet,
     language,
     variant,
     languageOptions,
@@ -77,7 +76,6 @@ export default function RestClientForm({ onResponse }: Readonly<Props>) {
         },
       });
 
-      setResult(response.data);
       onResponse(response.data, {
         status: response.status,
         statusText: response.statusText,
@@ -85,7 +83,7 @@ export default function RestClientForm({ onResponse }: Readonly<Props>) {
       });
     } catch (err) {
       const errorResult = { error: (err as Error).message };
-      setResult(errorResult);
+
       onResponse(errorResult, { status: null, statusText: '', duration: null });
     } finally {
       setLoading(false);
@@ -164,8 +162,11 @@ export default function RestClientForm({ onResponse }: Readonly<Props>) {
 
           <Form.Item>
             <Button
-              onClick={() => {
-                handleGenerateCode(form.getFieldsValue() as { method: HttpMethod; URL: string });
+              onClick={async () => {
+                const code = await handleGenerateCode(
+                  form.getFieldsValue() as { method: HttpMethod; URL: string }
+                );
+                if (code) onGeneratedCode(code);
               }}
               disabled={!language || !variant}
             >
@@ -178,15 +179,6 @@ export default function RestClientForm({ onResponse }: Readonly<Props>) {
           <BodyEditor form={form} contentType={contentType} onContentTypeChange={setContentType} />
         </Form.Item>
       </Form>
-
-      <Row style={{ width: '100%' }}>
-        <Col span={12}>
-          <ResponseBodySection result={result} titleText="Response:" />
-        </Col>
-        <Col span={12}>
-          <ResponseBodySection result={snippet} titleText="Code generated:" />
-        </Col>
-      </Row>
     </Flex>
   );
 }

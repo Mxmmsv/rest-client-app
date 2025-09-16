@@ -4,10 +4,10 @@ import { Editor } from '@monaco-editor/react';
 import { Card, Flex, Select, Typography } from 'antd';
 import { useState } from 'react';
 
-import type { ResponseInfo } from '@/components/restClient/types/rest-client';
+import type { ResponseInfo } from './types';
 
-type Props = {
-  value: string;
+type CodeSpaceProps = {
+  value?: string;
   onChange?: (value: string) => void;
   readOnly?: boolean;
   language?: string;
@@ -17,7 +17,6 @@ type Props = {
 };
 
 const { Text } = Typography;
-
 const MONACO_THEMES = ['vs', 'vs-dark', 'hc-black', 'hc-light'];
 
 export default function CodeSpace({
@@ -27,7 +26,7 @@ export default function CodeSpace({
   language = 'json',
   height = '200px',
   responseInfo,
-}: Readonly<Props>) {
+}: Readonly<CodeSpaceProps>) {
   const [currentTheme, setCurrentTheme] = useState('vs');
 
   return (
@@ -44,20 +43,20 @@ export default function CodeSpace({
           }))}
         />
       </Flex>
-      <Flex>
-        {responseInfo && (
-          <Flex gap="small">
-            <Typography.Text
-              type={responseInfo.status && responseInfo.status < 400 ? 'success' : 'danger'}
-            >
-              Status: {responseInfo.status || 'Error'} {responseInfo.statusText}
-            </Typography.Text>
-            {responseInfo.duration && (
-              <Typography.Text type="secondary">Time: {responseInfo.duration}ms</Typography.Text>
-            )}
-          </Flex>
-        )}
-      </Flex>
+
+      {responseInfo?.status && (
+        <Flex gap="small">
+          <Typography.Text
+            type={responseInfo.status && responseInfo.status < 400 ? 'success' : 'danger'}
+          >
+            Status: {responseInfo.status || 'Error'} {responseInfo.statusText}
+          </Typography.Text>
+          {responseInfo.duration && (
+            <Typography.Text type="secondary">Time: {responseInfo.duration}ms</Typography.Text>
+          )}
+        </Flex>
+      )}
+
       <Flex align="center" justify="center">
         <Editor
           height={height}

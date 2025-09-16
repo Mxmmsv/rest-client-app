@@ -5,8 +5,8 @@ import { Button, Flex, Form, message, Select, Typography } from 'antd';
 import { useWatch } from 'antd/es/form/Form';
 
 import CodeSpace from '@/components/restClient/CodeSpace';
-import type { FormValues } from '@/components/restClient/types/rest-client';
 
+import type { FormValues } from './types';
 import type { FormInstance } from 'antd/es/form/Form';
 
 const { Text } = Typography;

@@ -3,21 +3,22 @@
 import { Flex } from 'antd';
 
 import CodeSpace from '@/components/restClient/CodeSpace';
-import type { ApiResult, ResponseInfo } from '@/components/restClient/types/rest-client';
 
-type Props = {
-  result: ApiResult | undefined;
-  responseInfo: ResponseInfo;
+import type { ApiResult, ResponseInfo } from './types';
+
+type ResponsePanelProps = {
+  result?: ApiResult | string;
+  responseInfo?: ResponseInfo;
 };
 
-export default function ResponsePanel({ result, responseInfo }: Readonly<Props>) {
+export default function ResponsePanel({ result, responseInfo }: Readonly<ResponsePanelProps>) {
   return (
     <Flex align="center" justify="center">
       <CodeSpace
-        value={JSON.stringify(result, null, 2)}
+        value={typeof result === 'string' ? result : JSON.stringify(result, null, 2)}
         readOnly={true}
         height="80vh"
-        language="json"
+        language={typeof result === 'string' ? 'javascript' : 'json'}
         responseInfo={responseInfo}
       />
     </Flex>

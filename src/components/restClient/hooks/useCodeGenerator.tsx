@@ -7,7 +7,6 @@ import type { HttpMethod } from '@/lib/restClient/restClient';
 import type { NotificationInstance } from 'antd/es/notification/interface';
 
 export default function useCodeGenerator(api: NotificationInstance) {
-  const [snippet, setSnippet] = useState<string>();
   const [language, setLanguage] = useState<string>();
   const [variant, setVariant] = useState<string>();
 
@@ -55,28 +54,25 @@ export default function useCodeGenerator(api: NotificationInstance) {
     const values = { method, URL };
 
     if (!method || !URL) {
-      return api.warning({ message: 'Plese select method and write URL' });
+      api.warning({ message: 'Please select method and write URL' });
+      return null;
     }
 
     const request = buildPostmanRequest(values);
     if (language && variant) {
       const code = await generateCode(language, variant, request);
-      setSnippet(code);
+      return code;
     }
+    return null;
   };
 
   return {
-    snippet,
     language,
     variant,
-    languages,
     languageOptions,
     variantOptions,
-    setSnippet,
     setLanguage,
     setVariant,
-    buildPostmanRequest,
-    generateCode,
     handleGenerateCode,
   };
 }
