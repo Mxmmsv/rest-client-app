@@ -1,12 +1,16 @@
 'use client';
 
-import { Button, Flex, Form, Input, Select, notification } from 'antd';
+import { Button, Flex, Form, Input, Select, Tabs } from 'antd';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { restClient, type HttpMethod } from '@/lib/restClient/restClient';
+import { getMethod, getBody, getUrl } from '@/lib/store/selectors/restClientFormSelectField';
+import { updateRestClientFormField } from '@/lib/store/slice/restClientFormSlice';
 
-import BodyEditor from './BodyEditor';
-import useCodeGenerator from './hooks/useCodeGenerator';
+import CodeGeneratorSection from './codeGenerator/CodeGeneratorSection';
+import HeadersSection from './headersEditor/HeadersSection';
+import BodyEditor from './responseBodyViewer/BodyEditor';
 
 import type { ApiResult, FormValues, ResponseInfo } from './types';
 import type { Dispatch, SetStateAction } from 'react';
@@ -33,20 +37,26 @@ export default function RestClientForm({
   const [form] = Form.useForm<FormValues>();
   const [contentType, setContentType] = useState<'json' | 'text'>('json');
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
-  const [api, contextHolder] = notification.useNotification();
+  const method = useSelector(getMethod);
+  const url = useSelector(getUrl);
+  const body = useSelector(getBody);
 
-  const {
-    language,
-    variant,
-    languageOptions,
-    variantOptions,
-    setLanguage,
-    setVariant,
-    handleGenerateCode,
-  } = useCodeGenerator(api);
+  const tabItems = [
+    {
+      key: 'generatecodesection',
+      label: 'Generate code',
+      children: <CodeGeneratorSection onGeneratedCode={onGeneratedCode} />,
+    },
+    {
+      key: 'headerseditor',
+      label: 'Headers editor',
+      children: <HeadersSection endpoint={Form.useWatch('url', form)} />,
+    },
+  ];
 
-  const onFinish = async (values: FormValues & { method: HttpMethod; URL: string }) => {
+  const handleBody = (values: FormValues) => {
     setLoading(true);
     try {
       let parsedBody: unknown = undefined;
@@ -54,6 +64,7 @@ export default function RestClientForm({
         if (contentType === 'json') {
           try {
             parsedBody = JSON.parse(values.body);
+            return parsedBody;
           } catch {
             onResponse(
               { error: 'Invalid JSON format in request body' },
@@ -64,46 +75,56 @@ export default function RestClientForm({
           }
         } else {
           parsedBody = values.body;
+          return parsedBody;
         }
       }
-
-      const response = await restClient<ApiResult, unknown>({
-        method: values.method,
-        url: values.URL,
-        body: parsedBody,
-        headers: {
-          'Content-Type': contentType === 'json' ? 'application/json' : 'text/plain',
-        },
-      });
-
-      onResponse(response.data, {
-        status: response.status,
-        statusText: response.statusText,
-        duration: response.duration,
-      });
     } catch (err) {
       const errorResult = { error: (err as Error).message };
-
       onResponse(errorResult, { status: null, statusText: '', duration: null });
     } finally {
       setLoading(false);
     }
   };
 
+  const handleFinish = async (values: FormValues) => {
+    if (values.method !== method) {
+      dispatch(updateRestClientFormField({ field: 'method', value: values.method }));
+    }
+    if (values.url !== url) {
+      dispatch(updateRestClientFormField({ field: 'url', value: values.url }));
+    }
+    if (values.body !== body) {
+      dispatch(updateRestClientFormField({ field: 'body', value: values.body }));
+    }
+
+    const response = await restClient<ApiResult, unknown>({
+      method: values.method,
+      url: values.url,
+      body: handleBody(values),
+      headers: {
+        'Content-Type': contentType === 'json' ? 'application/json' : 'text/plain',
+      },
+    });
+
+    onResponse(response.data, {
+      status: response.status,
+      statusText: response.statusText,
+      duration: response.duration,
+    });
+  };
+
   return (
     <Flex vertical gap="large" align="center">
-      {contextHolder}
       <Form
         form={form}
         name="restClientForm"
-        layout="vertical"
-        onFinish={onFinish}
-        initialValues={{
-          method: 'GET',
-          URL: 'https://rickandmortyapi.com/api/character',
-          body: '',
+        onValuesChange={(changedValues: Partial<FormValues>) => {
+          Object.entries(changedValues).forEach(([key, value]) => {
+            dispatch(updateRestClientFormField({ field: key as keyof FormValues, value }));
+          });
         }}
-        style={{ width: '100%' }}
+        onFinish={handleFinish}
+        initialValues={{ method, url, body }}
       >
         <Flex gap="middle" align="center" justify="center" wrap>
           <Form.Item name="method">
@@ -126,7 +147,7 @@ export default function RestClientForm({
             />
           </Form.Item>
 
-          <Form.Item name="URL" style={{ minWidth: 400 }}>
+          <Form.Item name="url" style={{ minWidth: 400 }}>
             <Input placeholder="Enter API URL" />
           </Form.Item>
 
@@ -135,49 +156,10 @@ export default function RestClientForm({
               Send
             </Button>
           </Form.Item>
-
-          <Form.Item>
-            <Select
-              placeholder="Language"
-              style={{ width: 180 }}
-              options={languageOptions}
-              value={language}
-              onChange={(value) => {
-                setLanguage(value);
-                setVariant(undefined);
-              }}
-            />
-          </Form.Item>
-
-          <Form.Item>
-            <Select
-              placeholder="Variant"
-              style={{ width: 180 }}
-              options={variantOptions}
-              value={variant}
-              onChange={(value) => setVariant(value)}
-              disabled={!language}
-            />
-          </Form.Item>
-
-          <Form.Item>
-            <Button
-              onClick={async () => {
-                const code = await handleGenerateCode(
-                  form.getFieldsValue() as { method: HttpMethod; URL: string }
-                );
-                if (code) onGeneratedCode(code);
-              }}
-              disabled={!language || !variant}
-            >
-              Generate code
-            </Button>
-          </Form.Item>
         </Flex>
+        <Tabs centered items={tabItems} />
 
-        <Form.Item name="body">
-          <BodyEditor form={form} contentType={contentType} onContentTypeChange={setContentType} />
-        </Form.Item>
+        <BodyEditor form={form} contentType={contentType} onContentTypeChange={setContentType} />
       </Form>
     </Flex>
   );

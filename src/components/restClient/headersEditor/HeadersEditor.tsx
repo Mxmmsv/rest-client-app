@@ -4,18 +4,10 @@ import React, { useMemo } from 'react';
 
 import { defaultHeaderValues } from '@/constants/defaultHeaderValues';
 
+import type { Header, HeadersFormValues } from '../types';
+
 type HeadersEditorProps = {
   setHeaders?: (headers: Record<string, string>) => void;
-};
-
-type Header = {
-  header: string;
-  value: string;
-  enabled?: boolean;
-};
-
-type HeadersFormValues = {
-  headers: Header[];
 };
 
 export default function HeadersEditor({ setHeaders }: Readonly<HeadersEditorProps>) {
@@ -45,9 +37,9 @@ export default function HeadersEditor({ setHeaders }: Readonly<HeadersEditorProp
         autoComplete="off"
         onFinish={(values: HeadersFormValues) => {
           const enabledHeaders = values.headers
-            .filter((row) => row.enabled && row.header)
+            .filter((row) => row.enabled && row.key)
             .reduce<Record<string, string>>((acc, row) => {
-              acc[row.header] = row.value || '';
+              acc[row.key] = row.value || '';
               return acc;
             }, {});
 

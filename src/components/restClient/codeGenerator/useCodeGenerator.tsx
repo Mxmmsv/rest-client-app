@@ -1,14 +1,25 @@
 import { getLanguageList, getOptions, convert } from 'postman-code-generators';
 import { Request as PostmanRequest } from 'postman-collection';
 import { useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 
-import type { HttpMethod } from '@/lib/restClient/restClient';
+import {
+  getMethod,
+  getBody,
+  getUrl,
+  getHeaders,
+} from '@/lib/store/selectors/restClientFormSelectField';
 
-import type { NotificationInstance } from 'antd/es/notification/interface';
+import type { FormValues, Header } from '../types';
 
-export default function useCodeGenerator(api: NotificationInstance) {
+export default function useCodeGenerator() {
   const [language, setLanguage] = useState<string>();
   const [variant, setVariant] = useState<string>();
+
+  const method = useSelector(getMethod);
+  const url = useSelector(getUrl);
+  const body = useSelector(getBody);
+  const headers = useSelector(getHeaders);
 
   const languages = useMemo(() => getLanguageList(), []);
   const languageOptions = useMemo(
@@ -21,11 +32,21 @@ export default function useCodeGenerator(api: NotificationInstance) {
     return lang?.variants.map((v) => ({ label: v.key, value: v.key })) || [];
   }, [language, languages]);
 
-  const buildPostmanRequest = (values: { method: HttpMethod; URL: string }) =>
+  const buildHeaders = (headersArray: FormValues['headers']): Header[] => {
+    return (headersArray || []).map((h) => ({
+      key: h.key,
+      value: String(h.value),
+    }));
+  };
+
+  const buildPostmanRequest = (values: FormValues) =>
     new PostmanRequest({
-      url: values.URL,
+      url: values.url,
       method: values.method,
-      header: [{ key: 'Authorization', value: 'Bearer token' }],
+      header: buildHeaders(values.headers),
+      body: ['GET', 'HEAD', 'OPTIONS'].includes(values.method)
+        ? undefined
+        : { mode: 'raw', raw: values.body },
     });
 
   const generateCode = async (
@@ -34,29 +55,24 @@ export default function useCodeGenerator(api: NotificationInstance) {
     request: PostmanRequest
   ): Promise<string> => {
     return new Promise<string>((resolve, reject) => {
-      const handleConvert = (err2: unknown, snippetCode: string) => {
-        if (err2) {
-          reject(err2);
-        } else {
-          resolve(snippetCode);
-        }
+      const handleConvert = (err: unknown, snippetCode: string) => {
+        if (err) reject(err);
+        else resolve(snippetCode);
       };
 
-      const handleOptions = (_err: unknown, opts: Record<string, string | unknown>) => {
+      getOptions(lang, variant, (_err, opts) => {
         convert(lang, variant, request, opts, handleConvert);
-      };
-
-      getOptions(lang, variant, handleOptions);
+      });
     });
   };
 
-  const handleGenerateCode = async ({ method, URL }: { method: HttpMethod; URL: string }) => {
-    const values = { method, URL };
+  const handleGenerateCode = async () => {
+    const values: FormValues = { url, method, body, headers };
 
-    if (!method || !URL) {
-      api.warning({ message: 'Please select method and write URL' });
-      return null;
-    }
+    // if (!method || !URL) {
+    //   api.warning({ message: 'Please select method and write URL' });
+    //   return null;
+    // }
 
     const request = buildPostmanRequest(values);
     if (language && variant) {
