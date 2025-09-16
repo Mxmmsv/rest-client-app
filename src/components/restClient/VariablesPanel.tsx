@@ -15,17 +15,17 @@ export default function VariablesPanel() {
     {
       title: 'Name',
       dataIndex: 'name',
-      width: '40%',
+      width: '35%',
       key: 'name',
     },
     {
       title: 'Value',
-      dataInsex: 'value',
-      width: '40%',
+      dataIndex: 'value',
+      width: '45%',
       key: 'value',
     },
     {
-      title: 'Actions',
+      title: 'Delete',
       key: 'actions',
       render: (_: unknown, __: Variable, index: number) => (
         <Flex align="center" justify="center">

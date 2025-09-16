@@ -25,6 +25,7 @@ export const useVariables = () => {
   };
 
   const addVariable = (variable: Variable) => {
+    console.log('Saving variable:', variable);
     saveVariables([...variables, variable]);
   };
 

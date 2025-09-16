@@ -6,6 +6,7 @@ import type { ApiResult, ResponseInfo } from '@/components/restClient/types/rest
 import LeftPanel from '../restClient/LeftPanel';
 import ResponsePanel from '../restClient/ResponsePanel';
 import RestClientForm from '../restClient/RestClientForm';
+import { useVariables } from '../restClient/hooks/useVariables';
 
 const { Title } = Typography;
 const { Sider, Content } = Layout;
@@ -18,6 +19,7 @@ export default function AuthMain() {
     statusText: string;
     duration: number | null;
   }>({ status: null, statusText: '', duration: null });
+  const { variables } = useVariables();
 
   const handleResponse = (result: ApiResult, info: ResponseInfo) => {
     setResult(result);
@@ -32,7 +34,12 @@ export default function AuthMain() {
 
       <Content>
         <Title level={3}>Request</Title>
-        <RestClientForm onResponse={handleResponse} loading={loading} setLoading={setLoading} />
+        <RestClientForm
+          onResponse={handleResponse}
+          loading={loading}
+          setLoading={setLoading}
+          variables={variables}
+        />
       </Content>
 
       <Sider width="35%">

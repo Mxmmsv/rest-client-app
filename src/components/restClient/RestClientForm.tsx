@@ -12,25 +12,48 @@ import { restClient } from '@/lib/restClient/restClient';
 
 import BodyEditor from './BodyEditor';
 import RequestPanel from './RequestPanel';
+import { replaceVariables } from './utils/variableReplacer';
+
+import type { Variable } from './hooks/useVariables';
 
 type Props = {
   onResponse: (result: ApiResult, info: ResponseInfo) => void;
   loading: boolean;
   setLoading: (loading: boolean) => void;
+  variables: Variable[];
 };
 
-export default function RestClientForm({ onResponse, loading, setLoading }: Readonly<Props>) {
+export default function RestClientForm({
+  onResponse,
+  loading,
+  setLoading,
+  variables,
+}: Readonly<Props>) {
   const [form] = Form.useForm<FormValues>();
   const [contentType, setContentType] = useState<'json' | 'text'>('json');
 
   const onFinish = async (values: FormValues) => {
     setLoading(true);
     try {
-      let parsedBody: unknown = undefined;
+      console.log('Before replacement - URL:', values.URL);
+      console.log('Before replacement - Body:', values.body);
+      console.log('Variables:', variables);
+
+      const replacedUrl = replaceVariables(values.URL, variables);
+      let replacedBody = replaceVariables(values.body, variables);
+
+      console.log('After replacement - URL:', replacedUrl);
+      console.log('After replacement - Body:', replacedBody);
+
       if (values.body?.trim()) {
+        replacedBody = replaceVariables(values.body, variables);
+      }
+
+      let parsedBody: unknown = undefined;
+      if (replacedBody?.trim()) {
         if (contentType === 'json') {
           try {
-            parsedBody = JSON.parse(values.body);
+            parsedBody = JSON.parse(replacedBody);
           } catch {
             onResponse(
               { error: 'Invalid JSON format in request body' },
@@ -44,13 +67,13 @@ export default function RestClientForm({ onResponse, loading, setLoading }: Read
             return;
           }
         } else {
-          parsedBody = values.body;
+          parsedBody = replacedBody;
         }
       }
 
       const response = await restClient<ApiResult, unknown>({
         method: values.method,
-        url: values.URL,
+        url: replacedUrl,
         body: parsedBody,
         headers: {
           'Content-Type': contentType === 'json' ? 'application/json' : 'text/plain',
