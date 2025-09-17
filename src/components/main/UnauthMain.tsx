@@ -31,6 +31,7 @@ export default function UnauthMain() {
           <Card
             style={{
               width: '25%',
+              minWidth: '255px',
               textAlign: 'center',
               backgroundColor: 'transparent',
               border: 'solid var(--color-additional-light)',
