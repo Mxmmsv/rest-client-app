@@ -8,6 +8,9 @@
 body {
   background-color: var(--color-base-light);
   font-family: var(--font-primary-font);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 :root {
