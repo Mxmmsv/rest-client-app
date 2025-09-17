@@ -40,7 +40,8 @@ export default function UnauthMain() {
           >
             <Title level={4}>Get Started</Title>
             <Paragraph type="secondary">
-              Already have an account? Sign in or create a new one to start testing APIs
+              Already have an account? <br />
+              Sign in or create a new one to start testing APIs
             </Paragraph>
             <Space direction="vertical" size="small" style={{ width: '100%' }}>
               <Link href="/login">
