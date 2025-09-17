@@ -3,7 +3,7 @@ import { expect, test } from 'vitest';
 
 vi.mock('next/font/google', () => ({
   Press_Start_2P: () => ({ variable: 'mock-logo-font' }),
-  Quantico: () => ({ variable: 'mock-primary-font' }),
+  Exo_2: () => ({ variable: 'mock-primary-font' }),
 }));
 
 import RootLayout from '../layout';
