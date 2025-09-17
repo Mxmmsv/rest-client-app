@@ -1,36 +1,33 @@
 import { CopyOutlined } from '@ant-design/icons';
-import { Button, Col, Divider, Input } from 'antd';
-import { Row } from 'antd/lib';
+import { Button, Divider, Flex, Input } from 'antd';
 import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 
-type UrlPreviewProps = {
-  endpoint: string;
-  headers: Record<string, string>;
-};
+import { getHeaders, getUrl } from '@/lib/store/selectors/restClientFormSelectField';
 
-export default function UrlPreview({ endpoint, headers }: Readonly<UrlPreviewProps>) {
+export default function UrlPreview() {
+  const url = useSelector(getUrl);
+  const headers = useSelector(getHeaders);
+
   const fullUrl = useMemo(() => {
-    const headerParams = Object.entries(headers)
-      .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+    const headerParams = headers
+      .filter((h) => h.enabled && h.key && h.value)
+      .map((h) => `${encodeURIComponent(h.key)}=${encodeURIComponent(h.value)}`)
       .join('&');
-    return headerParams ? `${endpoint}?${headerParams}` : endpoint;
-  }, [endpoint, headers]);
+    return headerParams ? `${url}?${headerParams}` : url;
+  }, [url, headers]);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(fullUrl);
   };
 
   return (
-    <>
+    <Flex vertical>
       <Divider orientation="left">URL Preview</Divider>
-      <Row wrap={false} style={{ gap: '8px' }}>
-        <Col flex="auto">
-          <Input readOnly placeholder="URL preview" value={fullUrl} />
-        </Col>
-        <Col flex="none">
-          <Button type="text" icon={<CopyOutlined />} onClick={handleCopy} />
-        </Col>
-      </Row>
-    </>
+      <Flex>
+        <Input readOnly placeholder="URL preview" value={url ? fullUrl : ''} />
+        <Button type="text" icon={<CopyOutlined />} onClick={handleCopy} />
+      </Flex>
+    </Flex>
   );
 }

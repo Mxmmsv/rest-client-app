@@ -1,12 +1,15 @@
-'use client';
-
 import { Button, Flex, Form, Input, Select, Tabs } from 'antd';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { restClient, type HttpMethod } from '@/lib/restClient/restClient';
-import { getMethod, getBody, getUrl } from '@/lib/store/selectors/restClientFormSelectField';
-import { updateRestClientFormField } from '@/lib/store/slice/restClientFormSlice';
+import {
+  getMethod,
+  getBody,
+  getUrl,
+  getHeaders,
+} from '@/lib/store/selectors/restClientFormSelectField';
+import { setHeader, updateRestClientFormField } from '@/lib/store/slice/restClientFormSlice';
 
 import CodeGeneratorSection from './codeGenerator/CodeGeneratorSection';
 import HeadersSection from './headersEditor/HeadersSection';
@@ -36,12 +39,12 @@ export default function RestClientForm({
 }: Readonly<RestClientFormProps>) {
   const [form] = Form.useForm<FormValues>();
   const [contentType, setContentType] = useState<'json' | 'text'>('json');
-  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const method = useSelector(getMethod);
   const url = useSelector(getUrl);
   const body = useSelector(getBody);
+  const headers = useSelector(getHeaders);
 
   const tabItems = [
     {
@@ -52,38 +55,36 @@ export default function RestClientForm({
     {
       key: 'headerseditor',
       label: 'Headers editor',
-      children: <HeadersSection endpoint={Form.useWatch('url', form)} />,
+      children: <HeadersSection />,
     },
   ];
 
-  const handleBody = (values: FormValues) => {
-    setLoading(true);
-    try {
-      let parsedBody: unknown = undefined;
-      if (values.body?.trim()) {
-        if (contentType === 'json') {
-          try {
-            parsedBody = JSON.parse(values.body);
-            return parsedBody;
-          } catch {
-            onResponse(
-              { error: 'Invalid JSON format in request body' },
-              { status: null, statusText: '', duration: null }
-            );
-            setLoading(false);
-            return;
-          }
-        } else {
-          parsedBody = values.body;
-          return parsedBody;
-        }
+  const handleBody = (values: FormValues): unknown => {
+    const headerValue = contentType === 'json' ? 'application/json;charset=utf-8' : 'text/plain';
+
+    dispatch(
+      setHeader({
+        key: 'Content-Type',
+        value: headerValue,
+        enabled: true,
+      })
+    );
+
+    if (!values.body?.trim()) return undefined;
+
+    if (contentType === 'json') {
+      try {
+        return JSON.parse(values.body);
+      } catch {
+        onResponse(
+          { error: 'Invalid JSON format in request body' },
+          { status: null, statusText: '', duration: null }
+        );
+        return undefined;
       }
-    } catch (err) {
-      const errorResult = { error: (err as Error).message };
-      onResponse(errorResult, { status: null, statusText: '', duration: null });
-    } finally {
-      setLoading(false);
     }
+
+    return values.body;
   };
 
   const handleFinish = async (values: FormValues) => {
@@ -101,9 +102,7 @@ export default function RestClientForm({
       method: values.method,
       url: values.url,
       body: handleBody(values),
-      headers: {
-        'Content-Type': contentType === 'json' ? 'application/json' : 'text/plain',
-      },
+      headers: headers,
     });
 
     onResponse(response.data, {
@@ -152,7 +151,7 @@ export default function RestClientForm({
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading}>
+            <Button type="primary" htmlType="submit">
               Send
             </Button>
           </Form.Item>

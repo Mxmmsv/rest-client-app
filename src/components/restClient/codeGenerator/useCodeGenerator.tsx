@@ -10,7 +10,7 @@ import {
   getHeaders,
 } from '@/lib/store/selectors/restClientFormSelectField';
 
-import type { FormValues, Header } from '../types';
+import type { FormValues } from '../types';
 
 export default function useCodeGenerator() {
   const [language, setLanguage] = useState<string>();
@@ -32,18 +32,11 @@ export default function useCodeGenerator() {
     return lang?.variants.map((v) => ({ label: v.key, value: v.key })) || [];
   }, [language, languages]);
 
-  const buildHeaders = (headersArray: FormValues['headers']): Header[] => {
-    return (headersArray || []).map((h) => ({
-      key: h.key,
-      value: String(h.value),
-    }));
-  };
-
   const buildPostmanRequest = (values: FormValues) =>
     new PostmanRequest({
       url: values.url,
       method: values.method,
-      header: buildHeaders(values.headers),
+      header: values.headers.filter((h) => h.enabled).map((h) => ({ key: h.key, value: h.value })),
       body: ['GET', 'HEAD', 'OPTIONS'].includes(values.method)
         ? undefined
         : { mode: 'raw', raw: values.body },

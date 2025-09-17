@@ -18,7 +18,7 @@ export type ResponseInfo = {
 export type Header = {
   key: string;
   value: string;
-  enabled?: boolean;
+  enabled: boolean;
 };
 
 export type HeadersFormValues = {

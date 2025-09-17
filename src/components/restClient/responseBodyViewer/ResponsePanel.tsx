@@ -1,8 +1,6 @@
-'use client';
-
 import { Flex } from 'antd';
 
-import CodeSpace from '../CodeSpace';
+import CodeSpace from './CodeSpace';
 
 import type { ApiResult, ResponseInfo } from '../types';
 

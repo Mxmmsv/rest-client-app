@@ -1,10 +1,8 @@
-'use client';
-
 import { FormOutlined } from '@ant-design/icons';
 import { Button, Flex, Form, message, Select, Typography } from 'antd';
 import { useWatch } from 'antd/es/form/Form';
 
-import CodeSpace from '../CodeSpace';
+import CodeSpace from './CodeSpace';
 
 import type { FormValues } from '../types';
 import type { FormInstance } from 'antd/es/form/Form';
