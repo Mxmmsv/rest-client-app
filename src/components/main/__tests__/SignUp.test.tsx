@@ -44,14 +44,14 @@ describe('SignUp component', () => {
     expect(document.querySelector('.ant-form')).toBeInTheDocument();
   });
 
-  it('shoud render loading spinner', () => {
+  it('should render loading spinner', () => {
     mockedUseAuthState.mockReturnValue([null, true, undefined]);
 
     render(<SignUp />);
     expect(document.querySelector('.ant-spin')).toBeInTheDocument();
   });
 
-  it('shoud render error message', () => {
+  it('should render error message', () => {
     mockedUseAuthState.mockReturnValue([
       null,
       false,

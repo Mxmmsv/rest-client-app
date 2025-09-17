@@ -34,7 +34,7 @@ const mockedUseAuth = vi.mocked(useAuth);
 const mockedRedirect = vi.mocked(redirect);
 
 describe('signIn component', () => {
-  it('shoud render sign-in form when no user', async () => {
+  it('should render sign-in form when no user', async () => {
     mockedUseAuthState.mockReturnValue([null, false, undefined]);
 
     await act(async () => {
@@ -47,14 +47,14 @@ describe('signIn component', () => {
     expect(screen.getByRole('button', { name: /Submit/i })).toBeInTheDocument();
   });
 
-  it('shoud render loading spinner', () => {
+  it('should render loading spinner', () => {
     mockedUseAuthState.mockReturnValue([null, true, undefined]);
 
     render(<SignIn />);
     expect(document.querySelector('.ant-spin')).toBeInTheDocument();
   });
 
-  it('shoud render error message', () => {
+  it('should render error message', () => {
     mockedUseAuthState.mockReturnValue([
       null,
       false,

@@ -9,7 +9,7 @@ vi.mock('next/navigation', () => ({
   }),
 }));
 
-test('calls notFound', () => {
+it('calls notFound', () => {
   expect(() => CatchAllPage()).toThrow('not found');
   expect(notFound).toHaveBeenCalled();
 });

@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { expect, test } from 'vitest';
+import { expect } from 'vitest';
 
 vi.mock('next/font/google', () => ({
   Press_Start_2P: () => ({ variable: 'mock-logo-font' }),
@@ -12,7 +12,7 @@ function Children() {
   return <div>SHAW</div>;
 }
 
-test('Layout', () => {
+it('Layout', () => {
   render(
     <RootLayout>
       <Children />
