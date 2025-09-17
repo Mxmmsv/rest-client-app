@@ -31,7 +31,7 @@ export default function CodeGeneratorSection({
           value={language}
           onChange={(value) => {
             setLanguage(value);
-            setVariant(undefined);
+            setVariant(null);
           }}
         />
       </Form.Item>

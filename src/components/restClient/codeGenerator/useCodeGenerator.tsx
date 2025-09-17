@@ -13,8 +13,8 @@ import {
 import type { FormValues } from '../types';
 
 export default function useCodeGenerator() {
-  const [language, setLanguage] = useState<string>();
-  const [variant, setVariant] = useState<string>();
+  const [language, setLanguage] = useState<string | null>('javascript');
+  const [variant, setVariant] = useState<string | null>('Fetch');
 
   const method = useSelector(getMethod);
   const url = useSelector(getUrl);
