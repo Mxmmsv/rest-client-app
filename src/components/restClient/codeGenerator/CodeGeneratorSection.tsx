@@ -41,7 +41,7 @@ export default function CodeGeneratorSection({
           style={{ width: 180 }}
           options={variantOptions}
           value={variant}
-          onChange={(value) => setVariant(value)}
+          onChange={setVariant}
           disabled={!language}
         />
       </Form.Item>
