@@ -22,7 +22,7 @@ export default function CodeGeneratorSection({
   } = useCodeGenerator();
 
   return (
-    <Flex>
+    <Flex justify="center" gap={10}>
       <Form.Item>
         <Select
           placeholder="Language"

@@ -15,7 +15,7 @@ export default function ResponsePanel({ result, responseInfo }: Readonly<Respons
       <CodeSpace
         value={typeof result === 'string' ? result : JSON.stringify(result, null, 2)}
         readOnly={true}
-        height="80vh"
+        height="45vh"
         language={typeof result === 'string' ? 'javascript' : 'json'}
         responseInfo={responseInfo}
       />

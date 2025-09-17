@@ -48,14 +48,21 @@ export default function RestClientForm({
 
   const tabItems = [
     {
-      key: 'generatecodesection',
-      label: 'Generate code',
-      children: <CodeGeneratorSection onGeneratedCode={onGeneratedCode} />,
+      key: 'bodyEditorSection',
+      label: 'Body editor',
+      children: (
+        <BodyEditor form={form} contentType={contentType} onContentTypeChange={setContentType} />
+      ),
     },
     {
       key: 'headerseditor',
       label: 'Headers editor',
       children: <HeadersSection />,
+    },
+    {
+      key: 'generatecodesection',
+      label: 'Generate code',
+      children: <CodeGeneratorSection onGeneratedCode={onGeneratedCode} />,
     },
   ];
 
@@ -157,8 +164,6 @@ export default function RestClientForm({
           </Form.Item>
         </Flex>
         <Tabs centered items={tabItems} />
-
-        <BodyEditor form={form} contentType={contentType} onContentTypeChange={setContentType} />
       </Form>
     </Flex>
   );
