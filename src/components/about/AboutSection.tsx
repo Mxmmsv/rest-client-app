@@ -64,9 +64,8 @@ export default function AboutSection() {
               <Link href={member.github} target="_blank">
                 <GithubOutlined style={{ fontSize: '24px' }} />
               </Link>
-              {/* Иконка LinkedIn */}
               <Link href={member.linkedin} target="_blank">
-                <LinkedinOutlined style={{ fontSize: '24px', color: '#0077b5' }} />
+                <LinkedinOutlined style={{ fontSize: '24px' }} />
               </Link>
             </Space>
           </Card>
