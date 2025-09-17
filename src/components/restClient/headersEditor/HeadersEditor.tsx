@@ -1,5 +1,5 @@
 import { CloseSquareFilled, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
-import { AutoComplete, Button, Checkbox, Flex, Space } from 'antd';
+import { AutoComplete, Button, Checkbox, Flex } from 'antd';
 import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -29,19 +29,20 @@ export default function HeadersEditor() {
   };
 
   return (
-    <Flex vertical gap={10}>
+    <Flex vertical gap={10} style={{ width: '100%' }}>
       {headers.map((header, index) => (
-        <Space key={header.key} align="baseline" style={{ gap: 10 }}>
+        <Flex key={`${header.key}-${index}`} align="center" gap={10} style={{ width: '100%' }}>
           <Checkbox
             checked={header.enabled}
             onChange={(e) =>
               dispatch(updateHeader({ index: index, header: { enabled: e.target.checked } }))
             }
           />
+
           <AutoComplete
             options={options}
             placeholder="header key"
-            style={{ minWidth: 150 }}
+            style={{ flex: 1, minWidth: 150 }}
             allowClear={{ clearIcon: <CloseSquareFilled /> }}
             filterOption={(input, option) =>
               (option?.value || '').toLowerCase().includes(input.toLowerCase())
@@ -50,25 +51,28 @@ export default function HeadersEditor() {
             onSelect={(value) => handleSelect(index, value)}
             onChange={(value) => dispatch(updateHeader({ index: index, header: { key: value } }))}
           />
+
           <AutoComplete
             placeholder="header value"
-            style={{ minWidth: 150 }}
+            style={{ flex: 1, minWidth: 150 }}
             allowClear={{ clearIcon: <CloseSquareFilled /> }}
             value={header.value}
             onChange={(value) => dispatch(updateHeader({ index: index, header: { value } }))}
           />
+
           <Button
             type="text"
             icon={<DeleteOutlined />}
             onClick={() => dispatch(removeHeader(index))}
           />
-        </Space>
+        </Flex>
       ))}
-      <Space>
+
+      <Flex justify="flex-end" style={{ width: '100%' }}>
         <Button type="dashed" onClick={() => dispatch(addHeader())} icon={<PlusOutlined />}>
           Add header
         </Button>
-      </Space>
+      </Flex>
     </Flex>
   );
 }
