@@ -1,4 +1,3 @@
-// components/main/AboutSection.tsx
 import { GithubOutlined, LinkedinOutlined } from '@ant-design/icons';
 import { Card, Flex, Typography, Image, Space } from 'antd';
 import Link from 'next/link';
