@@ -34,7 +34,7 @@ export default function UnauthMain() {
               textAlign: 'center',
               backgroundColor: 'transparent',
               border: 'solid var(--color-additional-light)',
-              boxShadow: '0 4px 12px var(--color-additional)',
+              boxShadow: '0 4px 10px var(--color-additional)',
             }}
           >
             <Title level={4}>Get Started</Title>
