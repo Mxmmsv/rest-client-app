@@ -64,16 +64,17 @@ export function useAuth() {
     }
   };
 
-  const logout = ({ api }: { api: NotificationInstance }) => {
-    try {
-      signOut(auth);
-      api.success({ message: 'Success logout!' });
-    } catch (err) {
-      api.error({
-        message: 'Logout failed',
-        description: (err as Error).message,
-      });
-    }
+  const logout = () => {
+    signOut(auth);
+    // try {
+    //   signOut(auth);
+    //   // api.success({ message: 'Success logout!' });
+    // } catch (err) {
+    //   // api.error({
+    //   //   message: 'Logout failed',
+    //   //   description: (err as Error).message,
+    //   // });
+    // }
   };
 
   return { logInWithEmailAndPassword, registerWithEmailAndPassword, logout };

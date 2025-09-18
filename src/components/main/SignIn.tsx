@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Flex, Form, Input, Typography } from 'antd';
+import { Button, Flex, Form, Input } from 'antd';
 import useNotification from 'antd/es/notification/useNotification';
 import { redirect } from 'next/navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -10,8 +10,6 @@ import { useAuth } from '@/lib/auth/useAuth';
 
 import Loader from '../Loader';
 
-const { Title } = Typography;
-
 type FieldType = {
   email: string;
   password: string;
@@ -20,19 +18,10 @@ type FieldType = {
 export default function SignIn() {
   const [user, loading, error] = useAuthState(auth);
   const [api, contextHolder] = useNotification();
-  const { logInWithEmailAndPassword, logout } = useAuth();
+  const { logInWithEmailAndPassword } = useAuth();
 
   const onFinish = async ({ email, password }: FieldType) => {
-    try {
-      await logInWithEmailAndPassword({ email, password, api });
-      redirect('/');
-    } catch {
-      /* empty */
-    }
-  };
-
-  const onLogout = () => {
-    logout({ api });
+    await logInWithEmailAndPassword({ email, password, api });
   };
 
   if (loading) {
@@ -44,16 +33,7 @@ export default function SignIn() {
   }
 
   if (user) {
-    return (
-      <Flex vertical justify="center" align="center" style={{ height: '100vh' }}>
-        {contextHolder}
-        <Title>{`Hi, ${user.displayName || 'user'}`}</Title>
-        <Title level={2}>You are already logged in!</Title>
-        <Button type="primary" onClick={onLogout}>
-          Logout
-        </Button>
-      </Flex>
-    );
+    redirect('/');
   }
 
   return (
