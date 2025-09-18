@@ -3,10 +3,11 @@ import { Button, Divider, Flex, Input } from 'antd';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getHeaders, getUrl } from '@/lib/store/selectors/restClientFormSelectField';
+import { getHeaders, getMethod, getUrl } from '@/lib/store/selectors/restClientFormSelectField';
 
 export default function UrlPreview() {
   const url = useSelector(getUrl);
+  const method = useSelector(getMethod);
   const headers = useSelector(getHeaders);
 
   const fullUrl = useMemo(() => {
@@ -14,8 +15,8 @@ export default function UrlPreview() {
       .filter((h) => h.enabled && h.key && h.value)
       .map((h) => `${encodeURIComponent(h.key)}=${encodeURIComponent(h.value)}`)
       .join('&');
-    return headerParams ? `${url}?${headerParams}` : url;
-  }, [url, headers]);
+    return headerParams ? `${url}/${method}?${headerParams.toLowerCase()}` : url;
+  }, [url, method, headers]);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(fullUrl);
