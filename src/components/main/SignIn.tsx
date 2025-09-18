@@ -1,7 +1,6 @@
 'use client';
 
 import { Button, Flex, Form, Input } from 'antd';
-import useNotification from 'antd/es/notification/useNotification';
 import { redirect } from 'next/navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
@@ -17,11 +16,10 @@ type FieldType = {
 
 export default function SignIn() {
   const [user, loading, error] = useAuthState(auth);
-  const [api, contextHolder] = useNotification();
   const { logInWithEmailAndPassword } = useAuth();
 
   const onFinish = async ({ email, password }: FieldType) => {
-    await logInWithEmailAndPassword({ email, password, api });
+    await logInWithEmailAndPassword({ email, password });
   };
 
   if (loading) {
@@ -38,8 +36,6 @@ export default function SignIn() {
 
   return (
     <Flex justify="center" align="center" style={{ height: '100vh' }}>
-      {contextHolder}
-
       <Form name="signIn" labelCol={{ span: 8 }} onFinish={onFinish}>
         <Form.Item<FieldType>
           label="Email"

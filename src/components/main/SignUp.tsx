@@ -1,7 +1,6 @@
 'use client';
 
 import { Button, Flex, Form, Input, Typography } from 'antd';
-import useNotification from 'antd/es/notification/useNotification';
 import { redirect } from 'next/navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
@@ -22,7 +21,6 @@ type FieldType = {
 export default function SignUp() {
   const [user, loading, error] = useAuthState(auth);
   const { registerWithEmailAndPassword } = useAuth();
-  const [api, contextHolder] = useNotification();
 
   if (loading) {
     return <Loader />;
@@ -37,12 +35,11 @@ export default function SignUp() {
   }
 
   const onFinish = async ({ email, password, name }: UserData) => {
-    await registerWithEmailAndPassword({ email, password, name, api });
+    await registerWithEmailAndPassword({ email, password, name });
   };
 
   return (
     <Flex justify="center" align="center" vertical style={{ height: '100vh' }}>
-      {contextHolder}
       <Title>Welcome!</Title>
       <Form
         name="signUp"

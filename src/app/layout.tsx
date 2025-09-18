@@ -3,6 +3,7 @@ import './globals.css';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { ConfigProvider } from 'antd';
 import { Press_Start_2P, Exo_2 } from 'next/font/google';
+import { ToastContainer } from 'react-toastify';
 
 import { customTheme } from '@/lib/antd/theme';
 
@@ -38,6 +39,7 @@ export default function RootLayout({
       <body>
         <StoreProvider>
           <AntdRegistry>
+            <ToastContainer position="bottom-left" />
             <ConfigProvider theme={customTheme}>{children}</ConfigProvider>
           </AntdRegistry>
         </StoreProvider>
