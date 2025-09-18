@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import counterReducer from './slice/counterSlice';
+import restClientFormReducer from './slice/restClientFormSlice';
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      counter: counterReducer,
+      restClientForm: restClientFormReducer,
     },
   });
 };

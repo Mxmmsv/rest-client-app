@@ -1,101 +1,172 @@
-'use client';
-
-import { Flex, Form } from 'antd';
+import { Button, Flex, Form, Input, Select, Tabs } from 'antd';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import type {
-  ApiResult,
-  FormValues,
-  ResponseInfo,
-} from '@/components/restClient/types/rest-client';
-import { restClient } from '@/lib/restClient/restClient';
+import { restClient, type HttpMethod } from '@/lib/restClient/restClient';
+import {
+  getMethod,
+  getBody,
+  getUrl,
+  getHeaders,
+} from '@/lib/store/selectors/restClientFormSelectField';
+import { setHeader, updateRestClientFormField } from '@/lib/store/slice/restClientFormSlice';
 
-import BodyEditor from './BodyEditor';
-import RequestPanel from './RequestPanel';
+import CodeGeneratorSection from './codeGenerator/CodeGeneratorSection';
+import HeadersSection from './headersEditor/HeadersSection';
+import BodyEditor from './responseBodyViewer/BodyEditor';
 
-type Props = {
-  onResponse: (result: ApiResult, info: ResponseInfo) => void;
-  loading: boolean;
-  setLoading: (loading: boolean) => void;
+import type { ApiResult, FormValues, ResponseInfo } from './types';
+import type { Dispatch, SetStateAction } from 'react';
+
+const methodColors: Record<HttpMethod, string> = {
+  GET: '#6BDD9A',
+  POST: '#FFE47E',
+  PUT: '#74AEF6',
+  PATCH: '#C0A8E1',
+  DELETE: '#F79A8E',
+  HEAD: '#6BDD9A',
+  OPTIONS: '#F15EB0',
 };
 
-export default function RestClientForm({ onResponse, loading, setLoading }: Readonly<Props>) {
+type RestClientFormProps = {
+  onResponse: (result: ApiResult, info: ResponseInfo) => void;
+  onGeneratedCode: Dispatch<SetStateAction<string>>;
+};
+
+export default function RestClientForm({
+  onResponse,
+  onGeneratedCode,
+}: Readonly<RestClientFormProps>) {
   const [form] = Form.useForm<FormValues>();
   const [contentType, setContentType] = useState<'json' | 'text'>('json');
+  const dispatch = useDispatch();
 
-  const onFinish = async (values: FormValues) => {
-    setLoading(true);
-    try {
-      let parsedBody: unknown = undefined;
-      if (values.body?.trim()) {
-        if (contentType === 'json') {
-          try {
-            parsedBody = JSON.parse(values.body);
-          } catch {
-            onResponse(
-              { error: 'Invalid JSON format in request body' },
-              {
-                status: null,
-                statusText: '',
-                duration: null,
-              }
-            );
-            setLoading(false);
-            return;
-          }
-        } else {
-          parsedBody = values.body;
-        }
+  const method = useSelector(getMethod);
+  const url = useSelector(getUrl);
+  const body = useSelector(getBody);
+  const headers = useSelector(getHeaders);
+
+  const tabItems = [
+    {
+      key: 'bodyEditorSection',
+      label: 'Body editor',
+      children: (
+        <BodyEditor form={form} contentType={contentType} onContentTypeChange={setContentType} />
+      ),
+    },
+    {
+      key: 'headersEditorSection',
+      label: 'Headers editor',
+      children: <HeadersSection />,
+    },
+    {
+      key: 'generateCodeSection',
+      label: 'Generate code',
+      children: <CodeGeneratorSection onGeneratedCode={onGeneratedCode} />,
+    },
+  ];
+
+  const handleBody = (values: FormValues): unknown => {
+    const headerValue = contentType === 'json' ? 'application/json;charset=utf-8' : 'text/plain';
+
+    dispatch(
+      setHeader({
+        key: 'Content-Type',
+        value: headerValue,
+        enabled: true,
+      })
+    );
+
+    if (!values.body?.trim()) return undefined;
+
+    if (contentType === 'json') {
+      try {
+        return JSON.parse(values.body);
+      } catch {
+        onResponse(
+          { error: 'Invalid JSON format in request body' },
+          { status: null, statusText: '', duration: null }
+        );
+        return undefined;
       }
-
-      const response = await restClient<ApiResult, unknown>({
-        method: values.method,
-        url: values.URL,
-        body: parsedBody,
-        headers: {
-          'Content-Type': contentType === 'json' ? 'application/json' : 'text/plain',
-        },
-      });
-
-      onResponse(response.data, {
-        status: response.status,
-        statusText: response.statusText,
-        duration: response.duration,
-      });
-    } catch (err) {
-      onResponse(
-        { error: (err as Error).message },
-        {
-          status: null,
-          statusText: '',
-          duration: null,
-        }
-      );
-    } finally {
-      setLoading(false);
     }
+
+    return values.body;
+  };
+
+  const handleFinish = async (values: FormValues) => {
+    if (values.method !== method) {
+      dispatch(updateRestClientFormField({ field: 'method', value: values.method }));
+    }
+    if (values.url !== url) {
+      dispatch(updateRestClientFormField({ field: 'url', value: values.url }));
+    }
+    if (values.body !== body) {
+      dispatch(updateRestClientFormField({ field: 'body', value: values.body }));
+    }
+
+    const response = await restClient<ApiResult, unknown>({
+      method: values.method,
+      url: values.url,
+      body: handleBody(values),
+      headers: headers,
+    });
+
+    onResponse(response.data, {
+      status: response.status,
+      statusText: response.statusText,
+      duration: response.duration,
+    });
   };
 
   return (
-    <Flex vertical gap="large" align="center" justify="center">
+    <Flex vertical gap="large">
       <Form
         form={form}
         name="restClientForm"
-        layout="vertical"
-        onFinish={onFinish}
-        style={{ width: '100%' }}
-        initialValues={{
-          method: 'GET',
-          URL: 'https://rickandmortyapi.com/api/character',
-          body: '',
+        onValuesChange={(changedValues: Partial<FormValues>) => {
+          Object.entries(changedValues).forEach(([key, value]) => {
+            dispatch(updateRestClientFormField({ field: key as keyof FormValues, value }));
+          });
+        }}
+        onFinish={handleFinish}
+        initialValues={{ method, url, body }}
+        style={{
+          width: '100%',
         }}
       >
-        <Flex gap="middle" align="center" justify="center">
-          <RequestPanel loading={loading} />
+        <Flex gap="middle" style={{ width: '90%', margin: '0 auto' }}>
+          <Form.Item name="method">
+            <Select
+              style={{ width: '100%', minWidth: 90 }}
+              options={Object.keys(methodColors).map((method) => ({
+                value: method,
+                label: method,
+              }))}
+              labelRender={(option) => (
+                <span style={{ color: methodColors[option?.value as HttpMethod] }}>
+                  {option?.label}
+                </span>
+              )}
+              optionRender={(option) => (
+                <span style={{ color: methodColors[option.value as HttpMethod] }}>
+                  {option.label}
+                </span>
+              )}
+            />
+          </Form.Item>
+
+          <Form.Item name="url" style={{ width: '100%' }}>
+            <Input placeholder="Enter API URL" />
+          </Form.Item>
+
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Send
+            </Button>
+          </Form.Item>
         </Flex>
-        <Form.Item name="body">
-          <BodyEditor form={form} contentType={contentType} onContentTypeChange={setContentType} />
-        </Form.Item>
+        <Tabs centered items={tabItems} />
       </Form>
     </Flex>
   );

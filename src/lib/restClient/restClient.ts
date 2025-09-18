@@ -1,10 +1,12 @@
+import type { Header } from '@/components/restClient/types';
+
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'HEAD' | 'OPTIONS';
 
 interface RestClientParams<TBody> {
   method: HttpMethod;
   url: string;
   body?: TBody;
-  headers?: Record<string, string>;
+  headers?: Record<string, string> | Header[];
 }
 
 export interface RestClientResponse<TResponse> {
@@ -14,6 +16,19 @@ export interface RestClientResponse<TResponse> {
   duration: number;
 }
 
+function normalizeHeaders(headers?: Record<string, string> | Header[]): Record<string, string> {
+  if (!headers) return {};
+  if (Array.isArray(headers)) {
+    return headers
+      .filter((h) => h.enabled && h.key.trim() !== '')
+      .reduce<Record<string, string>>((acc, h) => {
+        acc[h.key] = h.value;
+        return acc;
+      }, {});
+  }
+  return headers;
+}
+
 export async function restClient<TResponse, TBody>({
   method,
   url,
@@ -21,15 +36,15 @@ export async function restClient<TResponse, TBody>({
   headers,
 }: RestClientParams<TBody>): Promise<RestClientResponse<TResponse>> {
   const startTime = Date.now();
+
+  const normalizedHeaders = normalizeHeaders(headers);
   const options: RequestInit = {
     method,
-    headers: {
-      ...(headers || {}),
-    },
+    headers: normalizedHeaders,
   };
 
   if (body && method !== 'GET' && method !== 'HEAD') {
-    if (headers?.['Content-Type'] === 'text/plain' && typeof body === 'string') {
+    if (normalizedHeaders['Content-Type'] === 'text/plain' && typeof body === 'string') {
       options.body = body;
     } else {
       options.body = JSON.stringify(body);
