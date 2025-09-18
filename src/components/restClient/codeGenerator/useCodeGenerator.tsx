@@ -2,6 +2,7 @@ import { getLanguageList, getOptions, convert } from 'postman-code-generators';
 import { Request as PostmanRequest } from 'postman-collection';
 import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 import {
   getMethod,
@@ -62,10 +63,10 @@ export default function useCodeGenerator() {
   const handleGenerateCode = async () => {
     const values: FormValues = { url, method, body, headers };
 
-    // if (!method || !URL) {
-    //   api.warning({ message: 'Please select method and write URL' });
-    //   return null;
-    // }
+    if (!method || !URL) {
+      toast.warning('Please select method and write URL');
+      return null;
+    }
 
     const request = buildPostmanRequest(values);
     if (language && variant) {
