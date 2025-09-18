@@ -15,6 +15,7 @@ const { Title } = Typography;
 type FieldType = {
   email: string;
   password: string;
+  confirmPassword: string;
   name: string;
 };
 
@@ -43,8 +44,7 @@ export default function SignUp() {
       <Title>Welcome!</Title>
       <Form
         name="signUp"
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
+        layout="vertical"
         style={{ maxWidth: 600 }}
         initialValues={{ remember: true }}
         onFinish={onFinish}
@@ -70,6 +70,28 @@ export default function SignUp() {
               message:
                 'Password must be at least 8 characters long and contain a letter, a number, and a special character.',
             },
+          ]}
+          hasFeedback
+        >
+          <Input.Password />
+        </Form.Item>
+
+        <Form.Item<FieldType>
+          label="Confirm Password"
+          name="confirmPassword"
+          dependencies={['password']}
+          hasFeedback
+          validateTrigger={['onChange', 'onBlur']}
+          rules={[
+            { required: true, message: 'Please confirm your password!' },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue('password') === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject('Passwords do not match!');
+              },
+            }),
           ]}
         >
           <Input.Password />
