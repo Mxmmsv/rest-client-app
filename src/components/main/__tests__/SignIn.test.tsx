@@ -24,11 +24,6 @@ vi.mock('@/lib/auth/useAuth', () => ({
   })),
 }));
 
-vi.mock('antd/es/notification/useNotification', () => ({
-  __esModule: true,
-  default: () => [vi.fn(), <div key="ctx">NotificationCtx</div>],
-}));
-
 vi.mock('@/components/Loader', () => ({
   default: () => <div role="status">Loading...</div>,
 }));
@@ -72,20 +67,15 @@ describe('signIn component', () => {
     expect(screen.getByText(/Auth error/i)).toBeInTheDocument();
   });
 
-  it('should call logInWithEmailAndPassword and redirect on form submit', async () => {
+  it('should call logInWithEmailAndPassword on form submit', async () => {
     const logInMock = vi.fn().mockResolvedValue(undefined);
-    const redirectMock = vi.fn() as unknown as typeof redirect;
-
     mockedUseAuth.mockReturnValue({
       logInWithEmailAndPassword: logInMock,
       logout: vi.fn(),
       registerWithEmailAndPassword: vi.fn(),
     });
 
-    mockedRedirect.mockImplementation(redirectMock);
-
     mockedUseAuthState.mockReturnValue([null, false, undefined]);
-
     render(<SignIn />);
 
     const emailInput = screen.getByLabelText(/Email/i);
@@ -98,52 +88,16 @@ describe('signIn component', () => {
       fireEvent.click(submitButton);
     });
 
-    expect(logInMock).toHaveBeenCalledWith(
-      expect.objectContaining({
-        email: 'test@example.com',
-        // eslint-disable-next-line sonarjs/no-hardcoded-passwords
-        password: 'password123!',
-        api: expect.any(Function) as unknown,
-      })
-    );
-
-    expect(redirectMock).toHaveBeenCalledWith('/');
+    expect(logInMock).toHaveBeenCalledWith({
+      email: 'test@example.com',
+      // eslint-disable-next-line sonarjs/no-hardcoded-passwords
+      password: 'password123!',
+    });
   });
 
-  it('should call logOut', () => {
-    const logOutMock = vi.fn().mockResolvedValue(undefined);
-
-    mockedUseAuth.mockReturnValue({
-      logInWithEmailAndPassword: vi.fn(),
-      logout: logOutMock,
-      registerWithEmailAndPassword: vi.fn(),
-    });
-
+  it('should redirect when user is logged in', () => {
     mockedUseAuthState.mockReturnValue([mockUser, false, undefined]);
-
     render(<SignIn />);
-
-    const logOutButton = screen.getByRole('button', { name: /Logout/i });
-    fireEvent.click(logOutButton);
-    expect(logOutMock).toBeCalled();
-  });
-
-  describe('logged-in ', () => {
-    it('shoud render logged-in layout', () => {
-      mockedUseAuthState.mockReturnValue([mockUser, false, undefined]);
-
-      render(<SignIn />);
-      expect(screen.getByText(`Hi, ${mockUser.displayName}`)).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /Logout/i })).toBeInTheDocument();
-    });
-
-    it('should render logged-in layout with null user displayName', () => {
-      mockedUseAuthState.mockReturnValue([{ ...mockUser, displayName: null }, false, undefined]);
-
-      render(<SignIn />);
-
-      expect(screen.getByText('Hi, user')).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /Logout/i })).toBeInTheDocument();
-    });
+    expect(mockedRedirect).toHaveBeenCalledWith('/');
   });
 });

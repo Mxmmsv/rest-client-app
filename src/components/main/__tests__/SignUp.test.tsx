@@ -94,13 +94,15 @@ describe('SignUp component', () => {
     render(<SignUp />);
 
     const emailInput = screen.getByLabelText(/Email/i);
-    const passwordInput = screen.getByLabelText(/Password/i);
+    const passwordInput = screen.getAllByLabelText(/Password/i)[0];
+    const confirmPasswordInput = screen.getAllByLabelText(/Password/i)[1];
     const nameInput = screen.getByLabelText(/name/i);
     const submitButton = screen.getByRole('button', { name: /Submit/i });
 
     await act(async () => {
       fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
       fireEvent.change(passwordInput, { target: { value: 'password123!' } });
+      fireEvent.change(confirmPasswordInput, { target: { value: 'password123!' } });
       fireEvent.change(nameInput, { target: { value: 'aboba' } });
       fireEvent.click(submitButton);
     });
@@ -111,7 +113,6 @@ describe('SignUp component', () => {
         // eslint-disable-next-line sonarjs/no-hardcoded-passwords
         password: 'password123!',
         name: 'aboba',
-        api: expect.any(Function) as unknown,
       })
     );
   });
