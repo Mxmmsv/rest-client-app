@@ -14,6 +14,7 @@ const { Sider, Content } = Layout;
 
 export default function RestClient() {
   const { variables, addVariable, deleteVariable } = useVariables();
+  const [currentTheme, setCurrentTheme] = useState('vs');
   const [result, setResult] = useState<ApiResult>();
   const [snippet, setSnippet] = useState<string>('');
   const [responseInfo, setResponseInfo] = useState<ResponseInfo>({
@@ -31,7 +32,12 @@ export default function RestClient() {
           <Title level={3} style={{ textAlign: 'center' }}>
             Response
           </Title>
-          <ResponsePanel result={result} responseInfo={responseInfo} />
+          <ResponsePanel
+            result={result}
+            responseInfo={responseInfo}
+            currentTheme={currentTheme}
+            onThemeChange={setCurrentTheme}
+          />
         </>
       ),
     },
@@ -43,7 +49,11 @@ export default function RestClient() {
           <Title level={3} style={{ textAlign: 'center' }}>
             Generated Code
           </Title>
-          <ResponsePanel result={snippet} />
+          <ResponsePanel
+            result={snippet}
+            currentTheme={currentTheme}
+            onThemeChange={setCurrentTheme}
+          />
         </>
       ),
     },
@@ -72,6 +82,8 @@ export default function RestClient() {
           onResponse={handleResponse}
           onGeneratedCode={setSnippet}
           variables={variables}
+          currentTheme={currentTheme}
+          onThemeChange={setCurrentTheme}
         />
       </Content>
 

@@ -34,12 +34,16 @@ type RestClientFormProps = {
   onResponse: (result: ApiResult, info: ResponseInfo) => void;
   onGeneratedCode: Dispatch<SetStateAction<string>>;
   variables: Variable[];
+  currentTheme: string;
+  onThemeChange: (theme: string) => void;
 };
 
 export default function RestClientForm({
   onResponse,
   onGeneratedCode,
   variables,
+  currentTheme,
+  onThemeChange,
 }: Readonly<RestClientFormProps>) {
   const [form] = Form.useForm<FormValues>();
   const [contentType, setContentType] = useState<'json' | 'text'>('json');
@@ -55,7 +59,13 @@ export default function RestClientForm({
       key: 'bodyEditorSection',
       label: 'Body editor',
       children: (
-        <BodyEditor form={form} contentType={contentType} onContentTypeChange={setContentType} />
+        <BodyEditor
+          form={form}
+          contentType={contentType}
+          onContentTypeChange={setContentType}
+          currentTheme={currentTheme}
+          onThemeChange={onThemeChange}
+        />
       ),
     },
     {
