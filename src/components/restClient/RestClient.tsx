@@ -11,7 +11,7 @@ const { Sider, Content } = Layout;
 
 export default function RestClient() {
   const [result, setResult] = useState<ApiResult>();
-  const [snippet, setsnippet] = useState<string>('');
+  const [snippet, setSnippet] = useState<string>('');
   const [responseInfo, setResponseInfo] = useState<ResponseInfo>({
     status: null,
     statusText: '',
@@ -32,7 +32,7 @@ export default function RestClient() {
       ),
     },
     {
-      key: 'generatedcode',
+      key: 'generatedCode',
       label: 'Generated Code',
       children: (
         <>
@@ -60,7 +60,7 @@ export default function RestClient() {
         <Title level={3} style={{ textAlign: 'center' }}>
           Request
         </Title>
-        <RestClientForm onResponse={handleResponse} onGeneratedCode={setsnippet} />
+        <RestClientForm onResponse={handleResponse} onGeneratedCode={setSnippet} />
       </Content>
 
       <Sider width="35%">

@@ -55,12 +55,12 @@ export default function RestClientForm({
       ),
     },
     {
-      key: 'headerseditor',
+      key: 'headersEditorSection',
       label: 'Headers editor',
       children: <HeadersSection />,
     },
     {
-      key: 'generatecodesection',
+      key: 'generateCodeSection',
       label: 'Generate code',
       children: <CodeGeneratorSection onGeneratedCode={onGeneratedCode} />,
     },
