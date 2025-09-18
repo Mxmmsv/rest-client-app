@@ -39,7 +39,10 @@ function Header() {
     >
       {contextHolder}
       <Flex justify="space-between" align="center" className="h-full px-24">
-        <Link href="/" className={cn('flex items-end gap-4', 'transition-all duration-500')}>
+        <Link
+          href="/"
+          className={cn('flex min-w-xs items-end gap-4', 'transition-all duration-500')}
+        >
           <Image
             src="/logo.webp"
             alt="REST Client Logo"
