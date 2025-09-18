@@ -2,7 +2,7 @@ import { Button, Flex, Form, Input, Select, Tabs } from 'antd';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { restClient, type HttpMethod } from '@/lib/restClient/restClient';
+import { restClient, type HttpMethod, type RestClientError } from '@/lib/restClient/restClient';
 import {
   getMethod,
   getBody,
@@ -105,18 +105,32 @@ export default function RestClientForm({
       dispatch(updateRestClientFormField({ field: 'body', value: values.body }));
     }
 
-    const response = await restClient<ApiResult, unknown>({
-      method: values.method,
-      url: values.url,
-      body: handleBody(values),
-      headers: headers,
-    });
+    try {
+      const response = await restClient<ApiResult, unknown>({
+        method: values.method,
+        url: values.url,
+        body: handleBody(values),
+        headers,
+      });
 
-    onResponse(response.data, {
-      status: response.status,
-      statusText: response.statusText,
-      duration: response.duration,
-    });
+      onResponse(response.data, {
+        status: response.status,
+        statusText: response.statusText,
+        duration: response.duration,
+      });
+    } catch (error: unknown) {
+      const err = error as RestClientError;
+      onResponse(
+        {
+          error: err.message,
+        },
+        {
+          status: err.status ?? null,
+          statusText: err.statusText ?? 'undefined status error',
+          duration: err.duration ?? null,
+        }
+      );
+    }
   };
 
   return (
