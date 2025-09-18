@@ -23,7 +23,12 @@ export default function SignIn() {
   const { logInWithEmailAndPassword, logout } = useAuth();
 
   const onFinish = async ({ email, password }: FieldType) => {
-    await logInWithEmailAndPassword({ email, password, api }).then(redirect('/'));
+    try {
+      await logInWithEmailAndPassword({ email, password, api });
+      redirect('/');
+    } catch {
+      /* empty */
+    }
   };
 
   const onLogout = () => {
