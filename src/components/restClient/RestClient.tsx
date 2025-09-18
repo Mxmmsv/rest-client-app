@@ -3,6 +3,9 @@ import { useState } from 'react';
 
 import type { ApiResult, ResponseInfo } from '@/components/restClient/types';
 
+import LeftPanel from '../restClient/LeftPanel';
+import { useVariables } from '../restClient/hooks/useVariables';
+
 import RestClientForm from './RestClientForm';
 import ResponsePanel from './responseBodyViewer/ResponsePanel';
 
@@ -10,6 +13,7 @@ const { Title } = Typography;
 const { Sider, Content } = Layout;
 
 export default function RestClient() {
+  const { variables, addVariable, deleteVariable } = useVariables();
   const [result, setResult] = useState<ApiResult>();
   const [snippet, setSnippet] = useState<string>('');
   const [responseInfo, setResponseInfo] = useState<ResponseInfo>({
@@ -52,15 +56,23 @@ export default function RestClient() {
 
   return (
     <Layout style={{ minHeight: '80vh' }}>
-      <Sider width="15%">
-        <Title level={3}>History & Analytics</Title>
+      <Sider width="25%">
+        <LeftPanel
+          variables={variables}
+          addVariable={addVariable}
+          deleteVariable={deleteVariable}
+        />
       </Sider>
 
       <Content>
         <Title level={3} style={{ textAlign: 'center' }}>
           Request
         </Title>
-        <RestClientForm onResponse={handleResponse} onGeneratedCode={setSnippet} />
+        <RestClientForm
+          onResponse={handleResponse}
+          onGeneratedCode={setSnippet}
+          variables={variables}
+        />
       </Content>
 
       <Sider width="35%">

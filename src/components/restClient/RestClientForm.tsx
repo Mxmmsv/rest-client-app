@@ -14,7 +14,9 @@ import { setHeader, updateRestClientFormField } from '@/lib/store/slice/restClie
 import CodeGeneratorSection from './codeGenerator/CodeGeneratorSection';
 import HeadersSection from './headersEditor/HeadersSection';
 import BodyEditor from './responseBodyViewer/BodyEditor';
+import { replaceVariables } from './utils/variableReplacer';
 
+import type { Variable } from './hooks/useVariables';
 import type { ApiResult, FormValues, ResponseInfo } from './types';
 import type { Dispatch, SetStateAction } from 'react';
 
@@ -31,11 +33,13 @@ const methodColors: Record<HttpMethod, string> = {
 type RestClientFormProps = {
   onResponse: (result: ApiResult, info: ResponseInfo) => void;
   onGeneratedCode: Dispatch<SetStateAction<string>>;
+  variables: Variable[];
 };
 
 export default function RestClientForm({
   onResponse,
   onGeneratedCode,
+  variables,
 }: Readonly<RestClientFormProps>) {
   const [form] = Form.useForm<FormValues>();
   const [contentType, setContentType] = useState<'json' | 'text'>('json');
@@ -79,9 +83,12 @@ export default function RestClientForm({
 
     if (!values.body?.trim()) return undefined;
 
+    let processedBody = values.body;
+    processedBody = replaceVariables(processedBody, variables);
+
     if (contentType === 'json') {
       try {
-        return JSON.parse(values.body);
+        return JSON.parse(processedBody);
       } catch {
         onResponse(
           { error: 'Invalid JSON format in request body' },
@@ -91,15 +98,16 @@ export default function RestClientForm({
       }
     }
 
-    return values.body;
+    return processedBody;
   };
 
   const handleFinish = async (values: FormValues) => {
     if (values.method !== method) {
       dispatch(updateRestClientFormField({ field: 'method', value: values.method }));
     }
-    if (values.url !== url) {
-      dispatch(updateRestClientFormField({ field: 'url', value: values.url }));
+    const processedUrl = replaceVariables(values.url, variables);
+    if (processedUrl !== url) {
+      dispatch(updateRestClientFormField({ field: 'url', value: processedUrl }));
     }
     if (values.body !== body) {
       dispatch(updateRestClientFormField({ field: 'body', value: values.body }));
@@ -107,7 +115,7 @@ export default function RestClientForm({
 
     const response = await restClient<ApiResult, unknown>({
       method: values.method,
-      url: values.url,
+      url: processedUrl,
       body: handleBody(values),
       headers: headers,
     });
