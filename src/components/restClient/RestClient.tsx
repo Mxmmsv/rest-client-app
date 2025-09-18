@@ -65,7 +65,7 @@ export default function RestClient() {
   };
 
   return (
-    <Layout style={{ minHeight: '80vh' }}>
+    <Layout style={{ minHeight: '85vh' }}>
       <Sider width="25%">
         <LeftPanel
           variables={variables}
