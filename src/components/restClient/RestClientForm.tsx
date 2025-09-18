@@ -120,7 +120,7 @@ export default function RestClientForm({
   };
 
   return (
-    <Flex vertical gap="large" align="center">
+    <Flex vertical gap="large">
       <Form
         form={form}
         name="restClientForm"
@@ -131,11 +131,14 @@ export default function RestClientForm({
         }}
         onFinish={handleFinish}
         initialValues={{ method, url, body }}
+        style={{
+          width: '100%',
+        }}
       >
-        <Flex gap="middle" align="center" justify="center" wrap>
+        <Flex gap="middle" style={{ width: '90%', margin: '0 auto' }}>
           <Form.Item name="method">
             <Select
-              style={{ width: 110 }}
+              style={{ width: '100%', minWidth: 90 }}
               options={Object.keys(methodColors).map((method) => ({
                 value: method,
                 label: method,
@@ -153,7 +156,7 @@ export default function RestClientForm({
             />
           </Form.Item>
 
-          <Form.Item name="url" style={{ minWidth: 400 }}>
+          <Form.Item name="url" style={{ width: '100%' }}>
             <Input placeholder="Enter API URL" />
           </Form.Item>
 
