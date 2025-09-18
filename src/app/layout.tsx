@@ -2,7 +2,7 @@ import '@ant-design/v5-patch-for-react-19';
 import './globals.css';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { ConfigProvider } from 'antd';
-import { Press_Start_2P, Quantico } from 'next/font/google';
+import { Press_Start_2P, Exo_2 } from 'next/font/google';
 
 import { customTheme } from '@/lib/antd/theme';
 
@@ -16,7 +16,7 @@ const logo_font = Press_Start_2P({
   display: 'swap',
 });
 
-const primary_font = Quantico({
+const primary_font = Exo_2({
   subsets: ['latin'],
   weight: ['400', '700'],
   variable: '--font-primary-font',

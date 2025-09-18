@@ -1,6 +1,6 @@
 'use client';
 
-import { Flex, Breadcrumb, Layout, theme } from 'antd';
+import { Flex, Layout, theme } from 'antd';
 import { useTranslations } from 'next-intl';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
@@ -35,8 +35,7 @@ function MainPage() {
 
   return (
     <Layout className="flex min-h-screen">
-      <Content style={{ padding: '0 48px' }}>
-        <Breadcrumb style={{ margin: '16px 0' }} items={[{ title: 'Home' }]} />
+      <Content style={{ padding: '48px 48px' }}>
         <div
           style={{
             background: colorBgContainer,
