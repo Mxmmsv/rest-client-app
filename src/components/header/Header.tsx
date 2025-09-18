@@ -1,7 +1,6 @@
 'use client';
 
 import { Button, Flex, Layout, Space, Typography } from 'antd';
-import useNotification from 'antd/es/notification/useNotification';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -18,7 +17,6 @@ const { Header: AntHeader } = Layout;
 
 function Header() {
   const [isSticky, setIsSticky] = useState(false);
-  const [api, contextHolder] = useNotification();
   const { logout } = useAuth();
   const [user] = useAuthState(auth);
 
@@ -29,7 +27,7 @@ function Header() {
   }, []);
 
   const handleLogout = () => {
-    logout({ api });
+    logout();
   };
 
   return (
@@ -37,7 +35,6 @@ function Header() {
       data-sticky={isSticky}
       className={cn('sticky top-0 z-50 transition-all duration-300', 'header')}
     >
-      {contextHolder}
       <Flex justify="space-between" align="center" className="h-full px-24">
         <Link
           href="/"
