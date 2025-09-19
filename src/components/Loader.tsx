@@ -1,9 +1,12 @@
-import { Flex, Spin } from 'antd';
+import { Flex, Layout, Spin } from 'antd';
+const { Content } = Layout;
 
 export default function Loader() {
   return (
-    <Flex vertical justify="center" align="center" style={{ minHeight: '85vh' }}>
-      <Spin />
-    </Flex>
+    <Content>
+      <Flex justify="center" align="center" vertical style={{ height: '85vh' }}>
+        <Spin />
+      </Flex>
+    </Content>
   );
 }
