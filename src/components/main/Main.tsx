@@ -1,6 +1,7 @@
 'use client';
 
 import { Flex, Layout, theme } from 'antd';
+import { lazy, Suspense } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 import UnauthMain from '@/components/main/UnauthMain';
@@ -8,9 +9,8 @@ import { auth } from '@/lib/auth/firebase.config';
 
 import Loader from '../Loader';
 
-import AuthMain from './AuthMain';
-
 const { Content } = Layout;
+const AuthMain = lazy(() => import('@/components/main/AuthMain'));
 
 function MainPage() {
   const [user, loading, error] = useAuthState(auth);
@@ -41,7 +41,9 @@ function MainPage() {
             padding: '48px',
           }}
         >
-          <AuthMain />
+          <Suspense fallback={<Loader />}>
+            <AuthMain />
+          </Suspense>
         </Flex>
       </Content>
     );
