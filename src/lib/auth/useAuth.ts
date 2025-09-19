@@ -5,10 +5,9 @@ import {
   updateProfile,
 } from 'firebase/auth';
 import { collection, addDoc } from 'firebase/firestore';
+import { toast } from 'react-toastify';
 
 import { auth, db } from './firebase.config';
-
-import type { NotificationInstance } from 'antd/es/notification/interface';
 
 export type AuthInfo = {
   email: string;
@@ -20,28 +19,16 @@ export type UserData = AuthInfo & {
 };
 
 export function useAuth() {
-  const logInWithEmailAndPassword = async ({
-    email,
-    password,
-    api,
-  }: AuthInfo & { api: NotificationInstance }) => {
+  const logInWithEmailAndPassword = async ({ email, password }: AuthInfo) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      api.success({ message: 'Success login!' });
+      toast.success('Success login!');
     } catch (err) {
-      api.error({
-        message: 'Login failed',
-        description: (err as Error).message,
-      });
+      toast.error(`Login failed ${(err as Error).message}`);
     }
   };
 
-  const registerWithEmailAndPassword = async ({
-    name,
-    email,
-    password,
-    api,
-  }: UserData & { api: NotificationInstance }) => {
+  const registerWithEmailAndPassword = async ({ name, email, password }: UserData) => {
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
       const user = res.user;
@@ -55,24 +42,18 @@ export function useAuth() {
         await updateProfile(auth.currentUser, { displayName: name });
         await auth.currentUser.reload();
       }
-      api.success({ message: 'Success register!' });
+      toast.success('Success register!');
     } catch (err) {
-      api.error({
-        message: 'register failed',
-        description: (err as Error).message,
-      });
+      toast.error(`Register failed ${(err as Error).message}`);
     }
   };
 
-  const logout = ({ api }: { api: NotificationInstance }) => {
+  const logout = () => {
     try {
       signOut(auth);
-      api.success({ message: 'Success logout!' });
+      toast.success('Success logout! We will miss you!');
     } catch (err) {
-      api.error({
-        message: 'Logout failed',
-        description: (err as Error).message,
-      });
+      toast.error(`Logout failed ${(err as Error).message}`);
     }
   };
 

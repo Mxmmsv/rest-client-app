@@ -1,7 +1,6 @@
 'use client';
 
-import { Button, Flex, Form, Input, Typography } from 'antd';
-import useNotification from 'antd/es/notification/useNotification';
+import { Button, Card, Flex, Form, Input, Layout } from 'antd';
 import { redirect } from 'next/navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
@@ -10,29 +9,19 @@ import { useAuth } from '@/lib/auth/useAuth';
 
 import Loader from '../Loader';
 
-const { Title } = Typography;
-
 type FieldType = {
   email: string;
   password: string;
 };
 
+const { Content } = Layout;
+
 export default function SignIn() {
   const [user, loading, error] = useAuthState(auth);
-  const [api, contextHolder] = useNotification();
-  const { logInWithEmailAndPassword, logout } = useAuth();
+  const { logInWithEmailAndPassword } = useAuth();
 
   const onFinish = async ({ email, password }: FieldType) => {
-    try {
-      await logInWithEmailAndPassword({ email, password, api });
-      redirect('/');
-    } catch {
-      /* empty */
-    }
-  };
-
-  const onLogout = () => {
-    logout({ api });
+    await logInWithEmailAndPassword({ email, password });
   };
 
   if (loading) {
@@ -44,45 +33,48 @@ export default function SignIn() {
   }
 
   if (user) {
-    return (
-      <Flex vertical justify="center" align="center" style={{ height: '100vh' }}>
-        {contextHolder}
-        <Title>{`Hi, ${user.displayName || 'user'}`}</Title>
-        <Title level={2}>You are already logged in!</Title>
-        <Button type="primary" onClick={onLogout}>
-          Logout
-        </Button>
-      </Flex>
-    );
+    redirect('/');
   }
 
   return (
-    <Flex justify="center" align="center" style={{ height: '100vh' }}>
-      {contextHolder}
+    <Content>
+      <Flex justify="center" align="center" vertical style={{ height: '75vh' }}>
+        <Card
+          style={{
+            width: '50%',
 
-      <Form name="signIn" labelCol={{ span: 8 }} onFinish={onFinish}>
-        <Form.Item<FieldType>
-          label="Email"
-          name="email"
-          rules={[{ required: true, message: 'Please input your email!' }]}
+            textAlign: 'center',
+            backgroundColor: 'transparent',
+            border: 'solid var(--color-additional-light)',
+            boxShadow: '0 4px 10px var(--color-additional)',
+            padding: '50px ',
+          }}
         >
-          <Input />
-        </Form.Item>
+          <Form name="signIn" layout="vertical" labelCol={{ span: 8 }} onFinish={onFinish}>
+            <Form.Item<FieldType>
+              label="Email"
+              name="email"
+              rules={[{ required: true, message: 'Please input your email!' }]}
+            >
+              <Input />
+            </Form.Item>
 
-        <Form.Item<FieldType>
-          label="Password"
-          name="password"
-          rules={[{ required: true, message: 'Please input your password!' }]}
-        >
-          <Input.Password />
-        </Form.Item>
+            <Form.Item<FieldType>
+              label="Password"
+              name="password"
+              rules={[{ required: true, message: 'Please input your password!' }]}
+            >
+              <Input.Password />
+            </Form.Item>
 
-        <Form.Item label={null} className="flex justify-center">
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>
-    </Flex>
+            <Form.Item label={null} className="flex justify-center">
+              <Button type="primary" htmlType="submit">
+                Submit
+              </Button>
+            </Form.Item>
+          </Form>
+        </Card>
+      </Flex>
+    </Content>
   );
 }

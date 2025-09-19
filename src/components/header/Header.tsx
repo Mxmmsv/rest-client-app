@@ -1,7 +1,7 @@
 'use client';
 
+import { LoginOutlined, LogoutOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Flex, Layout, Space, Typography } from 'antd';
-import useNotification from 'antd/es/notification/useNotification';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -18,7 +18,6 @@ const { Header: AntHeader } = Layout;
 
 function Header() {
   const [isSticky, setIsSticky] = useState(false);
-  const [api, contextHolder] = useNotification();
   const { logout } = useAuth();
   const [user] = useAuthState(auth);
 
@@ -28,16 +27,11 @@ function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleLogout = () => {
-    logout({ api });
-  };
-
   return (
     <AntHeader
       data-sticky={isSticky}
       className={cn('sticky top-0 z-50 transition-all duration-300', 'header')}
     >
-      {contextHolder}
       <Flex justify="space-between" align="center" className="h-full px-24">
         <Link
           href="/"
@@ -78,16 +72,20 @@ function Header() {
                 </Button>
               </Link>
               <LanguageToggle />
-              <Button onClick={handleLogout}>Logout</Button>
+              <Button danger icon={<LogoutOutlined />} onClick={logout}>
+                Logout
+              </Button>
             </Space>
           ) : (
             <Space>
               <LanguageToggle />
               <Link href="/login">
-                <Button>Login</Button>
+                <Button icon={<LoginOutlined />}>Login</Button>
               </Link>
               <Link href="/register">
-                <Button type="primary">Register</Button>
+                <Button type="primary" icon={<PlusOutlined />}>
+                  Register
+                </Button>
               </Link>
             </Space>
           )}

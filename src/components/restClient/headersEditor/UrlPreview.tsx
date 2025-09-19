@@ -2,6 +2,7 @@ import { CopyOutlined } from '@ant-design/icons';
 import { Button, Divider, Flex, Input } from 'antd';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 import { getHeaders, getMethod, getUrl } from '@/lib/store/selectors/restClientFormSelectField';
 
@@ -20,6 +21,7 @@ export default function UrlPreview() {
 
   const handleCopy = () => {
     navigator.clipboard.writeText(fullUrl);
+    toast.info('Copied!');
   };
 
   return (

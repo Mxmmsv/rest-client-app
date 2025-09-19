@@ -6,6 +6,7 @@ import {
   updateProfile,
 } from 'firebase/auth';
 import { addDoc } from 'firebase/firestore';
+import { toast } from 'react-toastify';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 
 import { auth } from '../auth/firebase.config';
@@ -30,14 +31,14 @@ vi.mock('../auth/firebase.config', () => ({
   db: {},
 }));
 
-const mockApi = {
-  success: vi.fn(),
-  error: vi.fn(),
-  info: vi.fn(),
-  warning: vi.fn(),
-  open: vi.fn(),
-  destroy: vi.fn(),
-};
+vi.mock('react-toastify', () => ({
+  toast: {
+    success: vi.fn(),
+    error: vi.fn(),
+  },
+}));
+
+const mockedToast = vi.mocked(toast);
 
 describe('useAuth', () => {
   beforeEach(() => {
@@ -56,7 +57,6 @@ describe('useAuth', () => {
       await logInWithEmailAndPassword({
         email: 'test@test.com',
         password: '123456',
-        api: mockApi,
       });
 
       expect(signInWithEmailAndPassword).toHaveBeenCalledWith(
@@ -64,7 +64,7 @@ describe('useAuth', () => {
         'test@test.com',
         '123456'
       );
-      expect(mockApi.success).toHaveBeenCalledWith({ message: 'Success login!' });
+      expect(mockedToast.success).toHaveBeenCalledWith('Success login!');
     });
 
     it('should call api.error on login failure', async () => {
@@ -74,15 +74,9 @@ describe('useAuth', () => {
       await logInWithEmailAndPassword({
         email: 'fail@test.com',
         password: '123456',
-        api: mockApi,
       });
 
-      expect(mockApi.error).toHaveBeenCalledWith(
-        expect.objectContaining({
-          message: 'Login failed',
-          description: 'fail',
-        })
-      );
+      expect(mockedToast.error).toHaveBeenCalledWith('Login failed fail');
     });
   });
 
@@ -99,7 +93,6 @@ describe('useAuth', () => {
         name: 'Max',
         email: 'max@test.com',
         password: '123456',
-        api: mockApi,
       });
 
       expect(createUserWithEmailAndPassword).toHaveBeenCalled();
@@ -113,7 +106,7 @@ describe('useAuth', () => {
         displayName: 'Max',
       });
       expect(auth.currentUser?.reload).toHaveBeenCalled();
-      expect(mockApi.success).toHaveBeenCalledWith({ message: 'Success register!' });
+      expect(mockedToast.success).toHaveBeenCalledWith('Success register!');
     });
 
     it('should call api.error on registration failure', async () => {
@@ -124,15 +117,9 @@ describe('useAuth', () => {
         name: 'Fail',
         email: 'fail@test.com',
         password: '123456',
-        api: mockApi,
       });
 
-      expect(mockApi.error).toHaveBeenCalledWith(
-        expect.objectContaining({
-          message: 'register failed',
-          description: 'register fail',
-        })
-      );
+      expect(mockedToast.error).toHaveBeenCalledWith('Register failed register fail');
     });
   });
 
@@ -140,10 +127,10 @@ describe('useAuth', () => {
     it('should call signOut and api.success on successful logout', () => {
       const { logout } = useAuth();
 
-      logout({ api: mockApi });
+      logout();
 
       expect(signOut).toHaveBeenCalled();
-      expect(mockApi.success).toHaveBeenCalledWith({ message: 'Success logout!' });
+      expect(mockedToast.success).toHaveBeenCalledWith('Success logout! We will miss you!');
     });
 
     it('should call api.error on logout failure', () => {
@@ -153,14 +140,9 @@ describe('useAuth', () => {
 
       const { logout } = useAuth();
 
-      logout({ api: mockApi });
+      logout();
 
-      expect(mockApi.error).toHaveBeenCalledWith(
-        expect.objectContaining({
-          message: 'Logout failed',
-          description: 'logout fail',
-        })
-      );
+      expect(mockedToast.error).toHaveBeenCalledWith('Logout failed logout fail');
     });
   });
 });

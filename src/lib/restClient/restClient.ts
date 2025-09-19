@@ -16,6 +16,12 @@ export interface RestClientResponse<TResponse> {
   duration: number;
 }
 
+export interface RestClientError extends Error {
+  status?: number | null;
+  statusText?: string;
+  duration?: number | null;
+}
+
 function normalizeHeaders(headers?: Record<string, string> | Header[]): Record<string, string> {
   if (!headers) return {};
   if (Array.isArray(headers)) {
@@ -55,7 +61,12 @@ export async function restClient<TResponse, TBody>({
   const duration = Date.now() - startTime;
 
   if (!response.ok) {
-    throw new Error(`Request failed with status ${response.status}`);
+    const error = Object.assign(new Error(`Request failed with status ${response.status}`), {
+      status: response.status,
+      statusText: response.statusText,
+      duration,
+    });
+    throw error;
   }
 
   let data: TResponse;
