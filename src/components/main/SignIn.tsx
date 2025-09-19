@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Flex, Form, Input } from 'antd';
+import { Button, Flex, Form, Input, Layout } from 'antd';
 import { redirect } from 'next/navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
@@ -13,6 +13,8 @@ type FieldType = {
   email: string;
   password: string;
 };
+
+const { Content } = Layout;
 
 export default function SignIn() {
   const [user, loading, error] = useAuthState(auth);
@@ -35,30 +37,32 @@ export default function SignIn() {
   }
 
   return (
-    <Flex justify="center" align="center" style={{ height: '100vh' }}>
-      <Form name="signIn" labelCol={{ span: 8 }} onFinish={onFinish}>
-        <Form.Item<FieldType>
-          label="Email"
-          name="email"
-          rules={[{ required: true, message: 'Please input your email!' }]}
-        >
-          <Input />
-        </Form.Item>
+    <Content>
+      <Flex justify="center" align="center" style={{ height: '75vh' }}>
+        <Form name="signIn" labelCol={{ span: 8 }} onFinish={onFinish}>
+          <Form.Item<FieldType>
+            label="Email"
+            name="email"
+            rules={[{ required: true, message: 'Please input your email!' }]}
+          >
+            <Input />
+          </Form.Item>
 
-        <Form.Item<FieldType>
-          label="Password"
-          name="password"
-          rules={[{ required: true, message: 'Please input your password!' }]}
-        >
-          <Input.Password />
-        </Form.Item>
+          <Form.Item<FieldType>
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: 'Please input your password!' }]}
+          >
+            <Input.Password />
+          </Form.Item>
 
-        <Form.Item label={null} className="flex justify-center">
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>
-    </Flex>
+          <Form.Item label={null} className="flex justify-center">
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
+      </Flex>
+    </Content>
   );
 }
