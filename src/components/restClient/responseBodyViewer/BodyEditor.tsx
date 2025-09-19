@@ -13,9 +13,17 @@ type Props = {
   form: FormInstance<FormValues>;
   contentType: 'json' | 'text';
   onContentTypeChange: (type: 'json' | 'text') => void;
+  currentTheme: string;
+  onThemeChange: (theme: string) => void;
 };
 
-export default function BodyEditor({ form, contentType, onContentTypeChange }: Readonly<Props>) {
+export default function BodyEditor({
+  form,
+  contentType,
+  onContentTypeChange,
+  currentTheme,
+  onThemeChange,
+}: Readonly<Props>) {
   const bodyValue = useWatch('body', form);
 
   const handleFormat = () => {
@@ -56,6 +64,8 @@ export default function BodyEditor({ form, contentType, onContentTypeChange }: R
             }}
             height="200px"
             language="json"
+            currentTheme={currentTheme}
+            onThemeChange={onThemeChange}
           />
         </Flex>
       </Form.Item>
