@@ -10,11 +10,7 @@ import { auth } from '@/lib/auth/firebase.config';
 const RestClient = lazy(() => import('@/components/restClient/RestClient'));
 
 export default function RestClientPage() {
-  const [user, loading] = useAuthState(auth);
-
-  if (loading) {
-    return <Loader />;
-  }
+  const [user] = useAuthState(auth);
 
   if (!user) {
     redirect('/');

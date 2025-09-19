@@ -10,11 +10,7 @@ import { auth } from '@/lib/auth/firebase.config';
 const HistoryStub = lazy(() => import('@/components/history/HistoryStub'));
 
 export default function HistoryPage() {
-  const [user, loading] = useAuthState(auth);
-
-  if (loading) {
-    return <Loader />;
-  }
+  const [user] = useAuthState(auth);
 
   if (!user) {
     redirect('/');

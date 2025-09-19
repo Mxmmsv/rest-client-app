@@ -10,8 +10,8 @@
     "maxim": "Максим Моисеев",
     "maximInitials": "ММ"
   },
-  "MainPage": {
-    "welcome": "Добро пожаловать"
+  "UnauthMain": {
+    "welcome": "Добро пожаловать в"
   },
   "NotFoundPage": {
     "sorry": "Страница, которую вы ищите, не найдена.",
