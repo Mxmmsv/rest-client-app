@@ -30,7 +30,21 @@ function MainPage() {
   }
 
   if (user) {
-    return <AuthMain />;
+    return (
+      <Content style={{ height: '75vh', padding: '48px' }}>
+        <Flex
+          justify="center"
+          style={{
+            height: '100%',
+            background: colorBgContainer,
+            borderRadius: borderRadiusLG,
+            padding: '48px',
+          }}
+        >
+          <AuthMain />
+        </Flex>
+      </Content>
+    );
   }
 
   return (
