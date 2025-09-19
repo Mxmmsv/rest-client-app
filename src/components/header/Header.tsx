@@ -1,5 +1,6 @@
 'use client';
 
+import { LoginOutlined, LogoutOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Flex, Layout, Space, Typography } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -25,10 +26,6 @@ function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const handleLogout = () => {
-    logout();
-  };
 
   return (
     <AntHeader
@@ -75,16 +72,20 @@ function Header() {
                 </Button>
               </Link>
               <LanguageToggle />
-              <Button onClick={handleLogout}>Logout</Button>
+              <Button icon={<LogoutOutlined />} onClick={logout}>
+                Logout
+              </Button>
             </Space>
           ) : (
             <Space>
               <LanguageToggle />
               <Link href="/login">
-                <Button>Login</Button>
+                <Button icon={<LoginOutlined />}>Login</Button>
               </Link>
               <Link href="/register">
-                <Button type="primary">Register</Button>
+                <Button type="primary" icon={<PlusOutlined />}>
+                  Register
+                </Button>
               </Link>
             </Space>
           )}
