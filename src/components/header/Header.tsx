@@ -72,7 +72,7 @@ function Header() {
                 </Button>
               </Link>
               <LanguageToggle />
-              <Button icon={<LogoutOutlined />} onClick={logout}>
+              <Button danger icon={<LogoutOutlined />} onClick={logout}>
                 Logout
               </Button>
             </Space>

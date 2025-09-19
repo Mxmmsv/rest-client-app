@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Flex, Form, Input, Layout, Typography } from 'antd';
+import { Button, Card, Flex, Form, Input, Layout, Typography } from 'antd';
 import { redirect } from 'next/navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
@@ -42,80 +42,91 @@ export default function SignUp() {
 
   return (
     <Content>
-      <Flex justify="center" align="center" vertical style={{ height: '75vh' }}>
-        <Title>Welcome!</Title>
-        <Form
-          name="signUp"
-          layout="vertical"
-          style={{ maxWidth: 600 }}
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
+      <Flex justify="center" align="center" vertical style={{ height: '100vh' }}>
+        <Card
+          style={{
+            width: '50%',
+
+            textAlign: 'center',
+            backgroundColor: 'transparent',
+            border: 'solid var(--color-additional-light)',
+            boxShadow: '0 4px 10px var(--color-additional)',
+            padding: '50px ',
+          }}
         >
-          <Form.Item<FieldType>
-            label="Email"
-            name="email"
-            rules={[
-              { required: true, message: 'Please input your email!' },
-              { type: 'email', message: 'Please enter a valid email!' },
-            ]}
+          <Title>Welcome!</Title>
+          <Form
+            name="signUp"
+            layout="vertical"
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
           >
-            <Input />
-          </Form.Item>
+            <Form.Item<FieldType>
+              label="Email"
+              name="email"
+              rules={[
+                { required: true, message: 'Please input your email!' },
+                { type: 'email', message: 'Please enter a valid email!' },
+              ]}
+            >
+              <Input />
+            </Form.Item>
 
-          <Form.Item<FieldType>
-            label="Password"
-            name="password"
-            rules={[
-              { required: true, message: 'Please input your password!' },
-              {
-                pattern: /^(?=.*\p{L})(?=.*\d)(?=.*[^\p{L}\d]).{8,}$/u,
-                message:
-                  'Password must be at least 8 characters long and contain a letter, a number, and a special character.',
-              },
-            ]}
-            hasFeedback
-          >
-            <Input.Password />
-          </Form.Item>
-
-          <Form.Item<FieldType>
-            label="Confirm Password"
-            name="confirmPassword"
-            dependencies={['password']}
-            hasFeedback
-            validateTrigger={['onChange', 'onBlur']}
-            rules={[
-              { required: true, message: 'Please confirm your password!' },
-              ({ getFieldValue }) => ({
-                validator(_, value) {
-                  if (!value || getFieldValue('password') === value) {
-                    return Promise.resolve();
-                  }
-                  return Promise.reject('Passwords do not match!');
+            <Form.Item<FieldType>
+              label="Password"
+              name="password"
+              rules={[
+                { required: true, message: 'Please input your password!' },
+                {
+                  pattern: /^(?=.*\p{L})(?=.*\d)(?=.*[^\p{L}\d]).{8,}$/u,
+                  message:
+                    'Password must be at least 8 characters long and contain a letter, a number, and a special character.',
                 },
-              }),
-            ]}
-          >
-            <Input.Password />
-          </Form.Item>
+              ]}
+              hasFeedback
+            >
+              <Input.Password />
+            </Form.Item>
 
-          <Form.Item<FieldType>
-            label="Name"
-            name="name"
-            rules={[
-              { required: true, message: 'Please input your name!' },
-              { min: 2, message: 'Name must be at least 2 characters long.' },
-            ]}
-          >
-            <Input />
-          </Form.Item>
+            <Form.Item<FieldType>
+              label="Confirm Password"
+              name="confirmPassword"
+              dependencies={['password']}
+              hasFeedback
+              validateTrigger={['onChange', 'onBlur']}
+              rules={[
+                { required: true, message: 'Please confirm your password!' },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    if (!value || getFieldValue('password') === value) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject('Passwords do not match!');
+                  },
+                }),
+              ]}
+            >
+              <Input.Password />
+            </Form.Item>
 
-          <Form.Item label={null} className="flex justify-center">
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
+            <Form.Item<FieldType>
+              label="Name"
+              name="name"
+              rules={[
+                { required: true, message: 'Please input your name!' },
+                { min: 2, message: 'Name must be at least 2 characters long.' },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item label={null} className="flex justify-center">
+              <Button type="primary" htmlType="submit">
+                Submit
+              </Button>
+            </Form.Item>
+          </Form>
+        </Card>
       </Flex>
     </Content>
   );

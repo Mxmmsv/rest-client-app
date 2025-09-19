@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Flex, Form, Input, Layout } from 'antd';
+import { Button, Card, Flex, Form, Input, Layout } from 'antd';
 import { redirect } from 'next/navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
@@ -38,30 +38,42 @@ export default function SignIn() {
 
   return (
     <Content>
-      <Flex justify="center" align="center" style={{ height: '75vh' }}>
-        <Form name="signIn" labelCol={{ span: 8 }} onFinish={onFinish}>
-          <Form.Item<FieldType>
-            label="Email"
-            name="email"
-            rules={[{ required: true, message: 'Please input your email!' }]}
-          >
-            <Input />
-          </Form.Item>
+      <Flex justify="center" align="center" vertical style={{ height: '75vh' }}>
+        <Card
+          style={{
+            width: '50%',
 
-          <Form.Item<FieldType>
-            label="Password"
-            name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
-          >
-            <Input.Password />
-          </Form.Item>
+            textAlign: 'center',
+            backgroundColor: 'transparent',
+            border: 'solid var(--color-additional-light)',
+            boxShadow: '0 4px 10px var(--color-additional)',
+            padding: '50px ',
+          }}
+        >
+          <Form name="signIn" layout="vertical" labelCol={{ span: 8 }} onFinish={onFinish}>
+            <Form.Item<FieldType>
+              label="Email"
+              name="email"
+              rules={[{ required: true, message: 'Please input your email!' }]}
+            >
+              <Input />
+            </Form.Item>
 
-          <Form.Item label={null} className="flex justify-center">
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
+            <Form.Item<FieldType>
+              label="Password"
+              name="password"
+              rules={[{ required: true, message: 'Please input your password!' }]}
+            >
+              <Input.Password />
+            </Form.Item>
+
+            <Form.Item label={null} className="flex justify-center">
+              <Button type="primary" htmlType="submit">
+                Submit
+              </Button>
+            </Form.Item>
+          </Form>
+        </Card>
       </Flex>
     </Content>
   );
