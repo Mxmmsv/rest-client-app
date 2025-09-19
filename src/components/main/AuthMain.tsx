@@ -1,3 +1,4 @@
+import { DatabaseOutlined, HistoryOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Button, Card, Flex, Typography } from 'antd';
 import Link from 'next/link';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -25,14 +26,14 @@ export default function AuthMain() {
         <Title>{`Welcome back, ${user?.displayName || 'user'}`}</Title>
         <Flex gap={10} justify="center" align="center">
           <Link href="/rest-client">
-            <Button>Rest Client</Button>
+            <Button icon={<DatabaseOutlined />}>Rest Client</Button>
           </Link>
           <Link href="/history">
-            <Button>History</Button>
+            <Button icon={<HistoryOutlined />}>History</Button>
           </Link>
         </Flex>
         <Flex justify="flex-end">
-          <Button type="primary" onClick={logout}>
+          <Button type="primary" onClick={logout} icon={<LogoutOutlined />}>
             Logout
           </Button>
         </Flex>
