@@ -3,25 +3,28 @@
 import { Flex, Layout, theme } from 'antd';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
-import AuthMain from '@/components/main/AuthMain';
 import UnauthMain from '@/components/main/UnauthMain';
 import { auth } from '@/lib/auth/firebase.config';
+
+import Loader from '../Loader';
+
+import AuthMain from './AuthMain';
 
 const { Content } = Layout;
 
 function MainPage() {
-  const [user, error] = useAuthState(auth);
+  const [user, loading, error] = useAuthState(auth);
   const { token } = theme.useToken();
   const { colorBgContainer, borderRadiusLG } = token;
 
   if (error) {
-    const errorMessage =
-      typeof error === 'object' && error !== null && 'message' in error
-        ? (error as Error).message
-        : String(error);
+    if (loading) {
+      return <Loader />;
+    }
+
     return (
       <Flex justify="center" vertical align="center" gap="middle" style={{ height: '100vh' }}>
-        Authentication error: {errorMessage}
+        Authentication error: {error.message}
       </Flex>
     );
   }
