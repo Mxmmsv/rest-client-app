@@ -2,7 +2,7 @@ import { Flex, Spin } from 'antd';
 
 export default function Loader() {
   return (
-    <Flex vertical justify="center" align="center" className="h-[80vh]">
+    <Flex vertical justify="center" align="center" style={{ minHeight: '85vh' }}>
       <Spin />
     </Flex>
   );

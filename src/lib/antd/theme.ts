@@ -45,5 +45,10 @@ export const customTheme: ThemeConfig = {
       activeBorderColor: 'var(--color-additional)',
       hoverBorderColor: 'var(--color-additional)',
     },
+    Table: {
+      rowHoverBg: 'var(--color-accent-light)',
+      colorBgContainer: 'var(--color-bg-object)',
+      headerBg: 'var(--color-additional-light)',
+    },
   },
 };
