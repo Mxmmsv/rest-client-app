@@ -11,15 +11,11 @@ import Loader from '../Loader';
 const { Title, Paragraph } = Typography;
 
 export default function AuthMain() {
-  const [user, loading, error] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
   const { logout } = useAuth();
 
   if (loading) {
     return <Loader />;
-  }
-
-  if (error) {
-    return <div>{error.message}</div>;
   }
 
   return (
