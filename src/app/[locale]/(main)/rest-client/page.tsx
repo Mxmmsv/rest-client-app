@@ -48,10 +48,11 @@ export default function RestClientPage() {
     }
   }, [user, loading, dispatch]);
 
-  if (loading) {
-    return <Loader />;
-  }
+  if (loading) return <Loader />;
 
+  if (!user) return redirect('/');
+
+  return <RestClient />;
   if (!user) {
     redirect('/');
   }
