@@ -46,6 +46,11 @@ export default function RestClientForm({
   onThemeChange,
 }: Readonly<RestClientFormProps>) {
   const [form] = Form.useForm<FormValues>();
+  const [bodyError, setBodyError] = useState<ResponseInfo>({
+    status: null,
+    statusText: '',
+    duration: null,
+  });
   const [contentType, setContentType] = useState<'json' | 'text'>('json');
   const dispatch = useDispatch();
 
@@ -65,6 +70,7 @@ export default function RestClientForm({
           onContentTypeChange={setContentType}
           currentTheme={currentTheme}
           onThemeChange={onThemeChange}
+          responseInfo={bodyError}
         />
       ),
     },
@@ -80,7 +86,16 @@ export default function RestClientForm({
     },
   ];
 
+  const handleBodyError = (bodyError: ResponseInfo) => {
+    setBodyError(bodyError);
+  };
+
   const handleBody = (values: FormValues): unknown => {
+    handleBodyError({
+      status: null,
+      statusText: '',
+      duration: null,
+    });
     const headerValue = contentType === 'json' ? 'application/json;charset=utf-8' : 'text/plain';
 
     dispatch(
@@ -100,10 +115,11 @@ export default function RestClientForm({
       try {
         return JSON.parse(processedBody);
       } catch {
-        onResponse(
-          { error: 'Invalid JSON format in request body' },
-          { status: null, statusText: '', duration: null }
-        );
+        handleBodyError({
+          status: null,
+          statusText: 'Invalid JSON format in request body',
+          duration: null,
+        });
         return undefined;
       }
     }

@@ -4,7 +4,7 @@ import { useWatch } from 'antd/es/form/Form';
 
 import CodeSpace from './CodeSpace';
 
-import type { FormValues } from '../types';
+import type { FormValues, ResponseInfo } from '../types';
 import type { FormInstance } from 'antd/es/form/Form';
 
 const { Text } = Typography;
@@ -15,6 +15,7 @@ type Props = {
   onContentTypeChange: (type: 'json' | 'text') => void;
   currentTheme: string;
   onThemeChange: (theme: string) => void;
+  responseInfo: ResponseInfo;
 };
 
 export default function BodyEditor({
@@ -23,6 +24,7 @@ export default function BodyEditor({
   onContentTypeChange,
   currentTheme,
   onThemeChange,
+  responseInfo,
 }: Readonly<Props>) {
   const bodyValue = useWatch('body', form);
 
@@ -66,6 +68,7 @@ export default function BodyEditor({
             language="json"
             currentTheme={currentTheme}
             onThemeChange={onThemeChange}
+            responseInfo={responseInfo}
           />
         </Flex>
       </Form.Item>
