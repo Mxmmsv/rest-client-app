@@ -40,8 +40,8 @@ export const buildRestClientUrl = (
   body?: string,
   headers?: Header[]
 ): string => {
-  const encodeUrl = encodeToBase64(url);
-  let path = `/rest-client/${method}/${encodeUrl}`;
+  const encodedUrl = encodeToBase64(url);
+  let path = `/rest-client-route/${method}/${encodedUrl}`;
 
   if (body && method !== 'GET' && method !== 'HEAD' && body.trim() !== '') {
     const encodeBody = encodeToBase64(body);
