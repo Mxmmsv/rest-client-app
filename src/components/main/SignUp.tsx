@@ -42,7 +42,7 @@ export default function SignUp() {
 
   return (
     <Content>
-      <Flex justify="center" align="center" vertical style={{ height: '100vh' }}>
+      <Flex justify="center" align="center" vertical style={{ height: '85vh' }}>
         <Card
           style={{
             width: '50%',
