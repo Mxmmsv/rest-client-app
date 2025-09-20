@@ -1,12 +1,11 @@
-import { Suspense } from 'react';
+import dynamic from 'next/dynamic';
 
 import Loader from '@/components/Loader';
-import Main from '@/components/main/Main';
+
+const Main = dynamic(() => import('@/components/main/Main'), {
+  loading: () => <Loader />,
+});
 
 export default function MainPage() {
-  return (
-    <Suspense fallback={<Loader />}>
-      <Main />
-    </Suspense>
-  );
+  return <Main />;
 }

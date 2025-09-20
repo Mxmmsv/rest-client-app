@@ -1,7 +1,8 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { redirect } from 'next/navigation';
-import { lazy, Suspense, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useDispatch } from 'react-redux';
 
@@ -10,7 +11,9 @@ import { decodeFromBase64, queryParamsToHeaders } from '@/components/restClient/
 import { auth } from '@/lib/auth/firebase.config';
 import { setHeader, updateRestClientFormField } from '@/lib/store/slice/restClientFormSlice';
 
-const RestClient = lazy(() => import('@/components/restClient/RestClient'));
+const RestClient = dynamic(() => import('@/components/restClient/RestClient'), {
+  loading: () => <Loader />,
+});
 
 export default function RestClientPage() {
   const [user, loading] = useAuthState(auth);
@@ -53,9 +56,5 @@ export default function RestClientPage() {
     redirect('/');
   }
 
-  return (
-    <Suspense fallback={<Loader />}>
-      <RestClient />
-    </Suspense>
-  );
+  return <RestClient />;
 }

@@ -1,13 +1,15 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { redirect } from 'next/navigation';
-import { Suspense, lazy } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 import Loader from '@/components/Loader';
 import { auth } from '@/lib/auth/firebase.config';
 
-const HistoryStub = lazy(() => import('@/components/history/HistoryStub'));
+const HistoryStub = dynamic(() => import('@/components/history/HistoryStub'), {
+  loading: () => <Loader />,
+});
 
 export default function HistoryPage() {
   const [user] = useAuthState(auth);
@@ -16,9 +18,5 @@ export default function HistoryPage() {
     redirect('/');
   }
 
-  return (
-    <Suspense fallback={<Loader />}>
-      <HistoryStub />
-    </Suspense>
-  );
+  return <HistoryStub />;
 }
