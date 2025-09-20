@@ -1,4 +1,5 @@
 import { Button, Flex, Form, Input, Select, Tabs } from 'antd';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -14,6 +15,7 @@ import { setHeader, updateRestClientFormField } from '@/lib/store/slice/restClie
 import CodeGeneratorSection from './codeGenerator/CodeGeneratorSection';
 import HeadersSection from './headersEditor/HeadersSection';
 import BodyEditor from './responseBodyViewer/BodyEditor';
+import { buildRestClientUrl } from './utils/urlUtils';
 import { replaceVariables } from './utils/variableReplacer';
 
 import type { Variable } from './hooks/useVariables';
@@ -48,6 +50,7 @@ export default function RestClientForm({
   const [form] = Form.useForm<FormValues>();
   const [contentType, setContentType] = useState<'json' | 'text'>('json');
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const method = useSelector(getMethod);
   const url = useSelector(getUrl);
@@ -124,6 +127,14 @@ export default function RestClientForm({
     }
 
     try {
+      const restClientUrl = buildRestClientUrl(
+        values.method,
+        processedUrl,
+        values.body,
+        headers.filter((h) => h.enabled)
+      );
+      router.push(restClientUrl);
+
       const response = await restClient<ApiResult, unknown>({
         method: values.method,
         url: processedUrl,
