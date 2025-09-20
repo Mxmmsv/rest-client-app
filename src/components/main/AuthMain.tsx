@@ -54,7 +54,12 @@ export default function AuthMain() {
           <Card style={{ background: 'white' }}>
             <Flex gap={10} wrap>
               <Paragraph type="secondary">Wanna switch account?</Paragraph>
-              <Button danger type="primary" onClick={logout} icon={<LogoutOutlined />}>
+              <Button
+                type="primary"
+                style={{ background: 'var(--color-accent)' }}
+                onClick={logout}
+                icon={<LogoutOutlined />}
+              >
                 Logout
               </Button>
             </Flex>

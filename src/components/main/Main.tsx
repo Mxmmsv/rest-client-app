@@ -36,7 +36,7 @@ function MainPage() {
           justify="center"
           style={{
             height: '100%',
-            background: colorBgContainer,
+            background: 'var(--color-base-light)',
             borderRadius: borderRadiusLG,
             padding: '48px',
           }}
