@@ -37,6 +37,7 @@
     "clsx": "^2.1.1",
     "dayjs": "^1.11.18",
     "firebase": "^12.2.1",
+    "firebase-admin": "^13.5.0",
     "monaco-themes": "^0.4.7",
     "next": "15.5.2",
     "next-intl": "^4.3.6",
