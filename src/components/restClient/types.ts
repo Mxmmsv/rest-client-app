@@ -1,4 +1,18 @@
-import type { HttpMethod } from '@/lib/restClient/restClient';
+export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'HEAD' | 'OPTIONS';
+
+export type RestClientParams<TBody> = {
+  method: HttpMethod;
+  url: string;
+  body?: TBody;
+  headers?: Record<string, string> | Header[];
+};
+
+export type RestClientResponse<TResponse> = {
+  data: TResponse;
+  status: number;
+  statusText: string;
+  duration: number;
+};
 
 export type ApiResult = Record<string, unknown> | { error: string };
 

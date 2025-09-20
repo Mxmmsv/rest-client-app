@@ -2,7 +2,7 @@ import { Button, Flex, Form, Input, Select, Tabs } from 'antd';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { restClient, type HttpMethod, type RestClientError } from '@/lib/restClient/restClient';
+import { restClient } from '@/lib/restClient/restClient';
 import {
   getMethod,
   getBody,
@@ -17,7 +17,7 @@ import BodyEditor from './responseBodyViewer/BodyEditor';
 import { replaceVariables } from './utils/variableReplacer';
 
 import type { Variable } from './hooks/useVariables';
-import type { ApiResult, FormValues, ResponseInfo } from './types';
+import type { ApiResult, FormValues, HttpMethod, ResponseInfo } from './types';
 import type { Dispatch, SetStateAction } from 'react';
 
 const methodColors: Record<HttpMethod, string> = {
@@ -123,31 +123,28 @@ export default function RestClientForm({
       dispatch(updateRestClientFormField({ field: 'body', value: values.body }));
     }
 
-    try {
-      const response = await restClient<ApiResult, unknown>({
-        method: values.method,
-        url: processedUrl,
-        body: handleBody(values),
-        headers: headers,
-      });
+    const response = await restClient<ApiResult, unknown>({
+      method: values.method,
+      url: processedUrl,
+      body: handleBody(values),
+      headers: headers,
+    });
 
+    if (response.error) {
+      onResponse(
+        { error: response.error },
+        {
+          status: response.status,
+          statusText: response.statusText,
+          duration: response.duration,
+        }
+      );
+    } else {
       onResponse(response.data, {
         status: response.status,
         statusText: response.statusText,
         duration: response.duration,
       });
-    } catch (error: unknown) {
-      const err = error as RestClientError;
-      onResponse(
-        {
-          error: err.message,
-        },
-        {
-          status: err.status ?? null,
-          statusText: err.statusText ?? 'undefined status error',
-          duration: err.duration ?? null,
-        }
-      );
     }
   };
 
