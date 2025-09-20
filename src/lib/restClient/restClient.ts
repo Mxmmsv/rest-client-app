@@ -37,41 +37,29 @@ export async function restClient<TResponse, TBody>({
 
   const startTime = Date.now();
 
+  const response = await fetch(url, options);
+  const duration = Date.now() - startTime;
+
+  let data: TResponse;
   try {
-    const response = await fetch(url, options);
-    const duration = Date.now() - startTime;
+    data = (await response.json()) as TResponse;
+  } catch {
+    data = (await response.text()) as unknown as TResponse;
+  }
 
-    let data: TResponse;
-    try {
-      data = (await response.json()) as TResponse;
-    } catch {
-      data = (await response.text()) as unknown as TResponse;
-    }
-
-    if (!response.ok) {
-      return {
-        data,
-        status: response.status,
-        statusText: response.statusText,
-        duration,
-        error: `Request failed with status ${response.status}`,
-      };
-    }
-
+  if (!response.ok) {
     return {
       data,
       status: response.status,
       statusText: response.statusText,
       duration,
     };
-  } catch (err: unknown) {
-    const error = err as Error;
-    return {
-      data: null as unknown as TResponse,
-      status: 0,
-      statusText: 'Network error',
-      duration: 0,
-      error: error.message,
-    };
   }
+
+  return {
+    data,
+    status: response.status,
+    statusText: response.statusText,
+    duration,
+  };
 }

@@ -132,7 +132,7 @@ export default function RestClientForm({
 
     if (response.error) {
       onResponse(
-        { error: response.error },
+        { error: response.data },
         {
           status: response.status,
           statusText: response.statusText,
