@@ -1,8 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import { useTranslations } from 'next-intl';
-import { vi, Mock } from 'vitest';
+import { vi } from 'vitest';
 
 import NotFoundPage from '@/app/[locale]/not-found';
+
+import type { Mock } from 'vitest';
 
 vi.mock('next-intl', () => ({
   useTranslations: vi.fn(),

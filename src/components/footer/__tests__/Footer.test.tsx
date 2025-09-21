@@ -1,11 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import * as nextIntl from 'next-intl';
 import React from 'react';
-import { vi, Mock } from 'vitest';
+import { vi } from 'vitest';
 
 import { TEAM_MEMBERS } from '@/constants/team';
 
 import Footer from '../Footer';
+
+import type { Mock } from 'vitest';
 
 vi.mock('next-intl', () => ({
   useTranslations: vi.fn(),

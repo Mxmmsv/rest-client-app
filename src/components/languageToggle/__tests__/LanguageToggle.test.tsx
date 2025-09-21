@@ -1,9 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { usePathname, useParams } from 'next/navigation';
-import { MockedFunction, vi } from 'vitest';
+import { vi } from 'vitest';
 
 import LanguageToggle from '../LanguageToggle';
+
+import type { MockedFunction } from 'vitest';
 
 const useParamsMock = useParams as MockedFunction<typeof useParams>;
 const usePathnameMock = usePathname as MockedFunction<typeof usePathname>;
