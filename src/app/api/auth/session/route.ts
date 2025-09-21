@@ -22,8 +22,12 @@ export async function POST(req: Request) {
     });
 
     return res;
-  } catch (err) {
-    console.error('create session cookie error', err);
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  } catch (err: unknown) {
+    let message = 'Unauthorized';
+    if (err instanceof Error) {
+      message =
+        err.cause instanceof Error ? `${err.message}. Cause: ${err.cause.message}` : err.message;
+    }
+    return NextResponse.json({ error: message }, { status: 401 });
   }
 }

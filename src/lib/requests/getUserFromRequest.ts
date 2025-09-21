@@ -1,3 +1,5 @@
+import { toast } from 'react-toastify';
+
 import { adminAuth } from './firebaseAdmin';
 
 import type { NextRequest } from 'next/server';
@@ -10,7 +12,8 @@ export async function getUser(req: NextRequest) {
     const decoded = await adminAuth.verifySessionCookie(token, true);
     return decoded;
   } catch (err) {
-    console.error('[getUser] verifySessionCookie failed:', err);
+    const errorMessage = err instanceof Error ? err.message : String(err);
+    toast.error(`[getUser] verifySessionCookie failed: ${errorMessage}`);
     return null;
   }
 }

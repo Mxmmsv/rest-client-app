@@ -54,8 +54,7 @@ export default async function HistoryPageContent() {
     }
 
     return <HistoryRequestsPage history={history} />;
-  } catch (err) {
-    console.error('Token validation failed:', err);
+  } catch {
     redirect('/login');
   }
 }

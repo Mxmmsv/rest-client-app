@@ -4,6 +4,7 @@ import { Layout, Tabs, Typography } from 'antd';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 import type { ApiResult, Header, ResponseInfo } from '@/components/restClient/types';
 import { getHeaders } from '@/lib/store/selectors/restClientFormSelectField';
@@ -75,7 +76,8 @@ export default function RestClient() {
           });
         }
       } catch (err) {
-        console.error('Failed to load history', err);
+        const errorMessage = err instanceof Error ? err.message : 'Failed to load history.';
+        toast.error(errorMessage);
       }
     })();
   }, [searchParams, dispatch]);
