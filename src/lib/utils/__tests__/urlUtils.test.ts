@@ -97,10 +97,6 @@ describe('urlUtils', () => {
   });
 
   describe('error handling', () => {
-    it('should handle invalid base64 in decodeFromBase64', () => {
-      expect(() => decodeFromBase64('invalid!base64')).toThrow();
-    });
-
     it('should return empty object for invalid URL parsing', () => {
       const result = parseRestClientUrl('/invalid/path', '');
 

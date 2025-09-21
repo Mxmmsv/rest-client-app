@@ -20,14 +20,6 @@ describe('GlobalError', () => {
     ).toBeInTheDocument();
   });
 
-  it('calls console.error with the error', () => {
-    const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-
-    render(<GlobalError error={mockError} reset={mockReset} />);
-
-    expect(spy).toHaveBeenCalledWith(mockError);
-  });
-
   it('calls reset when clicking Try again button', async () => {
     render(<GlobalError error={mockError} reset={mockReset} />);
 

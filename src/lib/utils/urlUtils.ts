@@ -1,11 +1,31 @@
 import type { Header } from '@/components/restClient/types';
 
 export const encodeToBase64 = (str: string): string => {
-  return btoa(encodeURIComponent(str));
+  if (typeof window === 'undefined' && typeof Buffer !== 'undefined') {
+    return Buffer.from(str, 'utf-8').toString('base64');
+  }
+
+  const utf8Bytes = new TextEncoder().encode(str);
+  let binary = '';
+  utf8Bytes.forEach((b) => (binary += String.fromCharCode(b)));
+  return btoa(binary);
 };
 
 export const decodeFromBase64 = (str: string): string => {
-  return decodeURIComponent(atob(str));
+  try {
+    if (typeof window === 'undefined' && typeof Buffer !== 'undefined') {
+      return Buffer.from(str, 'base64').toString('utf-8');
+    }
+
+    const binary = atob(str);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+    return new TextDecoder().decode(bytes);
+  } catch {
+    return '';
+  }
 };
 
 export const headersToQueryParams = (headers: Header[]): Record<string, string> => {
@@ -77,19 +97,11 @@ export const parseRestClientUrl = (
     result.method = pathParts[3];
 
     if (pathParts[4]) {
-      try {
-        result.url = decodeFromBase64(pathParts[4]);
-      } catch (error) {
-        console.error('Error decoding URL:', error);
-      }
+      result.url = decodeFromBase64(pathParts[4]);
     }
 
     if (pathParts[5]) {
-      try {
-        result.body = decodeFromBase64(pathParts[5]);
-      } catch (error) {
-        console.error('Error decoding body:', error);
-      }
+      result.body = decodeFromBase64(pathParts[5]);
     }
   }
 
