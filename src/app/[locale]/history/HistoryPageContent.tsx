@@ -2,7 +2,7 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 import { adminAuth, adminDb } from '@/lib/requests/firebaseAdmin';
-import type { RequestHistoryItem } from '@/lib/requests/types';
+import type { FirestoreRequestData, RequestHistoryItem } from '@/lib/requests/types';
 
 import EmptyHistoryPage from './EmptyHistoryPage';
 import HistoryRequestsPage from './HistoryRequestsPage';
@@ -26,7 +26,7 @@ export default async function HistoryPageContent() {
       .get();
 
     const history: RequestHistoryItem[] = snapshot.docs.map((doc) => {
-      const data = doc.data() as RequestHistoryItem;
+      const data = doc.data() as FirestoreRequestData;
       return {
         id: doc.id,
         userId: data.userId,
@@ -39,8 +39,7 @@ export default async function HistoryPageContent() {
         error: data.error ?? null,
         headers: data.headers ?? {},
         body: data.body ?? null,
-        values: data.values ?? {},
-        timestamp: data.timestamp,
+        timestamp: data.timestamp.toDate(),
       };
     });
 
