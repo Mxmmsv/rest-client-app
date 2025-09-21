@@ -5,6 +5,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { Provider } from 'react-redux';
 import { vi } from 'vitest';
 
+import { mockUser } from '@/components/__mock__/firebaseUser.mock';
 import restClientFormReducer from '@/lib/store/slice/restClientFormSlice';
 
 import RestClientPage from '../page';
@@ -49,8 +50,10 @@ beforeEach(() => {
 });
 
 describe('RestClientPage', () => {
+  const mockedUseAuthState = vi.mocked(useAuthState);
+
   it('renders Loader while loading', () => {
-    useAuthState.mockReturnValue([null, true]);
+    mockedUseAuthState.mockReturnValue([null, true, undefined]);
     const { container } = render(
       <Provider store={store}>
         <RestClientPage />
@@ -60,7 +63,7 @@ describe('RestClientPage', () => {
   });
 
   it('redirects if not user', () => {
-    useAuthState.mockReturnValue([null, false]);
+    mockedUseAuthState.mockReturnValue([null, false, undefined]);
     render(
       <Provider store={store}>
         <RestClientPage />
@@ -70,7 +73,7 @@ describe('RestClientPage', () => {
   });
 
   it('renders RestClient if user present', async () => {
-    useAuthState.mockReturnValue([{ uid: '123' }, false]);
+    mockedUseAuthState.mockReturnValue([mockUser, false, undefined]);
     render(
       <Provider store={store}>
         <RestClientPage />
