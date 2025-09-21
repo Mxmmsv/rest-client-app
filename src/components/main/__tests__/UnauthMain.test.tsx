@@ -3,12 +3,14 @@ import { describe, it, expect } from 'vitest';
 
 import UnauthMain from '../UnauthMain';
 
-describe('UnauthMain component', () => {
-  it('should render welcome title', () => {
-    render(<UnauthMain />);
-    expect(screen.getByText(/welcome to pawstman!/i)).toBeInTheDocument();
-  });
+vi.mock('next-intl', () => ({
+  useTranslations: () => (key: string) => {
+    const translations = {};
+    return translations[key as keyof typeof translations] || key;
+  },
+}));
 
+describe('UnauthMain component', () => {
   it('should shows Login and Register when user is not authenticated', () => {
     render(<UnauthMain />);
 

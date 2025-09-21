@@ -2,7 +2,7 @@ import { Button, Flex, Form, Input, Select, Tabs } from 'antd';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { restClient, type HttpMethod, type RestClientError } from '@/lib/restClient/restClient';
+import { restClient } from '@/lib/restClient/restClient';
 import {
   getMethod,
   getBody,
@@ -14,10 +14,11 @@ import { setHeader, updateRestClientFormField } from '@/lib/store/slice/restClie
 import CodeGeneratorSection from './codeGenerator/CodeGeneratorSection';
 import HeadersSection from './headersEditor/HeadersSection';
 import BodyEditor from './responseBodyViewer/BodyEditor';
+import { buildRestClientUrl } from './utils/urlUtils';
 import { replaceVariables } from './utils/variableReplacer';
 
 import type { Variable } from './hooks/useVariables';
-import type { ApiResult, FormValues, ResponseInfo } from './types';
+import type { ApiResult, FormValues, HttpMethod, ResponseInfo } from './types';
 import type { Dispatch, SetStateAction } from 'react';
 
 const methodColors: Record<HttpMethod, string> = {
@@ -46,6 +47,11 @@ export default function RestClientForm({
   onThemeChange,
 }: Readonly<RestClientFormProps>) {
   const [form] = Form.useForm<FormValues>();
+  const [bodyError, setBodyError] = useState<ResponseInfo>({
+    status: null,
+    statusText: '',
+    duration: null,
+  });
   const [contentType, setContentType] = useState<'json' | 'text'>('json');
   const dispatch = useDispatch();
 
@@ -69,6 +75,7 @@ export default function RestClientForm({
           onContentTypeChange={setContentType}
           currentTheme={currentTheme}
           onThemeChange={onThemeChange}
+          responseInfo={bodyError}
         />
       ),
     },
@@ -84,7 +91,16 @@ export default function RestClientForm({
     },
   ];
 
+  const handleBodyError = (bodyError: ResponseInfo) => {
+    setBodyError(bodyError);
+  };
+
   const handleBody = (values: FormValues): unknown => {
+    handleBodyError({
+      status: null,
+      statusText: '',
+      duration: null,
+    });
     const headerValue = contentType === 'json' ? 'application/json;charset=utf-8' : 'text/plain';
 
     dispatch(
@@ -104,10 +120,11 @@ export default function RestClientForm({
       try {
         return JSON.parse(processedBody);
       } catch {
-        onResponse(
-          { error: 'Invalid JSON format in request body' },
-          { status: null, statusText: '', duration: null }
-        );
+        handleBodyError({
+          status: null,
+          statusText: 'Invalid JSON format in request body',
+          duration: null,
+        });
         return undefined;
       }
     }
@@ -136,6 +153,24 @@ export default function RestClientForm({
         body: handleBody(values),
         headers: headers,
       });
+
+    if (response.error) {
+      onResponse(
+        { error: response.data },
+        {
+          status: response.status,
+          statusText: response.statusText,
+          duration: response.duration,
+        }
+      );
+    } else {
+      const restClientUrl = buildRestClientUrl(
+        values.method,
+        processedUrl,
+        values.body,
+        headers.filter((h) => h.enabled)
+      );
+      window.history.replaceState(null, '', restClientUrl);
 
       const end = performance.now();
       const latency = end - start;

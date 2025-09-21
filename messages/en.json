@@ -10,8 +10,8 @@
     "maxim": "Maxim Moiseev",
     "maximInitials": "MM"
   },
-  "MainPage": {
-    "welcome": "Welcome"
+  "UnauthMain": {
+    "welcome": "Welcome to"
   },
   "NotFoundPage": {
     "sorry": "Sorry, the page you are looking for can't be found.",
