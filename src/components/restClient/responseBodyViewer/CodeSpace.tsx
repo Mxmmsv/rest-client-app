@@ -43,13 +43,22 @@ export default function CodeSpace({
         />
       </Flex>
 
-      {responseInfo?.status && (
+      {responseInfo && (
         <Flex gap="small">
+          {responseInfo.status && (
+            <Typography.Text
+              type={responseInfo.status && responseInfo.status < 400 ? 'success' : 'danger'}
+            >
+              Status: {responseInfo.status || 'Error'}
+            </Typography.Text>
+          )}
+
           <Typography.Text
             type={responseInfo.status && responseInfo.status < 400 ? 'success' : 'danger'}
           >
-            Status: {responseInfo.status || 'Error'} {responseInfo.statusText}
+            {responseInfo.statusText}
           </Typography.Text>
+
           {responseInfo.duration && (
             <Typography.Text type="secondary">Time: {responseInfo.duration}ms</Typography.Text>
           )}

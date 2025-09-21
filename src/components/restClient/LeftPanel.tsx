@@ -31,5 +31,5 @@ export default function LeftPanel({ variables, addVariable, deleteVariable }: Re
     },
   ];
 
-  return <Tabs items={items} />;
+  return <Tabs centered items={items} />;
 }

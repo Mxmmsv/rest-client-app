@@ -6,11 +6,17 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/lib/auth/firebase.config';
 import { useAuth } from '@/lib/auth/useAuth';
 
+import Loader from '../Loader';
+
 const { Title, Paragraph } = Typography;
 
 export default function AuthMain() {
-  const [user] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
   const { logout } = useAuth();
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <Flex vertical gap={10} justify="center" align="center">
@@ -44,7 +50,12 @@ export default function AuthMain() {
           <Card style={{ background: 'white' }}>
             <Flex gap={10} wrap>
               <Paragraph type="secondary">Wanna switch account?</Paragraph>
-              <Button danger type="primary" onClick={logout} icon={<LogoutOutlined />}>
+              <Button
+                type="primary"
+                style={{ background: 'var(--color-accent)' }}
+                onClick={logout}
+                icon={<LogoutOutlined />}
+              >
                 Logout
               </Button>
             </Flex>

@@ -2,7 +2,7 @@ import { Button, Flex, Form, Input, Select, Tabs } from 'antd';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { restClient, type HttpMethod, type RestClientError } from '@/lib/restClient/restClient';
+import { restClient } from '@/lib/restClient/restClient';
 import {
   getMethod,
   getBody,
@@ -14,10 +14,11 @@ import { setHeader, updateRestClientFormField } from '@/lib/store/slice/restClie
 import CodeGeneratorSection from './codeGenerator/CodeGeneratorSection';
 import HeadersSection from './headersEditor/HeadersSection';
 import BodyEditor from './responseBodyViewer/BodyEditor';
+import { buildRestClientUrl } from './utils/urlUtils';
 import { replaceVariables } from './utils/variableReplacer';
 
 import type { Variable } from './hooks/useVariables';
-import type { ApiResult, FormValues, ResponseInfo } from './types';
+import type { ApiResult, FormValues, HttpMethod, ResponseInfo } from './types';
 import type { Dispatch, SetStateAction } from 'react';
 
 const methodColors: Record<HttpMethod, string> = {
@@ -46,6 +47,11 @@ export default function RestClientForm({
   onThemeChange,
 }: Readonly<RestClientFormProps>) {
   const [form] = Form.useForm<FormValues>();
+  const [bodyError, setBodyError] = useState<ResponseInfo>({
+    status: null,
+    statusText: '',
+    duration: null,
+  });
   const [contentType, setContentType] = useState<'json' | 'text'>('json');
   const dispatch = useDispatch();
 
@@ -69,6 +75,7 @@ export default function RestClientForm({
           onContentTypeChange={setContentType}
           currentTheme={currentTheme}
           onThemeChange={onThemeChange}
+          responseInfo={bodyError}
         />
       ),
     },
@@ -84,7 +91,16 @@ export default function RestClientForm({
     },
   ];
 
+  const handleBodyError = (bodyError: ResponseInfo) => {
+    setBodyError(bodyError);
+  };
+
   const handleBody = (values: FormValues): unknown => {
+    handleBodyError({
+      status: null,
+      statusText: '',
+      duration: null,
+    });
     const headerValue = contentType === 'json' ? 'application/json;charset=utf-8' : 'text/plain';
 
     dispatch(
@@ -104,10 +120,11 @@ export default function RestClientForm({
       try {
         return JSON.parse(processedBody);
       } catch {
-        onResponse(
-          { error: 'Invalid JSON format in request body' },
-          { status: null, statusText: '', duration: null }
-        );
+        handleBodyError({
+          status: null,
+          statusText: 'Invalid JSON format in request body',
+          duration: null,
+        });
         return undefined;
       }
     }
@@ -127,23 +144,55 @@ export default function RestClientForm({
       dispatch(updateRestClientFormField({ field: 'body', value: values.body }));
     }
 
-    const start = performance.now();
+    const response = await restClient<ApiResult, unknown>({
+      method: values.method,
+      url: processedUrl,
+      body: handleBody(values),
+      headers: headers,
+    });
+    const latency = response.duration;
+    const requestSize = values.body ? new TextEncoder().encode(values.body).length : 0;
+    const responseSize = response.data
+      ? new TextEncoder().encode(JSON.stringify(response.data)).length
+      : 0;
 
-    try {
-      const response = await restClient<ApiResult, unknown>({
-        method: values.method,
-        url: processedUrl,
-        body: handleBody(values),
-        headers: headers,
-      });
-
-      const end = performance.now();
-      const latency = end - start;
+    if (response.error) {
+      onResponse(
+        { error: response.data },
+        {
+          status: response.status,
+          statusText: response.statusText,
+          duration: response.duration,
+        }
+      );
 
       const requestSize = values.body ? new TextEncoder().encode(values.body).length : 0;
-      const responseSize = response.data
-        ? new TextEncoder().encode(JSON.stringify(response.data)).length
-        : 0;
+      const historyPayload = {
+        url: processedUrl,
+        method: values.method,
+        headers,
+        body: values.body,
+        latency,
+        statusCode: response.status,
+        requestSize,
+        responseSize: 0,
+        error: response.statusText,
+      };
+
+      await fetch('/api/history', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(historyPayload),
+        credentials: 'include',
+      });
+    } else {
+      const restClientUrl = buildRestClientUrl(
+        values.method,
+        processedUrl,
+        values.body,
+        headers.filter((h) => h.enabled)
+      );
+      window.history.replaceState(null, '', restClientUrl);
 
       const historyPayload = {
         url: processedUrl,
@@ -164,45 +213,12 @@ export default function RestClientForm({
         credentials: 'include',
       });
 
-      onResponse(response.data, {
-        status: response.status,
-        statusText: response.statusText,
-        duration: latency,
-      });
-    } catch (error: unknown) {
-      const end = performance.now();
-      const latency = end - start;
-      const err = error as RestClientError;
-
-      const requestSize = values.body ? new TextEncoder().encode(values.body).length : 0;
-
-      const historyPayload = {
-        url: processedUrl,
-        method: values.method,
-        headers,
-        body: values.body ?? null,
-        latency,
-        statusCode: err.status ?? null,
-        requestSize,
-        responseSize: 0,
-        error: err.message,
-      };
-
-      await fetch('/api/history', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(historyPayload),
-        credentials: 'include',
-      });
-
       onResponse(
+        { result: response.data },
         {
-          error: err.message,
-        },
-        {
-          status: err.status ?? null,
-          statusText: err.statusText ?? 'undefined status error',
-          duration: latency,
+          status: response.status,
+          statusText: response.statusText,
+          duration: response.duration,
         }
       );
     }
