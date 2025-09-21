@@ -34,5 +34,12 @@
     "error": "Something went wrong!",
     "retry": "Try refreshing the page or coming back later.",
     "retry-button": "Try again"
+  },
+  "AboutSection": {
+    "aboutUs": "About us",
+    "description": "This application was created as a final project for the",
+    "rsCourse": "RS School React course",
+    "byTeam": "by the team",
+    "teamName": "\"Yet Another Dream Team\""
   }
 }

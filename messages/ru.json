@@ -34,5 +34,12 @@
     "error": "Что-то пошло не так!",
     "retry": "Попробуйте обновить страницу или вернуться позже.",
     "retry-button": "Обновить"
+  },
+  "AboutSection": {
+    "aboutUs": "О нас",
+    "description": "Это приложение было создано как финальный проект курса по реакту",
+    "rsCourse": "RS School React",
+    "byTeam": "командой",
+    "teamName": "\"Yet Another Dream Team\""
   }
 }
