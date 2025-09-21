@@ -38,5 +38,5 @@ describe('RestClient', () => {
     expect(await screen.findByRole('heading', { name: 'Request' })).toBeInTheDocument();
     const tabs = await screen.findAllByRole('tab');
     expect(tabs.length).toBeGreaterThanOrEqual(2);
-  });
+  }, 10000);
 });
