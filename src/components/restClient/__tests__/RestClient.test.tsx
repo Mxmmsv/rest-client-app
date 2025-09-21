@@ -28,15 +28,15 @@ afterAll(() => {
 });
 
 describe('RestClient', () => {
-  it('renders layout with left panel, request form, and tabs', () => {
+  it('renders layout with left panel, request form, and tabs', async () => {
     render(
       <Provider store={store}>
         <RestClient />
       </Provider>
     );
 
-    expect(screen.getByRole('heading', { name: 'Request' })).toBeInTheDocument();
-    const tabs = screen.getAllByRole('tab');
+    expect(await screen.findByRole('heading', { name: 'Request' })).toBeInTheDocument();
+    const tabs = await screen.findAllByRole('tab');
     expect(tabs.length).toBeGreaterThanOrEqual(2);
   });
 });
