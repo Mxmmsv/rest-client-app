@@ -25,6 +25,17 @@ vi.spyOn(useCodeGeneratorModule, 'default').mockImplementation(() => ({
   handleGenerateCode: mockHandleGenerateCode,
 }));
 
+vi.mock('next-intl', () => ({
+  useTranslations: () => (key: string) => {
+    const translations: Record<string, string> = {
+      language: 'Language',
+      variant: 'Variant',
+      generateCode: 'Generate code',
+    };
+    return translations[key] || key;
+  },
+}));
+
 describe('CodeGeneratorSection', () => {
   beforeEach(() => {
     mockSetLanguage.mockReset();
@@ -41,7 +52,7 @@ describe('CodeGeneratorSection', () => {
 
   it('calls handleGenerateCode and onGeneratedCode when clicking generate button', async () => {
     const onGeneratedCode = vi.fn();
-    mockHandleGenerateCode.mockResolvedValue('console.log("test");');
+    mockHandleGenerateCode.mockResolvedValue('aboba');
 
     vi.spyOn(useCodeGeneratorModule, 'default').mockReturnValue({
       language: 'javascript',
@@ -61,6 +72,6 @@ describe('CodeGeneratorSection', () => {
     await userEvent.click(button);
 
     await waitFor(() => expect(mockHandleGenerateCode).toHaveBeenCalled());
-    await waitFor(() => expect(onGeneratedCode).toHaveBeenCalledWith('console.log("test");'));
+    await waitFor(() => expect(onGeneratedCode).toHaveBeenCalledWith('aboba'));
   });
 });

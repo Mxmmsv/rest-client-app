@@ -1,20 +1,15 @@
 'use client';
 
 import { Flex, Result, Typography } from 'antd';
-import { useEffect } from 'react';
+
 const { Text } = Typography;
 
 export default function GlobalError({
-  error,
   reset,
 }: Readonly<{
   error: Error & { digest?: string };
   reset: () => void;
 }>) {
-  useEffect(() => {
-    console.error(error);
-  }, [error]);
-
   return (
     <html>
       <body>

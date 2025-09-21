@@ -27,6 +27,17 @@ afterAll(() => {
   vi.restoreAllMocks();
 });
 
+vi.mock('next-intl', () => ({
+  useTranslations: () => (key: string) => {
+    const translations: Record<string, string> = {
+      response: 'Response',
+      generatedCode: 'Generated Code',
+      request: 'Request',
+    };
+    return translations[key] || key;
+  },
+}));
+
 describe('RestClient', () => {
   it('renders layout with left panel, request form, and tabs', async () => {
     render(

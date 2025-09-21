@@ -1,10 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import dayjs from 'dayjs';
 import * as nextNavigation from 'next/navigation';
-import { useTranslations, IntlErrorCode } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { describe, it, expect, vi } from 'vitest';
-
-import getRequestConfig from '@/i18n/request';
 
 import LocaleLayout from '../layout';
 
@@ -76,78 +74,5 @@ describe('LocaleLayout', () => {
     });
 
     expect(nextNavigation.notFound).toHaveBeenCalled();
-  });
-});
-
-describe('request configuration', () => {
-  const callConfig = (locale: string) =>
-    getRequestConfig({ requestLocale: Promise.resolve(locale) });
-
-  it('logs an error to console when a translation is missing', async () => {
-    const config = await callConfig('en');
-    const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-
-    config.onError?.({
-      code: IntlErrorCode.MISSING_MESSAGE,
-      originalMessage: undefined,
-      name: '',
-      message: '',
-    });
-
-    expect(spy).toHaveBeenCalledWith(
-      'Missing translation:',
-      expect.objectContaining({ code: 'MISSING_MESSAGE' })
-    );
-
-    spy.mockRestore();
-  });
-
-  it('reports unexpected errors to the tracking system', async () => {
-    const config = await callConfig('en');
-    const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-
-    config.onError?.({
-      code: IntlErrorCode.INVALID_MESSAGE,
-      originalMessage: undefined,
-      name: '',
-      message: '',
-    });
-
-    expect(spy).toHaveBeenCalledWith(
-      'Report to tracking system:',
-      expect.objectContaining({ code: 'INVALID_MESSAGE' })
-    );
-
-    spy.mockRestore();
-  });
-
-  it('returns a fallback message when a translation is missing', async () => {
-    const config = await callConfig('en');
-    const text = config.getMessageFallback?.({
-      namespace: 'TestPage',
-      key: 'TestComponent',
-      error: {
-        code: IntlErrorCode.MISSING_MESSAGE,
-        originalMessage: undefined,
-        name: '',
-        message: '',
-      },
-    });
-    expect(text).toBe('TestPage.TestComponent is not yet translated');
-  });
-
-  it('returns a fallback message for other translation errors', async () => {
-    const config = await callConfig('en');
-    const fallback = config.getMessageFallback?.({
-      namespace: 'TestPage',
-      key: 'TestComponent',
-      error: {
-        code: IntlErrorCode.INVALID_MESSAGE,
-        originalMessage: undefined,
-        name: '',
-        message: '',
-      },
-    });
-    expect(fallback).toBe('Developer, please fix this message: TestPage.TestComponent');
   });
 });

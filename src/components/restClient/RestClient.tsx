@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { useTranslations } from 'next-intl';
 
 import type { ApiResult, Header, ResponseInfo } from '@/components/restClient/types';
 import { getHeaders } from '@/lib/store/selectors/restClientFormSelectField';
@@ -40,6 +41,7 @@ export default function RestClient() {
     statusText: '',
     duration: null,
   });
+  const t = useTranslations('RestClient');
 
   const searchParams = useSearchParams();
   const dispatch = useDispatch();
@@ -85,11 +87,11 @@ export default function RestClient() {
   const tabItems = [
     {
       key: 'response',
-      label: 'Response',
+      label: t('response'),
       children: (
         <>
           <Title level={3} style={{ textAlign: 'center' }}>
-            Response
+            {t('response')}
           </Title>
           <ResponsePanel
             result={result}
@@ -102,11 +104,11 @@ export default function RestClient() {
     },
     {
       key: 'generatedCode',
-      label: 'Generated Code',
+      label: t('generatedCode'),
       children: (
         <>
           <Title level={3} style={{ textAlign: 'center' }}>
-            Generated Code
+            {t('generatedCode')}
           </Title>
           <ResponsePanel
             result={snippet}
@@ -134,8 +136,8 @@ export default function RestClient() {
       </Sider>
 
       <Content>
-        <Title level={3} style={{ textAlign: 'center' }}>
-          Request
+        <Title level={3} style={{ textAlign: 'center', marginTop: '10px' }}>
+          {t('request')}
         </Title>
         <RestClientForm
           onResponse={handleResponse}

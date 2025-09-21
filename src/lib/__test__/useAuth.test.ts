@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-hardcoded-passwords */
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,

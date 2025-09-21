@@ -24,6 +24,22 @@ vi.mock('@ant-design/icons', () => ({
   LinkedinOutlined: () => <span data-testid="linkedin-icon">LinkedIn</span>,
 }));
 
+vi.mock('next-intl', () => ({
+  useTranslations: (namespace: string) => (key: string) => {
+    const translations: Record<string, string> = {
+      'AboutSection.aboutUs': 'About us',
+      'AboutSection.description': 'This application was created as a final project for the',
+      'AboutSection.rsCourse': 'RS School React course',
+      'AboutSection.byTeam': 'by the team',
+      'AboutSection.teamName': '"Yet Another Dream Team"',
+      'Team.maxim': 'Maksim Moiseev',
+      'Team.ekaterina': 'Ekaterina Dmitrenko',
+      'Team.alla': 'Alla Tsaiukova',
+    };
+    return translations[`${namespace}.${key}`] || key;
+  },
+}));
+
 describe('AboutSection component', () => {
   it('should render about section title', () => {
     render(<AboutSection />);
@@ -49,7 +65,7 @@ describe('AboutSection component', () => {
     expect(repoLink.closest('a')).toHaveAttribute('target', '_blank');
   });
 
-  it('should render all team members', () => {
+  it('should render all team members with translated names', () => {
     render(<AboutSection />);
 
     expect(screen.getByText('Maksim Moiseev')).toBeInTheDocument();

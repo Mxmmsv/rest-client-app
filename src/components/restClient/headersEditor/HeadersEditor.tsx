@@ -1,5 +1,6 @@
 import { CloseSquareFilled, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { AutoComplete, Button, Checkbox, Flex } from 'antd';
+import { useTranslations } from 'next-intl';
 import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -10,6 +11,7 @@ import { updateHeader, removeHeader, addHeader } from '@/lib/store/slice/restCli
 export default function HeadersEditor() {
   const dispatch = useDispatch();
   const headers = useSelector(getHeaders);
+  const t = useTranslations('HeadersEditor');
 
   const options = useMemo(
     () => Object.keys(defaultHeaderValues).map((header) => ({ value: header })),
@@ -41,7 +43,7 @@ export default function HeadersEditor() {
 
           <AutoComplete
             options={options}
-            placeholder="header key"
+            placeholder={t('headerKey')}
             style={{ flex: 1, minWidth: 150 }}
             allowClear={{ clearIcon: <CloseSquareFilled /> }}
             filterOption={(input, option) =>
@@ -53,7 +55,7 @@ export default function HeadersEditor() {
           />
 
           <AutoComplete
-            placeholder="header value"
+            placeholder={t('headerValue')}
             style={{ flex: 1, minWidth: 150 }}
             allowClear={{ clearIcon: <CloseSquareFilled /> }}
             value={header.value}
@@ -70,7 +72,7 @@ export default function HeadersEditor() {
 
       <Flex justify="flex-end" style={{ width: '100%' }}>
         <Button type="dashed" onClick={() => dispatch(addHeader())} icon={<PlusOutlined />}>
-          Add header
+          {t('addHeader')}
         </Button>
       </Flex>
     </Flex>

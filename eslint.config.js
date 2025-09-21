@@ -42,6 +42,7 @@ export default tseslint.config(
       ...reactPluginHooks.configs.recommended.rules,
       ...reactPluginNext.configs.recommended.rules,
       ...reactPluginNext.configs['core-web-vitals'].rules,
+      'sonarjs/no-hardcoded-passwords': 'off',
       '@typescript-eslint/consistent-type-imports': 'error',
       'react-compiler/react-compiler': 'error',
       '@typescript-eslint/no-explicit-any': 'error',

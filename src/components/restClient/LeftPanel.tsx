@@ -1,4 +1,5 @@
 import { Tabs } from 'antd';
+import { useTranslations } from 'next-intl';
 
 import HistoryPanel from './HistoryPanel';
 import VariablesPanel from './VariablesPanel';
@@ -12,10 +13,12 @@ type Props = {
 };
 
 export default function LeftPanel({ variables, addVariable, deleteVariable }: Readonly<Props>) {
+  const t = useTranslations('LeftPanel');
+
   const items = [
     {
       key: 'variables',
-      label: 'Variables',
+      label: t('variables'),
       children: (
         <VariablesPanel
           variables={variables}
@@ -26,7 +29,7 @@ export default function LeftPanel({ variables, addVariable, deleteVariable }: Re
     },
     {
       key: 'history',
-      label: 'History',
+      label: t('history'),
       children: <HistoryPanel />,
     },
   ];

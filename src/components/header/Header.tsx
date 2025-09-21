@@ -4,6 +4,7 @@ import { LoginOutlined, LogoutOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Flex, Layout, Space, Typography } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
@@ -20,6 +21,7 @@ function Header() {
   const [isSticky, setIsSticky] = useState(false);
   const { logout } = useAuth();
   const [user] = useAuthState(auth);
+  const t = useTranslations('Header');
 
   useEffect(() => {
     const handleScroll = () => setIsSticky(window.scrollY > 1);
@@ -68,7 +70,7 @@ function Header() {
                   type="link"
                   style={{ fontSize: '18px', color: 'var(--color-additional-light)' }}
                 >
-                  Home
+                  {t('home')}
                 </Button>
               </Link>
               <LanguageToggle />
@@ -78,18 +80,18 @@ function Header() {
                 onClick={logout}
                 style={{ background: 'var(--color-accent)' }}
               >
-                Logout
+                {t('logout')}
               </Button>
             </Space>
           ) : (
             <Space>
               <LanguageToggle />
               <Link href="/login">
-                <Button icon={<LoginOutlined />}>Login</Button>
+                <Button icon={<LoginOutlined />}>{t('login')}</Button>
               </Link>
               <Link href="/register">
                 <Button type="primary" icon={<PlusOutlined />}>
-                  Register
+                  {t('register')}
                 </Button>
               </Link>
             </Space>
