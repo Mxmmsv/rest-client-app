@@ -25,6 +25,17 @@ vi.spyOn(useCodeGeneratorModule, 'default').mockImplementation(() => ({
   handleGenerateCode: mockHandleGenerateCode,
 }));
 
+vi.mock('next-intl', () => ({
+  useTranslations: () => (key: string) => {
+    const translations: Record<string, string> = {
+      language: 'Language',
+      variant: 'Variant',
+      generateCode: 'Generate code',
+    };
+    return translations[key] || key;
+  },
+}));
+
 describe('CodeGeneratorSection', () => {
   beforeEach(() => {
     mockSetLanguage.mockReset();

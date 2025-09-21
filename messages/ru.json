@@ -103,5 +103,20 @@
     "invalidJson": "Неверный формат JSON",
     "json": "JSON",
     "text": "Текст"
+  },
+  "UrlPreview": {
+    "urlPreview": "Предпросмотр URL",
+    "copied": "Скопировано!",
+    "placeholder": "Предпросмотр URL"
+  },
+  "HeadersEditor": {
+    "headerKey": "ключ заголовка",
+    "headerValue": "значение заголовка",
+    "addHeader": "Добавить заголовок"
+  },
+  "CodeGeneratorSection": {
+    "language": "Язык",
+    "variant": "Вариант",
+    "generateCode": "Сгенерировать код"
   }
 }

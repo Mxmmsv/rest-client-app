@@ -1,4 +1,5 @@
 import { Flex, Form, Select, Button } from 'antd';
+import { useTranslations } from 'next-intl';
 
 import useCodeGenerator from './useCodeGenerator';
 
@@ -20,12 +21,13 @@ export default function CodeGeneratorSection({
     setVariant,
     handleGenerateCode,
   } = useCodeGenerator();
+  const t = useTranslations('CodeGeneratorSection');
 
   return (
     <Flex justify="center" gap={10}>
       <Form.Item>
         <Select
-          placeholder="Language"
+          placeholder={t('language')}
           style={{ width: 180 }}
           options={languageOptions}
           value={language}
@@ -37,7 +39,7 @@ export default function CodeGeneratorSection({
       </Form.Item>
       <Form.Item>
         <Select
-          placeholder="Variant"
+          placeholder={t('variant')}
           style={{ width: 180 }}
           options={variantOptions}
           value={variant}
@@ -53,7 +55,7 @@ export default function CodeGeneratorSection({
           }}
           disabled={!language || !variant}
         >
-          Generate code
+          {t('generateCode')}
         </Button>
       </Form.Item>
     </Flex>

@@ -103,5 +103,20 @@
     "invalidJson": "Invalid JSON format",
     "json": "JSON",
     "text": "Text"
+  },
+  "UrlPreview": {
+    "urlPreview": "URL Preview",
+    "copied": "Copied!",
+    "placeholder": "URL preview"
+  },
+  "HeadersEditor": {
+    "headerKey": "header key",
+    "headerValue": "header value",
+    "addHeader": "Add header"
+  },
+  "CodeGeneratorSection": {
+    "language": "Language",
+    "variant": "Variant",
+    "generateCode": "Generate code"
   }
 }
