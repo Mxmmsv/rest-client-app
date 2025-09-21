@@ -118,5 +118,18 @@
     "language": "Язык",
     "variant": "Вариант",
     "generateCode": "Сгенерировать код"
+  },
+  "RestClient": {
+    "response": "Ответ",
+    "generatedCode": "Сгенерированный код",
+    "request": "Запрос"
+  },
+  "RestClientForm": {
+    "bodyEditor": "Редактор тела запроса",
+    "headersEditor": "Редактор заголовков",
+    "generateCode": "Генерация кода",
+    "enterApiUrl": "Введите URL API",
+    "send": "Отправить",
+    "invalidJson": "Неверный формат JSON в теле запроса"
   }
 }

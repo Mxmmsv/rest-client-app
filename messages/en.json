@@ -118,5 +118,18 @@
     "language": "Language",
     "variant": "Variant",
     "generateCode": "Generate code"
+  },
+  "RestClient": {
+    "response": "Response",
+    "generatedCode": "Generated Code",
+    "request": "Request"
+  },
+  "RestClientForm": {
+    "bodyEditor": "Body editor",
+    "headersEditor": "Headers editor",
+    "generateCode": "Generate code",
+    "enterApiUrl": "Enter API URL",
+    "send": "Send",
+    "invalidJson": "Invalid JSON format in request body"
   }
 }
