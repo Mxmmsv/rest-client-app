@@ -11,7 +11,20 @@
     "maximInitials": "MM"
   },
   "UnauthMain": {
-    "welcome": "Welcome to"
+    "welcome": "Welcome to",
+    "subtitle": "Pawstman is your lightweight and powerful companion for API development. Send requests, inspect responses, and debug effortlessly.",
+    "helpsHeader": "Pawstman helps you:",
+    "feature1": "Test APIs with any method (GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS)",
+    "feature2": "Organize headers and body with a structured editor",
+    "feature3": "Save your history for later reference",
+    "feature4": "Manage environment variables for dynamic requests",
+    "feature5": "Generate code snippets for multiple languages",
+    "feature6": "Enjoy localized interface in English and Russian",
+    "getStarted": "Get Started",
+    "existingAccount": "Already have an account?",
+    "signIn": "Sign In to Existing Account",
+    "or": "or",
+    "createNew": "Create New Account"
   },
   "NotFoundPage": {
     "sorry": "Sorry, the page you are looking for can't be found.",

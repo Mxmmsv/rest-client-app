@@ -13,21 +13,17 @@ export default function UnauthMain() {
     <Flex justify="space-between" vertical align="center" gap="80px">
       <Flex justify="center" vertical align="center" gap="small">
         <Title>{t('welcome')} Pawstman!</Title>
-        <Paragraph style={{ maxWidth: '60vw', textAlign: 'center' }}>
-          Pawstman is your lightweight and powerful companion for API development. Send requests,
-          inspect responses, and debug effortlessly. Perfect for building, testing, and documenting
-          your REST APIs with a clean and intuitive interface.
-        </Paragraph>
+        <Paragraph style={{ maxWidth: '60vw', textAlign: 'center' }}>{t('subtitle')}</Paragraph>
         <Flex justify="space-around" align="end" gap="large">
           <Flex justify="center" vertical gap="small">
-            <Text strong>Pawstman helps you:</Text>
+            <Text strong>{t('helpsHeader')}</Text>
             <Paragraph>
-              • Test APIs with any method (GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS)
-              <br />• Organize headers and body with a structured editor
-              <br />• Save your history for later reference
-              <br />• Manage environment variables for dynamic requests
-              <br />• Generate code snippets for multiple languages
-              <br />• Enjoy localized interface in English and Russian
+              • {t('feature1')}
+              <br />• {t('feature2')}
+              <br />• {t('feature3')}
+              <br />• {t('feature4')}
+              <br />• {t('feature5')}
+              <br />• {t('feature6')}
             </Paragraph>
           </Flex>
           <Card
@@ -40,10 +36,9 @@ export default function UnauthMain() {
               boxShadow: '0 4px 10px var(--color-additional)',
             }}
           >
-            <Title level={4}>Get Started</Title>
+            <Title level={4}>{t('getStarted')}</Title>
             <Paragraph type="secondary">
-              Already have an account? <br />
-              Sign in or create a new one to start testing APIs
+              {t('existingAccount')} <br />
             </Paragraph>
             <Space direction="vertical" size="small" style={{ width: '100%' }}>
               <Link href="/login">
@@ -53,10 +48,10 @@ export default function UnauthMain() {
                   block
                   style={{ justifyContent: 'center' }}
                 >
-                  Sign In to Existing Account
+                  {t('signIn')}
                 </Button>
               </Link>
-              <Text type="secondary">or</Text>
+              <Text type="secondary">{t('or')}</Text>
               <Link href="/register" style={{ width: '100%' }}>
                 <Button
                   size="large"
@@ -65,7 +60,7 @@ export default function UnauthMain() {
                   block
                   style={{ justifyContent: 'center' }}
                 >
-                  Create New Account
+                  {t('createNew')}
                 </Button>
               </Link>
             </Space>
