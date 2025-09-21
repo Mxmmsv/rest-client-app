@@ -41,5 +41,11 @@
     "rsCourse": "RS School React course",
     "byTeam": "by the team",
     "teamName": "\"Yet Another Dream Team\""
+  },
+  "Header": {
+    "home": "Home",
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register"
   }
 }

@@ -41,5 +41,11 @@
     "rsCourse": "RS School React",
     "byTeam": "командой",
     "teamName": "\"Yet Another Dream Team\""
+  },
+  "Header": {
+    "home": "Главная",
+    "login": "Войти",
+    "logout": "Выйти",
+    "register": "Регистрация"
   }
 }
