@@ -1,0 +1,65 @@
+'use server';
+
+import type { Header, RestClientParams, RestClientResponse } from '@/components/restClient/types';
+
+function normalizeHeaders(headers?: Record<string, string> | Header[]): Record<string, string> {
+  if (!headers) return {};
+  if (Array.isArray(headers)) {
+    return headers
+      .filter((h) => h.enabled && h.key.trim() !== '')
+      .reduce<Record<string, string>>((acc, h) => {
+        acc[h.key] = h.value;
+        return acc;
+      }, {});
+  }
+  return headers;
+}
+
+export async function restClient<TResponse, TBody>({
+  method,
+  url,
+  body,
+  headers,
+}: RestClientParams<TBody>): Promise<RestClientResponse<TResponse> & { error?: string }> {
+  const normalizedHeaders = normalizeHeaders(headers);
+  const options: RequestInit = { method, headers: normalizedHeaders };
+
+  if (body && method !== 'GET' && method !== 'HEAD') {
+    options.body =
+      normalizedHeaders['Content-Type'] === 'text/plain' && typeof body === 'string'
+        ? body
+        : JSON.stringify(body);
+  }
+
+  const startTime = Date.now();
+  let response: Response;
+
+  try {
+    response = await fetch(url, options);
+  } catch (err) {
+    const error = err as Error;
+    return {
+      data: null as unknown as TResponse,
+      status: 500,
+      statusText: 'Fetch failed',
+      duration: Date.now() - startTime,
+      error: error?.cause?.toString() || error?.message || 'Unknown error',
+    };
+  }
+
+  const duration = Date.now() - startTime;
+  let data: TResponse;
+
+  try {
+    data = (await response.json()) as TResponse;
+  } catch {
+    data = (await response.text()) as unknown as TResponse;
+  }
+
+  return {
+    data,
+    status: response.status,
+    statusText: response.statusText,
+    duration,
+  };
+}
