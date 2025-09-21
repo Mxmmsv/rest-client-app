@@ -63,5 +63,12 @@
     "nameRequired": "Please input your name!",
     "nameMinLength": "Name must be at least 2 characters long.",
     "submit": "Submit"
+  },
+  "SignIn": {
+    "email": "Email",
+    "emailRequired": "Please input your email!",
+    "password": "Password",
+    "passwordRequired": "Please input your password!",
+    "submit": "Submit"
   }
 }

@@ -63,5 +63,12 @@
     "nameRequired": "Пожалуйста, введите ваше имя!",
     "nameMinLength": "Имя должно быть не менее 2 символов.",
     "submit": "Зарегистрироваться"
+  },
+  "SignIn": {
+    "email": "Email",
+    "emailRequired": "Пожалуйста, введите ваш email!",
+    "password": "Пароль",
+    "passwordRequired": "Пожалуйста, введите пароль!",
+    "submit": "Войти"
   }
 }

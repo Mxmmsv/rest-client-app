@@ -28,6 +28,19 @@ vi.mock('@/components/Loader', () => ({
   default: () => <div role="status">Loading...</div>,
 }));
 
+vi.mock('next-intl', () => ({
+  useTranslations: () => (key: string) => {
+    const translations: Record<string, string> = {
+      'SignIn.email': 'Email',
+      'SignIn.emailRequired': 'Please input your email!',
+      'SignIn.password': 'Password',
+      'SignIn.passwordRequired': 'Please input your password!',
+      'SignIn.submit': 'Submit',
+    };
+    return translations[key] || key;
+  },
+}));
+
 const mockedUseAuthState = vi.mocked(useAuthState);
 const mockedUseAuth = vi.mocked(useAuth);
 const mockedRedirect = vi.mocked(redirect);
