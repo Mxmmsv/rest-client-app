@@ -7,9 +7,9 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useDispatch } from 'react-redux';
 
 import Loader from '@/components/Loader';
-import { decodeFromBase64, queryParamsToHeaders } from '@/components/restClient/utils/urlUtils';
 import { auth } from '@/lib/auth/firebase.config';
 import { setHeader, updateRestClientFormField } from '@/lib/store/slice/restClientFormSlice';
+import { decodeFromBase64, queryParamsToHeaders } from '@/lib/utils/urlUtils';
 
 const RestClient = dynamic(() => import('@/components/restClient/RestClient'), {
   loading: () => <Loader />,
@@ -51,11 +51,6 @@ export default function RestClientPage() {
   if (loading) return <Loader />;
 
   if (!user) return redirect('/');
-
-  return <RestClient />;
-  if (!user) {
-    redirect('/');
-  }
 
   return <RestClient />;
 }

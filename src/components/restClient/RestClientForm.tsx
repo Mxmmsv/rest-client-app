@@ -10,12 +10,12 @@ import {
   getHeaders,
 } from '@/lib/store/selectors/restClientFormSelectField';
 import { setHeader, updateRestClientFormField } from '@/lib/store/slice/restClientFormSlice';
+import { buildRestClientUrl } from '@/lib/utils/urlUtils';
+import { replaceVariables } from '@/lib/utils/variableReplacer';
 
 import CodeGeneratorSection from './codeGenerator/CodeGeneratorSection';
 import HeadersSection from './headersEditor/HeadersSection';
 import BodyEditor from './responseBodyViewer/BodyEditor';
-import { buildRestClientUrl } from './utils/urlUtils';
-import { replaceVariables } from './utils/variableReplacer';
 
 import type { Variable } from './hooks/useVariables';
 import type { ApiResult, FormValues, HttpMethod, ResponseInfo } from './types';
