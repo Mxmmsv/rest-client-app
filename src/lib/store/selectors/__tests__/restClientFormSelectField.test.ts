@@ -1,7 +1,9 @@
+import type { FormValues } from '@/components/restClient/types';
+
 import { getMethod, getUrl, getBody, getHeaders } from '../restClientFormSelectField';
 
 describe('restClientForm selectors', () => {
-  const mockState = {
+  const mockState: { restClientForm: FormValues } = {
     restClientForm: {
       method: 'POST',
       url: 'https://example.com',
