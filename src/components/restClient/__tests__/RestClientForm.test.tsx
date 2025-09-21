@@ -23,6 +23,20 @@ vi.mock('../responseBodyViewer/BodyEditor', () => ({
   default: () => <div>BodyEditor</div>,
 }));
 
+vi.mock('next-intl', () => ({
+  useTranslations: () => (key: string) => {
+    const translations: Record<string, string> = {
+      bodyEditor: 'Body editor',
+      headersEditor: 'Headers editor',
+      generateCode: 'Generate code',
+      enterApiUrl: 'Enter API URL',
+      send: 'Send',
+      invalidJson: 'Invalid JSON format in request body',
+    };
+    return translations[key] || key;
+  },
+}));
+
 describe('RestClientForm', () => {
   const store = configureStore({
     reducer: { restClientForm: restClientFormReducer },

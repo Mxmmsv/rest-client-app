@@ -1,25 +1,25 @@
 import { GithubOutlined, LinkedinOutlined } from '@ant-design/icons';
 import { Card, Flex, Typography, Image, Space } from 'antd';
 import Link from 'next/link';
-import React from 'react';
+import { useTranslations } from 'next-intl';
 
 const { Title, Paragraph, Text } = Typography;
 
 const teamMembers = [
   {
-    name: 'Maksim Moiseev',
+    id: 'maxim',
     image: '/member-photo/max.webp',
     github: 'https://github.com/Mxmmsv',
     linkedin: 'https://www.linkedin.com/in/moiseevmaxim/',
   },
   {
-    name: 'Ekaterina Dmitrenko',
+    id: 'ekaterina',
     image: '/member-photo/ekaterina.webp',
     github: 'https://github.com/ek-ole',
     linkedin: 'https://www.linkedin.com/in/ekaterina-dmitrenko-74531835a',
   },
   {
-    name: 'Alla Tsaiukova',
+    id: 'alla',
     image: '/member-photo/alya.webp',
     github: 'https://github.com/AlyaEngineer',
     linkedin: 'https://www.linkedin.com/in/alla-tsaiukova-033ba92b8/',
@@ -27,38 +27,41 @@ const teamMembers = [
 ];
 
 export default function AboutSection() {
+  const t = useTranslations('AboutSection');
+  const tTeam = useTranslations('Team');
+
   return (
     <Flex vertical gap="small" align="center">
-      <Title level={4}>About us</Title>
+      <Title level={4}>{t('aboutUs')}</Title>
 
       <Paragraph style={{ maxWidth: '60vw', textAlign: 'center' }}>
-        This application was created as a final project for the{' '}
+        {t('description')}{' '}
         <Text strong>
           <Link href="https://rs.school/courses/reactjs" target="_blank">
-            RS School React course
+            {t('rsCourse')}
           </Link>
         </Text>
         <br />
-        by the team{' '}
+        {t('byTeam')}{' '}
         <Text strong>
           <Link href="https://github.com/Mxmmsv/rest-client-app" target="_blank">
-            &quot;Yet Another Dream Team&quot;
+            {t('teamName')}
           </Link>
         </Text>
       </Paragraph>
 
       <Space size="large" wrap style={{ justifyContent: 'center' }}>
         {teamMembers.map((member) => (
-          <Card key={member.name} style={{ textAlign: 'center' }} hoverable>
+          <Card key={member.id} style={{ textAlign: 'center' }} hoverable>
             <Image
               src={member.image}
-              alt={member.name}
+              alt={tTeam(member.id)}
               width={150}
               height={150}
               style={{ objectFit: 'cover', borderRadius: 10 }}
               preview={false}
             />
-            <Title level={5}>{member.name}</Title>
+            <Title level={5}>{tTeam(member.id)}</Title>
             <Space>
               <Link href={member.github} target="_blank">
                 <GithubOutlined style={{ fontSize: '24px' }} />

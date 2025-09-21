@@ -33,6 +33,18 @@ vi.mock('antd/es/notification/useNotification', () => ({
   default: () => [vi.fn(), <div key="ctx">NotificationCtx</div>],
 }));
 
+vi.mock('next-intl', () => ({
+  useTranslations: () => (key: string) => {
+    const translations: Record<string, string> = {
+      'Header.home': 'Home',
+      'Header.login': 'Login',
+      'Header.logout': 'Logout',
+      'Header.register': 'Register',
+    };
+    return translations[key] || key;
+  },
+}));
+
 const mockedUseAuthState = vi.mocked(useAuthState);
 const mockedUseAuth = vi.mocked(useAuth);
 

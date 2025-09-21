@@ -1,4 +1,5 @@
 import { Button, Flex, Form, Input, Select, Tabs } from 'antd';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -54,6 +55,7 @@ export default function RestClientForm({
   });
   const [contentType, setContentType] = useState<'json' | 'text'>('json');
   const dispatch = useDispatch();
+  const t = useTranslations('RestClientForm');
 
   const method = useSelector(getMethod);
   const url = useSelector(getUrl);
@@ -63,7 +65,7 @@ export default function RestClientForm({
   const tabItems = [
     {
       key: 'bodyEditorSection',
-      label: 'Body editor',
+      label: t('bodyEditor'),
       children: (
         <BodyEditor
           form={form}
@@ -77,12 +79,12 @@ export default function RestClientForm({
     },
     {
       key: 'headersEditorSection',
-      label: 'Headers editor',
+      label: t('headersEditor'),
       children: <HeadersSection />,
     },
     {
       key: 'generateCodeSection',
-      label: 'Generate code',
+      label: t('generateCode'),
       children: <CodeGeneratorSection onGeneratedCode={onGeneratedCode} />,
     },
   ];
@@ -118,7 +120,7 @@ export default function RestClientForm({
       } catch {
         handleBodyError({
           status: null,
-          statusText: 'Invalid JSON format in request body',
+          statusText: t('invalidJson'),
           duration: null,
         });
         return undefined;
@@ -211,12 +213,12 @@ export default function RestClientForm({
           </Form.Item>
 
           <Form.Item name="url" style={{ width: '100%' }}>
-            <Input placeholder="Enter API URL" />
+            <Input placeholder={t('enterApiUrl')} />
           </Form.Item>
 
           <Form.Item>
             <Button type="primary" htmlType="submit">
-              Send
+              {t('send')}
             </Button>
           </Form.Item>
         </Flex>

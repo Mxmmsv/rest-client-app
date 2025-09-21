@@ -33,9 +33,34 @@ vi.mock('@/components/Loader', () => ({
   default: () => <div role="status">Loading...</div>,
 }));
 
+vi.mock('next-intl', () => ({
+  useTranslations: () => (key: string) => {
+    const translations: Record<string, string> = {
+      'SignUp.welcome': 'Welcome!',
+      'SignUp.email': 'Email',
+      'SignUp.emailRequired': 'Please input your email!',
+      'SignUp.emailInvalid': 'Please enter a valid email!',
+      'SignUp.password': 'Password',
+      'SignUp.passwordRequired': 'Please input your password!',
+      'SignUp.passwordInvalid':
+        'Password must be at least 8 characters long and contain a letter, a number, and a special character.',
+      'SignUp.confirmPassword': 'Confirm Password',
+      'SignUp.confirmPasswordRequired': 'Please confirm your password!',
+      'SignUp.passwordsMismatch': 'Passwords do not match!',
+      'SignUp.name': 'Name',
+      'SignUp.nameRequired': 'Please input your name!',
+      'SignUp.nameMinLength': 'Name must be at least 2 characters long.',
+      'SignUp.submit': 'Submit',
+    };
+    return translations[key] || key;
+  },
+}));
+
 const mockedUseAuthState = vi.mocked(useAuthState);
 const mockedUseAuth = vi.mocked(useAuth);
 const mockedRedirect = vi.mocked(redirect);
+
+const TEST_PASSWORD = 'password123!';
 
 describe('SignUp component', () => {
   it('should render register form with no user', async () => {
@@ -96,13 +121,13 @@ describe('SignUp component', () => {
     const emailInput = screen.getByLabelText(/Email/i);
     const passwordInput = screen.getAllByLabelText(/Password/i)[0];
     const confirmPasswordInput = screen.getAllByLabelText(/Password/i)[1];
-    const nameInput = screen.getByLabelText(/name/i);
+    const nameInput = screen.getByLabelText(/Name/i);
     const submitButton = screen.getByRole('button', { name: /Submit/i });
 
     await act(async () => {
       fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
-      fireEvent.change(passwordInput, { target: { value: 'password123!' } });
-      fireEvent.change(confirmPasswordInput, { target: { value: 'password123!' } });
+      fireEvent.change(passwordInput, { target: { value: TEST_PASSWORD } });
+      fireEvent.change(confirmPasswordInput, { target: { value: TEST_PASSWORD } });
       fireEvent.change(nameInput, { target: { value: 'aboba' } });
       fireEvent.click(submitButton);
     });
@@ -110,8 +135,7 @@ describe('SignUp component', () => {
     expect(registerMock).toHaveBeenCalledWith(
       expect.objectContaining({
         email: 'test@example.com',
-        // eslint-disable-next-line sonarjs/no-hardcoded-passwords
-        password: 'password123!',
+        password: TEST_PASSWORD,
         name: 'aboba',
       })
     );

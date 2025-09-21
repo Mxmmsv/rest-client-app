@@ -10,6 +10,17 @@ const store = configureStore({
   reducer: { restClientForm: restClientFormReducer },
 });
 
+vi.mock('next-intl', () => ({
+  useTranslations: () => (key: string) => {
+    const translations: Record<string, string> = {
+      response: 'Response',
+      generatedCode: 'Generated Code',
+      request: 'Request',
+    };
+    return translations[key] || key;
+  },
+}));
+
 describe('RestClient', () => {
   it('renders layout with left panel, request form, and tabs', () => {
     render(

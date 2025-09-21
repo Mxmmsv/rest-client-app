@@ -1,8 +1,22 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 
 import VariablesPanel from '../VariablesPanel';
 
 import type { Variable } from '../hooks/useVariables';
+
+vi.mock('next-intl', () => ({
+  useTranslations: () => (key: string) => {
+    const translations: Record<string, string> = {
+      variables: 'Variables',
+      variableName: 'Variable name',
+      value: 'Value',
+      add: 'Add',
+      delete: 'Delete',
+    };
+    return translations[key] || key;
+  },
+}));
 
 describe('VariablesPanel', () => {
   const mockVariables: Variable[] = [
@@ -39,6 +53,7 @@ describe('VariablesPanel', () => {
         deleteVariable={mockDeleteVariable}
       />
     );
+
     fireEvent.change(screen.getByPlaceholderText('Variable name'), {
       target: { value: 'new_var' },
     });

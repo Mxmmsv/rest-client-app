@@ -1,5 +1,6 @@
 import { Editor } from '@monaco-editor/react';
 import { Card, Flex, Select, Typography } from 'antd';
+import { useTranslations } from 'next-intl';
 
 import type { ResponseInfo } from '../types';
 
@@ -28,10 +29,12 @@ export default function CodeSpace({
   currentTheme = 'vs',
   onThemeChange,
 }: Readonly<CodeSpaceProps>) {
+  const t = useTranslations('CodeSpace');
+
   return (
     <Card style={{ width: '90%' }}>
       <Flex align="center" justify="flex-end" gap="small" style={{ marginBottom: 6 }}>
-        <Text type="secondary">Editor theme:</Text>
+        <Text type="secondary">{t('editorTheme')}</Text>
         <Select
           value={currentTheme}
           style={{ width: 100 }}
@@ -49,7 +52,7 @@ export default function CodeSpace({
             <Typography.Text
               type={responseInfo.status && responseInfo.status < 400 ? 'success' : 'danger'}
             >
-              Status: {responseInfo.status || 'Error'}
+              {t('status')} {responseInfo.status || t('error')}
             </Typography.Text>
           )}
 
@@ -60,7 +63,9 @@ export default function CodeSpace({
           </Typography.Text>
 
           {responseInfo.duration && (
-            <Typography.Text type="secondary">Time: {responseInfo.duration}ms</Typography.Text>
+            <Typography.Text type="secondary">
+              {t('time')} {responseInfo.duration}ms
+            </Typography.Text>
           )}
         </Flex>
       )}

@@ -1,6 +1,7 @@
 'use client';
 import { DeleteTwoTone, PlusOutlined } from '@ant-design/icons';
 import { Button, Input, Table, Space, Typography, Flex, Card } from 'antd';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 import { type Variable } from '@/components/restClient/hooks/useVariables';
@@ -19,22 +20,23 @@ export default function VariablesPanel({
   deleteVariable,
 }: Readonly<Props>) {
   const [newVar, setNewVar] = useState<Variable>({ name: '', value: '' });
+  const t = useTranslations('VariablesPanel');
 
   const columns = [
     {
-      title: 'Name',
+      title: t('variableName'),
       dataIndex: 'name',
       width: '35%',
       key: 'name',
     },
     {
-      title: 'Value',
+      title: t('value'),
       dataIndex: 'value',
       width: '45%',
       key: 'value',
     },
     {
-      title: 'Delete',
+      title: t('delete'),
       key: 'actions',
       render: (_: unknown, __: Variable, index: number) => (
         <Flex align="center" justify="center">
@@ -48,15 +50,15 @@ export default function VariablesPanel({
 
   return (
     <Flex vertical gap="small" justify="center" align="center">
-      <Title level={3}>Variables</Title>
+      <Title level={3}>{t('variables')}</Title>
       <Space.Compact style={{ width: '90%' }}>
         <Input
-          placeholder="Variable name"
+          placeholder={t('variableName')}
           value={newVar.name}
           onChange={(e) => setNewVar({ ...newVar, name: e.target.value })}
         />
         <Input
-          placeholder="Value"
+          placeholder={t('value')}
           value={newVar.value}
           onChange={(e) => setNewVar({ ...newVar, value: e.target.value })}
         />
@@ -69,7 +71,7 @@ export default function VariablesPanel({
             }
           }}
         >
-          Add
+          {t('add')}
         </Button>
       </Space.Compact>
       <Card style={{ width: '90%' }}>

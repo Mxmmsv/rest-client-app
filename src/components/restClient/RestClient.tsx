@@ -1,6 +1,7 @@
 'use client';
 
 import { Layout, Tabs, Typography } from 'antd';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 import type { ApiResult, ResponseInfo } from '@/components/restClient/types';
@@ -24,15 +25,16 @@ export default function RestClient() {
     statusText: '',
     duration: null,
   });
+  const t = useTranslations('RestClient');
 
   const tabItems = [
     {
       key: 'response',
-      label: 'Response',
+      label: t('response'),
       children: (
         <>
           <Title level={3} style={{ textAlign: 'center' }}>
-            Response
+            {t('response')}
           </Title>
           <ResponsePanel
             result={result}
@@ -45,11 +47,11 @@ export default function RestClient() {
     },
     {
       key: 'generatedCode',
-      label: 'Generated Code',
+      label: t('generatedCode'),
       children: (
         <>
           <Title level={3} style={{ textAlign: 'center' }}>
-            Generated Code
+            {t('generatedCode')}
           </Title>
           <ResponsePanel
             result={snippet}
@@ -77,8 +79,8 @@ export default function RestClient() {
       </Sider>
 
       <Content>
-        <Title level={3} style={{ textAlign: 'center' }}>
-          Request
+        <Title level={3} style={{ textAlign: 'center', marginTop: '10px' }}>
+          {t('request')}
         </Title>
         <RestClientForm
           onResponse={handleResponse}

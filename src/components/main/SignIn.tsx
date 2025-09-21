@@ -2,6 +2,7 @@
 
 import { Button, Card, Flex, Form, Input, Layout } from 'antd';
 import { redirect } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 import { auth } from '@/lib/auth/firebase.config';
@@ -19,6 +20,7 @@ const { Content } = Layout;
 export default function SignIn() {
   const [user, loading, error] = useAuthState(auth);
   const { logInWithEmailAndPassword } = useAuth();
+  const t = useTranslations('SignIn');
 
   const onFinish = async ({ email, password }: FieldType) => {
     await logInWithEmailAndPassword({ email, password });
@@ -42,7 +44,6 @@ export default function SignIn() {
         <Card
           style={{
             width: '50%',
-
             textAlign: 'center',
             backgroundColor: 'transparent',
             border: 'solid var(--color-additional-light)',
@@ -52,24 +53,24 @@ export default function SignIn() {
         >
           <Form name="signIn" layout="vertical" labelCol={{ span: 8 }} onFinish={onFinish}>
             <Form.Item<FieldType>
-              label="Email"
+              label={t('email')}
               name="email"
-              rules={[{ required: true, message: 'Please input your email!' }]}
+              rules={[{ required: true, message: t('emailRequired') }]}
             >
               <Input />
             </Form.Item>
 
             <Form.Item<FieldType>
-              label="Password"
+              label={t('password')}
               name="password"
-              rules={[{ required: true, message: 'Please input your password!' }]}
+              rules={[{ required: true, message: t('passwordRequired') }]}
             >
               <Input.Password />
             </Form.Item>
 
             <Form.Item label={null} className="flex justify-center">
               <Button type="primary" htmlType="submit">
-                Submit
+                {t('submit')}
               </Button>
             </Form.Item>
           </Form>
