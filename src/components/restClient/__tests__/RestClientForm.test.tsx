@@ -8,6 +8,7 @@ import restClientFormReducer from '@/lib/store/slice/restClientFormSlice';
 
 import RestClientForm from '../RestClientForm';
 
+import type { ApiResult, ResponseInfo } from '../types';
 import type { MockedFunction } from 'vitest';
 
 vi.mock('@/lib/restClient/restClient', () => ({
@@ -19,10 +20,7 @@ vi.mock('../utils/variableReplacer', () => ({
 }));
 
 vi.mock('../responseBodyViewer/BodyEditor', () => ({
-  default: (props: { onContentTypeChange: (type: string) => void }) => {
-    props.onContentTypeChange('json');
-    return <div>BodyEditor</div>;
-  },
+  default: () => <div>BodyEditor</div>,
 }));
 
 describe('RestClientForm', () => {
@@ -31,7 +29,7 @@ describe('RestClientForm', () => {
   });
 
   const variables: Array<{ name: string; value: string }> = [];
-  const onResponse = vi.fn();
+  const onResponse = vi.fn<(result: ApiResult, info: ResponseInfo) => void>();
   const onGeneratedCode = vi.fn();
   const onThemeChange = vi.fn();
 
@@ -63,12 +61,15 @@ describe('RestClientForm', () => {
   });
 
   it('submits form and calls restClient', async () => {
-    mockedRestClient.mockResolvedValue({
-      data: { result: 'ok' },
-      status: 200,
-      statusText: 'OK',
-      duration: 10,
-    });
+    mockedRestClient.mockResolvedValue(
+      await ({
+        data: { result: 'ok' },
+        status: 200,
+        statusText: 'OK',
+        duration: 10,
+        error: undefined,
+      } as unknown as ReturnType<typeof restClient>)
+    );
 
     render(
       <Provider store={store}>
@@ -102,7 +103,17 @@ describe('RestClientForm', () => {
     });
   });
 
-  it('handles invalid JSON body', async () => {
+  it('handles invalid JSON body without calling restClient', async () => {
+    mockedRestClient.mockResolvedValue(
+      await ({
+        data: null,
+        status: 0,
+        statusText: '',
+        duration: 0,
+        error: 'Invalid body',
+      } as unknown as ReturnType<typeof restClient>)
+    );
+
     render(
       <Provider store={store}>
         <RestClientForm
@@ -119,7 +130,7 @@ describe('RestClientForm', () => {
     fireEvent.click(sendButton);
 
     await waitFor(() => {
-      expect(onResponse).not.toHaveBeenCalled();
+      expect(mockedRestClient).not.toHaveBeenCalled();
       expect(screen.getByText('BodyEditor')).toBeInTheDocument();
     });
   });
