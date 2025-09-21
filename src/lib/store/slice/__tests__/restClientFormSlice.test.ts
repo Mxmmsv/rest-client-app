@@ -1,3 +1,5 @@
+import type { FormValues } from '@/components/restClient/types';
+
 import reducer, {
   updateRestClientFormField,
   addHeader,
@@ -7,7 +9,7 @@ import reducer, {
 } from '../restClientFormSlice';
 
 describe('restClientFormSlice', () => {
-  const initialState = {
+  const initialState: FormValues = {
     method: 'GET',
     url: 'https://jsonplaceholder.typicode.com/posts',
     body: '{ "foo": "foo", "boo": "boo" }',
