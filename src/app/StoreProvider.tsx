@@ -13,5 +13,3 @@ export default function StoreProvider({ children }: Readonly<{ children: ReactNo
 
   return <Provider store={storeRef.current}>{children}</Provider>;
 }
-
-//! https://redux-toolkit.js.org/usage/nextjs

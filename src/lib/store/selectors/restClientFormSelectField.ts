@@ -11,7 +11,3 @@ export const getUrl = createSelector([getFormState], (formState) => formState.ur
 export const getBody = createSelector([getFormState], (formState) => formState.body);
 
 export const getHeaders = createSelector([getFormState], (formState) => formState.headers);
-
-// const method = useSelector(getMethod);
-// const url = useSelector(getURL);
-// const body = useSelector(getBody);
