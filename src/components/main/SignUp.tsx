@@ -2,6 +2,7 @@
 
 import { Button, Card, Flex, Form, Input, Layout, Typography } from 'antd';
 import { redirect } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 import { auth } from '@/lib/auth/firebase.config';
@@ -23,6 +24,7 @@ type FieldType = {
 export default function SignUp() {
   const [user, loading, error] = useAuthState(auth);
   const { registerWithEmailAndPassword } = useAuth();
+  const t = useTranslations('SignUp');
 
   if (loading) {
     return <Loader />;
@@ -46,7 +48,6 @@ export default function SignUp() {
         <Card
           style={{
             width: '50%',
-
             textAlign: 'center',
             backgroundColor: 'transparent',
             border: 'solid var(--color-additional-light)',
@@ -54,7 +55,7 @@ export default function SignUp() {
             padding: '50px ',
           }}
         >
-          <Title>Welcome!</Title>
+          <Title>{t('welcome')}</Title>
           <Form
             name="signUp"
             layout="vertical"
@@ -62,25 +63,24 @@ export default function SignUp() {
             onFinish={onFinish}
           >
             <Form.Item<FieldType>
-              label="Email"
+              label={t('email')}
               name="email"
               rules={[
-                { required: true, message: 'Please input your email!' },
-                { type: 'email', message: 'Please enter a valid email!' },
+                { required: true, message: t('emailRequired') },
+                { type: 'email', message: t('emailInvalid') },
               ]}
             >
               <Input />
             </Form.Item>
 
             <Form.Item<FieldType>
-              label="Password"
+              label={t('password')}
               name="password"
               rules={[
-                { required: true, message: 'Please input your password!' },
+                { required: true, message: t('passwordRequired') },
                 {
                   pattern: /^(?=.*\p{L})(?=.*\d)(?=.*[^\p{L}\d]).{8,}$/u,
-                  message:
-                    'Password must be at least 8 characters long and contain a letter, a number, and a special character.',
+                  message: t('passwordInvalid'),
                 },
               ]}
               hasFeedback
@@ -89,19 +89,19 @@ export default function SignUp() {
             </Form.Item>
 
             <Form.Item<FieldType>
-              label="Confirm Password"
+              label={t('confirmPassword')}
               name="confirmPassword"
               dependencies={['password']}
               hasFeedback
               validateTrigger={['onChange', 'onBlur']}
               rules={[
-                { required: true, message: 'Please confirm your password!' },
+                { required: true, message: t('confirmPasswordRequired') },
                 ({ getFieldValue }) => ({
                   validator(_, value) {
                     if (!value || getFieldValue('password') === value) {
                       return Promise.resolve();
                     }
-                    return Promise.reject('Passwords do not match!');
+                    return Promise.reject(new Error(t('passwordsMismatch')));
                   },
                 }),
               ]}
@@ -110,11 +110,11 @@ export default function SignUp() {
             </Form.Item>
 
             <Form.Item<FieldType>
-              label="Name"
+              label={t('name')}
               name="name"
               rules={[
-                { required: true, message: 'Please input your name!' },
-                { min: 2, message: 'Name must be at least 2 characters long.' },
+                { required: true, message: t('nameRequired') },
+                { min: 2, message: t('nameMinLength') },
               ]}
             >
               <Input />
@@ -122,7 +122,7 @@ export default function SignUp() {
 
             <Form.Item label={null} className="flex justify-center">
               <Button type="primary" htmlType="submit">
-                Submit
+                {t('submit')}
               </Button>
             </Form.Item>
           </Form>

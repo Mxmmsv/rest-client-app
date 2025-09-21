@@ -90,7 +90,6 @@ describe('signIn component', () => {
 
     expect(logInMock).toHaveBeenCalledWith({
       email: 'test@example.com',
-      // eslint-disable-next-line sonarjs/no-hardcoded-passwords
       password: 'password123!',
     });
   });

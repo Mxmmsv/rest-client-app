@@ -47,5 +47,21 @@
     "login": "Войти",
     "logout": "Выйти",
     "register": "Регистрация"
+  },
+  "SignUp": {
+    "welcome": "Добро пожаловать!",
+    "email": "Email",
+    "emailRequired": "Пожалуйста, введите ваш email!",
+    "emailInvalid": "Пожалуйста, введите корректный email!",
+    "password": "Пароль",
+    "passwordRequired": "Пожалуйста, введите пароль!",
+    "passwordInvalid": "Пароль должен быть не менее 8 символов и содержать букву, цифру и специальный символ.",
+    "confirmPassword": "Подтвердите пароль",
+    "confirmPasswordRequired": "Пожалуйста, подтвердите пароль!",
+    "passwordsMismatch": "Пароли не совпадают!",
+    "name": "Имя",
+    "nameRequired": "Пожалуйста, введите ваше имя!",
+    "nameMinLength": "Имя должно быть не менее 2 символов.",
+    "submit": "Зарегистрироваться"
   }
 }

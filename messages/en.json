@@ -47,5 +47,21 @@
     "login": "Login",
     "logout": "Logout",
     "register": "Register"
+  },
+  "SignUp": {
+    "welcome": "Welcome!",
+    "email": "Email",
+    "emailRequired": "Please input your email!",
+    "emailInvalid": "Please enter a valid email!",
+    "password": "Password",
+    "passwordRequired": "Please input your password!",
+    "passwordInvalid": "Password must be at least 8 characters long and contain a letter, a number, and a special character.",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordRequired": "Please confirm your password!",
+    "passwordsMismatch": "Passwords do not match!",
+    "name": "Name",
+    "nameRequired": "Please input your name!",
+    "nameMinLength": "Name must be at least 2 characters long.",
+    "submit": "Submit"
   }
 }
