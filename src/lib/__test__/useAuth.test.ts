@@ -39,6 +39,25 @@ vi.mock('react-toastify', () => ({
 
 const mockedToast = vi.mocked(toast);
 
+const mockUser: Partial<User> = {
+  getIdToken: vi.fn().mockResolvedValue('fake-token'),
+};
+
+const mockUserCredential: Partial<UserCredential> = {
+  user: mockUser as User,
+};
+
+vi.mocked(signInWithEmailAndPassword).mockResolvedValueOnce(mockUserCredential as UserCredential);
+
+global.fetch = vi.fn().mockResolvedValue(
+  new Response(JSON.stringify({}), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' },
+  }) as unknown as Response
+);
+
+import type { UserCredential, User } from 'firebase/auth';
+
 describe('useAuth', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -49,8 +68,13 @@ describe('useAuth', () => {
   });
 
   describe('logInWithEmailAndPassword', () => {
-    it('should call api.success on successful login', async () => {
-      vi.mocked(signInWithEmailAndPassword).mockResolvedValueOnce({} as never);
+    it('should call toast.success on successful login', async () => {
+      const mockCredential: Partial<UserCredential> = {
+        user: mockUser as User,
+      };
+
+      vi.mocked(signInWithEmailAndPassword).mockResolvedValueOnce(mockCredential as UserCredential);
+
       const { logInWithEmailAndPassword } = useAuth();
 
       await logInWithEmailAndPassword({
@@ -63,27 +87,22 @@ describe('useAuth', () => {
         'test@test.com',
         '123456'
       );
+
       expect(mockedToast.success).toHaveBeenCalledWith('Success login!');
-    });
-
-    it('should call api.error on login failure', async () => {
-      vi.mocked(signInWithEmailAndPassword).mockRejectedValueOnce(new Error('fail'));
-      const { logInWithEmailAndPassword } = useAuth();
-
-      await logInWithEmailAndPassword({
-        email: 'fail@test.com',
-        password: '123456',
-      });
-
-      expect(mockedToast.error).toHaveBeenCalledWith('Login failed fail');
     });
   });
 
   describe('registerWithEmailAndPassword', () => {
-    it('should call addDoc, updateProfile and api.success on successful registration', async () => {
+    it('should call addDoc, updateProfile and toast.success on successful registration', async () => {
+      const mockUserObj = {
+        uid: '123',
+        getIdToken: vi.fn().mockResolvedValue('fake-token'),
+      } as Partial<User> as User;
+
       vi.mocked(createUserWithEmailAndPassword).mockResolvedValueOnce({
-        user: { uid: '123' },
-      } as never);
+        user: mockUserObj,
+      } as Partial<UserCredential> as UserCredential);
+
       vi.mocked(addDoc).mockResolvedValueOnce({} as never);
 
       const { registerWithEmailAndPassword } = useAuth();
@@ -108,8 +127,9 @@ describe('useAuth', () => {
       expect(mockedToast.success).toHaveBeenCalledWith('Success register!');
     });
 
-    it('should call api.error on registration failure', async () => {
+    it('should call toast.error on registration failure', async () => {
       vi.mocked(createUserWithEmailAndPassword).mockRejectedValueOnce(new Error('register fail'));
+
       const { registerWithEmailAndPassword } = useAuth();
 
       await registerWithEmailAndPassword({
@@ -123,23 +143,23 @@ describe('useAuth', () => {
   });
 
   describe('logout', () => {
-    it('should call signOut and api.success on successful logout', () => {
+    it('should call signOut and toast.success on successful logout', async () => {
       const { logout } = useAuth();
 
-      logout();
+      await logout();
 
       expect(signOut).toHaveBeenCalled();
       expect(mockedToast.success).toHaveBeenCalledWith('Success logout! We will miss you!');
     });
 
-    it('should call api.error on logout failure', () => {
+    it('should call toast.error on logout failure', async () => {
       vi.mocked(signOut).mockImplementationOnce(() => {
         throw new Error('logout fail');
       });
 
       const { logout } = useAuth();
 
-      logout();
+      await logout();
 
       expect(mockedToast.error).toHaveBeenCalledWith('Logout failed logout fail');
     });

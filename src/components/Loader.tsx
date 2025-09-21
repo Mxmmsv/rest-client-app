@@ -1,3 +1,5 @@
+'use client';
+
 import { Flex, Layout, Spin } from 'antd';
 const { Content } = Layout;
 

@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi, describe, it, beforeEach, expect } from 'vitest';
 
 import GlobalError from '../global-error';
 
@@ -23,7 +24,7 @@ describe('GlobalError', () => {
   it('calls reset when clicking Try again button', async () => {
     render(<GlobalError error={mockError} reset={mockReset} />);
 
-    await userEvent.click(screen.getByRole('button', { name: 'Try again' }));
+    await userEvent.click(screen.getByRole('button', { name: /try again/i }));
 
     expect(mockReset).toHaveBeenCalled();
   });

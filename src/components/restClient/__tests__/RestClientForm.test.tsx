@@ -77,13 +77,18 @@ describe('RestClientForm', () => {
   it('submits form and calls restClient', async () => {
     mockedRestClient.mockResolvedValue(
       await ({
-        data: { result: 'ok' },
+        data: 'ok',
         status: 200,
         statusText: 'OK',
         duration: 10,
         error: undefined,
       } as unknown as ReturnType<typeof restClient>)
     );
+
+    vi.spyOn(global, 'fetch').mockResolvedValue({
+      ok: true,
+      json: async () => ({}),
+    } as Response);
 
     render(
       <Provider store={store}>
@@ -110,9 +115,14 @@ describe('RestClientForm', () => {
           url: 'https://api.example.com',
         })
       );
+
       expect(onResponse).toHaveBeenCalledWith(
         { result: 'ok' },
-        expect.objectContaining({ status: 200, statusText: 'OK', duration: 10 })
+        expect.objectContaining({
+          status: 200,
+          statusText: 'OK',
+          duration: 10,
+        })
       );
     });
   });

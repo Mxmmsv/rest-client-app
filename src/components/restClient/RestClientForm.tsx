@@ -1,6 +1,6 @@
 import { Button, Flex, Form, Input, Select, Tabs } from 'antd';
+import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { restClient } from '@/lib/restClient/restClient';
@@ -61,6 +61,10 @@ export default function RestClientForm({
   const url = useSelector(getUrl);
   const body = useSelector(getBody);
   const headers = useSelector(getHeaders);
+
+  useEffect(() => {
+    form.setFieldsValue({ method, url, body });
+  }, [form, method, url, body]);
 
   const tabItems = [
     {
@@ -148,6 +152,11 @@ export default function RestClientForm({
       body: handleBody(values),
       headers: headers,
     });
+    const latency = response.duration;
+    const requestSize = values.body ? new TextEncoder().encode(values.body).length : 0;
+    const responseSize = response.data
+      ? new TextEncoder().encode(JSON.stringify(response.data)).length
+      : 0;
 
     if (response.error) {
       onResponse(
@@ -158,6 +167,26 @@ export default function RestClientForm({
           duration: response.duration,
         }
       );
+
+      const requestSize = values.body ? new TextEncoder().encode(values.body).length : 0;
+      const historyPayload = {
+        url: processedUrl,
+        method: values.method,
+        headers,
+        body: values.body,
+        latency,
+        statusCode: response.status,
+        requestSize,
+        responseSize: 0,
+        error: response.statusText,
+      };
+
+      await fetch('/api/history', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(historyPayload),
+        credentials: 'include',
+      });
     } else {
       const restClientUrl = buildRestClientUrl(
         values.method,
@@ -167,11 +196,33 @@ export default function RestClientForm({
       );
       window.history.replaceState(null, '', restClientUrl);
 
-      onResponse(response.data, {
-        status: response.status,
-        statusText: response.statusText,
-        duration: response.duration,
+      const historyPayload = {
+        url: processedUrl,
+        method: values.method,
+        headers,
+        body: values.body || '',
+        latency,
+        statusCode: response.status,
+        requestSize,
+        responseSize,
+        error: null,
+      };
+
+      await fetch('/api/history', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(historyPayload),
+        credentials: 'include',
       });
+
+      onResponse(
+        { result: response.data },
+        {
+          status: response.status,
+          statusText: response.statusText,
+          duration: response.duration,
+        }
+      );
     }
   };
 
