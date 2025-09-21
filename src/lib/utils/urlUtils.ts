@@ -1,4 +1,4 @@
-import type { Header } from '../types';
+import type { Header } from '@/components/restClient/types';
 
 export const encodeToBase64 = (str: string): string => {
   return btoa(encodeURIComponent(str));

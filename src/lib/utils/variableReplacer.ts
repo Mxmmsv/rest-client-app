@@ -1,4 +1,4 @@
-import type { Variable } from '../hooks/useVariables';
+import type { Variable } from '@/components/restClient/hooks/useVariables';
 
 export const replaceVariables = (text: string, variables: Variable[]): string => {
   if (!text || !variables.length) return text;

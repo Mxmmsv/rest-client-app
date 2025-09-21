@@ -16,7 +16,7 @@ export default defineConfig({
     globals: true,
     setupFiles: ['./vitest-setup.ts'],
     coverage: {
-      provider: 'istanbul',
+      provider: 'v8',
       reporter: ['text', 'html'],
       include: ['src/**/*.{js,jsx,ts,tsx}'],
       exclude: [
