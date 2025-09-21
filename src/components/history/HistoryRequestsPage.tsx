@@ -2,11 +2,16 @@
 
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { Button, Space } from 'antd';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
 import type { RequestHistoryItem } from '@/lib/requests/types';
 
-import RequestsTable from './RequestsTable';
+import Loader from '../Loader';
+
+const RequestsTable = dynamic(() => import('./RequestsTable'), {
+  loading: () => <Loader />,
+});
 
 export default function HistoryRequestsPage({
   history,

@@ -1,11 +1,17 @@
+import dynamic from 'next/dynamic';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 import { adminAuth, adminDb } from '@/lib/requests/firebaseAdmin';
 import type { FirestoreRequestData, RequestHistoryItem } from '@/lib/requests/types';
 
+import Loader from '../Loader';
+
 import EmptyHistoryPage from './EmptyHistoryPage';
-import HistoryRequestsPage from './HistoryRequestsPage';
+
+const HistoryRequestsPage = dynamic(() => import('./HistoryRequestsPage'), {
+  loading: () => <Loader />,
+});
 
 export default async function HistoryPageContent() {
   const cookieStore = await cookies();
