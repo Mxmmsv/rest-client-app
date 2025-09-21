@@ -5,10 +5,6 @@ import { routing } from './routing';
 
 type Messages = Record<string, string>;
 
-function reportToErrorTracking(error: unknown) {
-  console.error('Report to tracking system:', error);
-}
-
 export default getRequestConfig(async ({ requestLocale }) => {
   const requested = await requestLocale;
   const locale = hasLocale(routing.locales, requested) ? requested : routing.defaultLocale;
@@ -18,14 +14,6 @@ export default getRequestConfig(async ({ requestLocale }) => {
   return {
     locale,
     messages: messages.default,
-
-    onError(error) {
-      if (error.code === IntlErrorCode.MISSING_MESSAGE) {
-        console.error('Missing translation:', error);
-      } else {
-        reportToErrorTracking(error);
-      }
-    },
 
     getMessageFallback({ namespace, key, error }) {
       const path = [namespace, key].filter(Boolean).join('.');

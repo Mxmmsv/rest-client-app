@@ -28,23 +28,19 @@ export default function RestClientPage() {
     const encodedBody = pathParts[5];
 
     if (method && encodedUrl) {
-      try {
-        const url = decodeFromBase64(encodedUrl);
-        dispatch(updateRestClientFormField({ field: 'method', value: method }));
-        dispatch(updateRestClientFormField({ field: 'url', value: url }));
-        if (encodedBody) {
-          const body = decodeFromBase64(encodedBody);
-          dispatch(updateRestClientFormField({ field: 'body', value: body }));
-        }
-
-        const searchParams = new URLSearchParams(window.location.search);
-        const headers = queryParamsToHeaders(searchParams);
-        headers.forEach((header) => {
-          dispatch(setHeader(header));
-        });
-      } catch (error) {
-        console.error('Error parsing URL parameters:', error);
+      const url = decodeFromBase64(encodedUrl);
+      dispatch(updateRestClientFormField({ field: 'method', value: method }));
+      dispatch(updateRestClientFormField({ field: 'url', value: url }));
+      if (encodedBody) {
+        const body = decodeFromBase64(encodedBody);
+        dispatch(updateRestClientFormField({ field: 'body', value: body }));
       }
+
+      const searchParams = new URLSearchParams(window.location.search);
+      const headers = queryParamsToHeaders(searchParams);
+      headers.forEach((header) => {
+        dispatch(setHeader(header));
+      });
     }
   }, [user, loading, dispatch]);
 

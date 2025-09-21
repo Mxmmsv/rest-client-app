@@ -21,26 +21,22 @@ export default function DynamicRestClientPage({
 
   useEffect(() => {
     if (parts.length >= 2) {
-      try {
-        const method = parts[0];
-        const decodedUrl = decodeFromBase64(parts[1]);
+      const method = parts[0];
+      const decodedUrl = decodeFromBase64(parts[1]);
 
-        dispatch(updateRestClientFormField({ field: 'method', value: method }));
-        dispatch(updateRestClientFormField({ field: 'url', value: decodedUrl }));
+      dispatch(updateRestClientFormField({ field: 'method', value: method }));
+      dispatch(updateRestClientFormField({ field: 'url', value: decodedUrl }));
 
-        if (parts[2]) {
-          const decodedBody = decodeFromBase64(parts[2]);
-          dispatch(updateRestClientFormField({ field: 'body', value: decodedBody }));
-        }
-
-        const searchParams = new URLSearchParams(window.location.search);
-        const headers = queryParamsToHeaders(searchParams);
-        headers.forEach((header) => {
-          dispatch(setHeader(header));
-        });
-      } catch (error) {
-        console.error('Error parsing URL parameters:', error);
+      if (parts[2]) {
+        const decodedBody = decodeFromBase64(parts[2]);
+        dispatch(updateRestClientFormField({ field: 'body', value: decodedBody }));
       }
+
+      const searchParams = new URLSearchParams(window.location.search);
+      const headers = queryParamsToHeaders(searchParams);
+      headers.forEach((header) => {
+        dispatch(setHeader(header));
+      });
     }
   }, [parts, dispatch]);
 
