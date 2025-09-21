@@ -1,4 +1,5 @@
-import { Button, Empty, Flex, Space } from 'antd';
+import { SmileOutlined } from '@ant-design/icons';
+import { Empty, Flex } from 'antd';
 import Link from 'next/link';
 
 import { cn } from '@/lib/cn';
@@ -9,7 +10,8 @@ function EmptyHistoryPage() {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: '30px',
+        gap: '20px',
+        textAlign: 'center',
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
@@ -18,30 +20,25 @@ function EmptyHistoryPage() {
       }}
     >
       <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-      <Space size={4}>
-        <p>Your request history is empty. Try</p>
-        <Link
-          href="/rest-client"
-          passHref
-          className={cn(
-            'hover:drop-shadow-lg',
-            'hover:[filter:drop-shadow(0_0_4px_var(--color-additional))]',
-            'transition-all duration-300'
-          )}
-        >
-          <Button
-            style={{
-              color: '#1b4965',
-              fontSize: '20px',
-              padding: '0px',
-              textDecoration: 'underline',
-            }}
-            type="link"
-          >
-            open RESTful Client
-          </Button>
-        </Link>
-      </Space>
+      <p>No request history. Send your first request in</p>
+      <Link
+        href="/rest-client"
+        passHref
+        className={cn(
+          'hover:drop-shadow-lg',
+          'hover:[filter:drop-shadow(0_0_4px_var(--color-additional))]',
+          'transition-all duration-300'
+        )}
+        style={{
+          color: '#1b4965',
+          fontSize: '20px',
+          padding: '0px',
+          textDecoration: 'underline',
+        }}
+      >
+        RESTful Client
+      </Link>
+      <SmileOutlined style={{ fontSize: 20 }} />
     </Flex>
   );
 }
