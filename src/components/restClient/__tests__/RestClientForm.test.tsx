@@ -8,6 +8,8 @@ import restClientFormReducer from '@/lib/store/slice/restClientFormSlice';
 
 import RestClientForm from '../RestClientForm';
 
+import type { MockedFunction } from 'vitest';
+
 vi.mock('@/lib/restClient/restClient', () => ({
   restClient: vi.fn(),
 }));
@@ -17,7 +19,7 @@ vi.mock('../utils/variableReplacer', () => ({
 }));
 
 vi.mock('../responseBodyViewer/BodyEditor', () => ({
-  default: (props) => {
+  default: (props: { onContentTypeChange: (type: string) => void }) => {
     props.onContentTypeChange('json');
     return <div>BodyEditor</div>;
   },
@@ -28,13 +30,16 @@ describe('RestClientForm', () => {
     reducer: { restClientForm: restClientFormReducer },
   });
 
+  const variables: Array<{ name: string; value: string }> = [];
   const onResponse = vi.fn();
   const onGeneratedCode = vi.fn();
   const onThemeChange = vi.fn();
-  const variables = [];
+
+  const mockedRestClient = restClient as MockedFunction<typeof restClient>;
 
   beforeEach(() => {
     vi.clearAllMocks();
+    mockedRestClient.mockReset();
   });
 
   it('renders form and tabs', () => {
@@ -58,7 +63,7 @@ describe('RestClientForm', () => {
   });
 
   it('submits form and calls restClient', async () => {
-    restClient.mockResolvedValue({
+    mockedRestClient.mockResolvedValue({
       data: { result: 'ok' },
       status: 200,
       statusText: 'OK',
@@ -84,7 +89,7 @@ describe('RestClientForm', () => {
     fireEvent.click(sendButton);
 
     await waitFor(() => {
-      expect(restClient).toHaveBeenCalledWith(
+      expect(mockedRestClient).toHaveBeenCalledWith(
         expect.objectContaining({
           method: 'GET',
           url: 'https://api.example.com',
