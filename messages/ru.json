@@ -90,5 +90,18 @@
     "value": "Значение",
     "add": "Добавить",
     "delete": "Удалить"
+  },
+  "CodeSpace": {
+    "editorTheme": "Тема редактора:",
+    "status": "Статус:",
+    "time": "Время:",
+    "error": "Ошибка"
+  },
+  "BodyEditor": {
+    "contentType": "Тип контента:",
+    "formatJson": "Форматировать JSON",
+    "invalidJson": "Неверный формат JSON",
+    "json": "JSON",
+    "text": "Текст"
   }
 }

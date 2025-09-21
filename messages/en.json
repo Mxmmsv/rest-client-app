@@ -90,5 +90,18 @@
     "value": "Value",
     "add": "Add",
     "delete": "Delete"
+  },
+  "CodeSpace": {
+    "editorTheme": "Editor theme:",
+    "status": "Status:",
+    "time": "Time:",
+    "error": "Error"
+  },
+  "BodyEditor": {
+    "contentType": "Content Type:",
+    "formatJson": "Format JSON",
+    "invalidJson": "Invalid JSON format",
+    "json": "JSON",
+    "text": "Text"
   }
 }

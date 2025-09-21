@@ -1,6 +1,7 @@
 import { FormOutlined } from '@ant-design/icons';
 import { Button, Flex, Form, message, Select, Typography } from 'antd';
 import { useWatch } from 'antd/es/form/Form';
+import { useTranslations } from 'next-intl';
 
 import CodeSpace from './CodeSpace';
 
@@ -27,6 +28,7 @@ export default function BodyEditor({
   responseInfo,
 }: Readonly<Props>) {
   const bodyValue = useWatch('body', form);
+  const t = useTranslations('BodyEditor');
 
   const handleFormat = () => {
     if (contentType === 'json' && bodyValue) {
@@ -35,7 +37,7 @@ export default function BodyEditor({
         const formatted = JSON.stringify(parsed, null, 2);
         form.setFieldsValue({ body: formatted });
       } catch {
-        message.error('Invalid JSON format');
+        message.error(t('invalidJson'));
       }
     }
   };
@@ -43,17 +45,22 @@ export default function BodyEditor({
   return (
     <Flex vertical gap="small">
       <Flex align="baseline" justify="end" gap="middle" style={{ width: '95%' }}>
-        <Text type="secondary">Content Type:</Text>
+        <Text type="secondary">{t('contentType')}</Text>
         {contentType === 'json' && (
-          <Button onClick={handleFormat} icon={<FormOutlined />} size="small" title="Format JSON" />
+          <Button
+            onClick={handleFormat}
+            icon={<FormOutlined />}
+            size="small"
+            title={t('formatJson')}
+          />
         )}
         <Select
           value={contentType}
           onChange={onContentTypeChange}
           style={{ width: 90 }}
           options={[
-            { value: 'json', label: 'JSON' },
-            { value: 'text', label: 'Text' },
+            { value: 'json', label: t('json') },
+            { value: 'text', label: t('text') },
           ]}
         />
       </Flex>
