@@ -6,8 +6,25 @@ import restClientFormReducer from '@/lib/store/slice/restClientFormSlice';
 
 import RestClient from '../RestClient';
 
+vi.mock('next/navigation', () => ({
+  useSearchParams: () => ({
+    get: vi.fn().mockReturnValue(null),
+  }),
+}));
+
 const store = configureStore({
   reducer: { restClientForm: restClientFormReducer },
+});
+
+beforeAll(() => {
+  vi.spyOn(global, 'fetch').mockResolvedValue({
+    ok: true,
+    json: async () => ({}),
+  } as unknown as Response);
+});
+
+afterAll(() => {
+  vi.restoreAllMocks();
 });
 
 describe('RestClient', () => {
