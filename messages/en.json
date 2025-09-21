@@ -35,6 +35,25 @@
     "retry": "Try refreshing the page or coming back later.",
     "retry-button": "Try again"
   },
+  "EmptyHistoryPage": {
+    "noRequests": "No request history. Send your first request in",
+    "restClient": "RESTful Client"
+  },
+  "HistoryRequestsPage": {
+    "backToClient": "Back to RESTful Client"
+  },
+  "RequestsTable": {
+    "method": "Method",
+    "url": "URL",
+    "status": "Status",
+    "latency": "Latency (ms)",
+    "requestSize": "Request Size (bytes)",
+    "responseSize": "Response Size (bytes)",
+    "error": "Error",
+    "requestTime": "Request Time",
+    "noError": "-",
+    "paginationTotal": "{{from}}-{{to}} of {{total}}"
+  },
   "AboutSection": {
     "aboutUs": "About us",
     "description": "This application was created as a final project for the",
