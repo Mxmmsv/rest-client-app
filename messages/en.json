@@ -79,5 +79,16 @@
     "watchRequests": "Wanna watch previous requests?",
     "switchAccount": "Wanna switch account?",
     "logout": "Logout"
+  },
+  "LeftPanel": {
+    "variables": "Variables",
+    "history": "History"
+  },
+  "VariablesPanel": {
+    "variables": "Variables",
+    "variableName": "Variable name",
+    "value": "Value",
+    "add": "Add",
+    "delete": "Delete"
   }
 }

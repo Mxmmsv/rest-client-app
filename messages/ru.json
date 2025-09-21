@@ -79,5 +79,16 @@
     "watchRequests": "Хотите посмотреть предыдущие запросы?",
     "switchAccount": "Хотите сменить аккаунт?",
     "logout": "Выйти"
+  },
+  "LeftPanel": {
+    "variables": "Переменные",
+    "history": "История"
+  },
+  "VariablesPanel": {
+    "variables": "Переменные",
+    "variableName": "Имя переменной",
+    "value": "Значение",
+    "add": "Добавить",
+    "delete": "Удалить"
   }
 }
