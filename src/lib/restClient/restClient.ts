@@ -22,38 +22,38 @@ export async function restClient<TResponse, TBody>({
   headers,
 }: RestClientParams<TBody>): Promise<RestClientResponse<TResponse> & { error?: string }> {
   const normalizedHeaders = normalizeHeaders(headers);
-  const options: RequestInit = {
-    method,
-    headers: normalizedHeaders,
-  };
+  const options: RequestInit = { method, headers: normalizedHeaders };
 
   if (body && method !== 'GET' && method !== 'HEAD') {
-    if (normalizedHeaders['Content-Type'] === 'text/plain' && typeof body === 'string') {
-      options.body = body;
-    } else {
-      options.body = JSON.stringify(body);
-    }
+    options.body =
+      normalizedHeaders['Content-Type'] === 'text/plain' && typeof body === 'string'
+        ? body
+        : JSON.stringify(body);
   }
 
   const startTime = Date.now();
+  let response: Response;
 
-  const response = await fetch(url, options);
+  try {
+    response = await fetch(url, options);
+  } catch (err) {
+    const error = err as Error;
+    return {
+      data: null as unknown as TResponse,
+      status: 500,
+      statusText: 'Fetch failed',
+      duration: Date.now() - startTime,
+      error: error?.cause?.toString() || error?.message || 'Unknown error',
+    };
+  }
+
   const duration = Date.now() - startTime;
-
   let data: TResponse;
+
   try {
     data = (await response.json()) as TResponse;
   } catch {
     data = (await response.text()) as unknown as TResponse;
-  }
-
-  if (!response.ok) {
-    return {
-      data,
-      status: response.status,
-      statusText: response.statusText,
-      duration,
-    };
   }
 
   return {

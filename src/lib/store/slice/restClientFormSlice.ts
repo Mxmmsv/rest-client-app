@@ -61,5 +61,3 @@ export const restClientFormSlice = createSlice({
 export const { updateRestClientFormField, addHeader, updateHeader, setHeader, removeHeader } =
   restClientFormSlice.actions;
 export default restClientFormSlice.reducer;
-
-// dispatch(updateField({ field: 'method', value: e.target.value }))
