@@ -1,16 +1,18 @@
 import { PlusOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Card, Flex, Space, Typography } from 'antd';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 import AboutSection from '../about/AboutSection';
 
 const { Title, Paragraph, Text } = Typography;
 
 export default function UnauthMain() {
+  const t = useTranslations('UnauthMain');
   return (
     <Flex justify="space-between" vertical align="center" gap="80px">
       <Flex justify="center" vertical align="center" gap="small">
-        <Title>Welcome to Pawstman!</Title>
+        <Title>{t('welcome')} Pawstman!</Title>
         <Paragraph style={{ maxWidth: '60vw', textAlign: 'center' }}>
           Pawstman is your lightweight and powerful companion for API development. Send requests,
           inspect responses, and debug effortlessly. Perfect for building, testing, and documenting

@@ -72,7 +72,12 @@ function Header() {
                 </Button>
               </Link>
               <LanguageToggle />
-              <Button danger icon={<LogoutOutlined />} onClick={logout}>
+              <Button
+                type="primary"
+                icon={<LogoutOutlined />}
+                onClick={logout}
+                style={{ background: 'var(--color-accent)' }}
+              >
                 Logout
               </Button>
             </Space>

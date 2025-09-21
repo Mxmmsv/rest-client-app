@@ -1,27 +1,29 @@
 'use client';
 
 import { Flex, Layout, theme } from 'antd';
-import { useTranslations } from 'next-intl';
+import dynamic from 'next/dynamic';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
-import Loader from '@/components/Loader';
-import AuthMain from '@/components/main/AuthMain';
 import UnauthMain from '@/components/main/UnauthMain';
 import { auth } from '@/lib/auth/firebase.config';
 
+import Loader from '../Loader';
+
 const { Content } = Layout;
+const AuthMain = dynamic(() => import('@/components/main/AuthMain'), {
+  loading: () => <Loader />,
+});
 
 function MainPage() {
   const [user, loading, error] = useAuthState(auth);
   const { token } = theme.useToken();
   const { colorBgContainer, borderRadiusLG } = token;
-  const t = useTranslations('MainPage');
-
-  if (loading) {
-    return <Loader />;
-  }
 
   if (error) {
+    if (loading) {
+      return <Loader />;
+    }
+
     return (
       <Flex justify="center" vertical align="center" gap="middle" style={{ height: '100vh' }}>
         Authentication error: {error.message}
@@ -36,7 +38,7 @@ function MainPage() {
           justify="center"
           style={{
             height: '100%',
-            background: colorBgContainer,
+            background: 'var(--color-base-light)',
             borderRadius: borderRadiusLG,
             padding: '48px',
           }}
@@ -58,7 +60,6 @@ function MainPage() {
             borderRadius: borderRadiusLG,
           }}
         >
-          {t('welcome')}!
           <UnauthMain />
         </div>
       </Content>

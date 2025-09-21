@@ -14,6 +14,7 @@ import { setHeader, updateRestClientFormField } from '@/lib/store/slice/restClie
 import CodeGeneratorSection from './codeGenerator/CodeGeneratorSection';
 import HeadersSection from './headersEditor/HeadersSection';
 import BodyEditor from './responseBodyViewer/BodyEditor';
+import { buildRestClientUrl } from './utils/urlUtils';
 import { replaceVariables } from './utils/variableReplacer';
 
 import type { Variable } from './hooks/useVariables';
@@ -156,6 +157,14 @@ export default function RestClientForm({
         }
       );
     } else {
+      const restClientUrl = buildRestClientUrl(
+        values.method,
+        processedUrl,
+        values.body,
+        headers.filter((h) => h.enabled)
+      );
+      window.history.replaceState(null, '', restClientUrl);
+
       onResponse(response.data, {
         status: response.status,
         statusText: response.statusText,
