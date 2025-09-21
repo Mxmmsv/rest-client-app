@@ -70,5 +70,14 @@
     "password": "Пароль",
     "passwordRequired": "Пожалуйста, введите пароль!",
     "submit": "Войти"
+  },
+  "AuthMain": {
+    "welcomeBack": "С возвращением,",
+    "restClient": "REST Клиент",
+    "makeRequest": "Хотите сделать запрос?",
+    "history": "История",
+    "watchRequests": "Хотите посмотреть предыдущие запросы?",
+    "switchAccount": "Хотите сменить аккаунт?",
+    "logout": "Выйти"
   }
 }

@@ -70,5 +70,14 @@
     "password": "Password",
     "passwordRequired": "Please input your password!",
     "submit": "Submit"
+  },
+  "AuthMain": {
+    "welcomeBack": "Welcome back,",
+    "restClient": "Rest Client",
+    "makeRequest": "Wanna make request?",
+    "history": "History",
+    "watchRequests": "Wanna watch previous requests?",
+    "switchAccount": "Wanna switch account?",
+    "logout": "Logout"
   }
 }

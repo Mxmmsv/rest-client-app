@@ -19,6 +19,21 @@ vi.mock('@/components/Loader', () => ({
   default: () => <div role="status">Loading...</div>,
 }));
 
+vi.mock('next-intl', () => ({
+  useTranslations: () => (key: string) => {
+    const translations: Record<string, string> = {
+      welcomeBack: 'Welcome back,',
+      restClient: 'Rest Client',
+      makeRequest: 'Wanna make request?',
+      history: 'History',
+      watchRequests: 'Wanna watch previous requests?',
+      switchAccount: 'Wanna switch account?',
+      logout: 'Logout',
+    };
+    return translations[key] || key;
+  },
+}));
+
 const baseMockAuth = {
   logInWithEmailAndPassword: vi.fn(),
   registerWithEmailAndPassword: vi.fn(),
@@ -34,7 +49,9 @@ describe('AuthMain component', () => {
     mockedUseAuth.mockReturnValue(baseMockAuth);
 
     render(<AuthMain />);
-    expect(screen.getByText(`Welcome back, ${mockUser.displayName}`)).toBeInTheDocument();
+
+    const titleElement = screen.getByRole('heading', { level: 1 });
+    expect(titleElement).toHaveTextContent(`Welcome back, ${mockUser.displayName}`);
   });
 
   it('should call logout on button click', () => {
