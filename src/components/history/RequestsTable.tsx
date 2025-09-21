@@ -1,15 +1,23 @@
 'use client';
 
 import { Table } from 'antd';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
 import type { RequestHistoryItem } from '@/lib/requests/types';
+
+import Loader from '../Loader';
 
 import type { ColumnsType } from 'antd/es/table';
 
 interface RequestsTableProps {
   history: RequestHistoryItem[];
 }
+
+const LocalizedDate = dynamic(() => import('./LocalizedDate'), {
+  ssr: false,
+  loading: () => <Loader />,
+});
 
 const RequestsTable = ({ history }: RequestsTableProps) => {
   const columns: ColumnsType<RequestHistoryItem> = [
@@ -56,7 +64,7 @@ const RequestsTable = ({ history }: RequestsTableProps) => {
       title: 'Request Time',
       dataIndex: 'timestamp',
       key: 'timestamp',
-      render: (ts: Date) => ts.toLocaleString(),
+      render: (ts: Date) => <LocalizedDate date={ts} />,
       align: 'center',
     },
   ];
