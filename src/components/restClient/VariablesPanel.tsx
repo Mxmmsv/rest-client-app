@@ -1,6 +1,6 @@
 'use client';
 import { DeleteTwoTone, PlusOutlined } from '@ant-design/icons';
-import { Button, Input, Table, Space, Typography, Flex } from 'antd';
+import { Button, Input, Table, Space, Typography, Flex, Card } from 'antd';
 import { useState } from 'react';
 
 import { type Variable } from '@/components/restClient/hooks/useVariables';
@@ -72,13 +72,14 @@ export default function VariablesPanel({
           Add
         </Button>
       </Space.Compact>
-      <Table
-        style={{ width: '90%' }}
-        dataSource={variables.map((v, index) => ({ ...v, key: index }))}
-        columns={columns}
-        size="small"
-        pagination={false}
-      />
+      <Card>
+        <Table
+          dataSource={variables.map((v, index) => ({ ...v, key: index }))}
+          columns={columns}
+          size="small"
+          pagination={false}
+        />
+      </Card>
     </Flex>
   );
 }

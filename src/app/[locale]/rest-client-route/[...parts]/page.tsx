@@ -5,8 +5,8 @@ import { use, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import Loader from '@/components/Loader';
-import { decodeFromBase64, queryParamsToHeaders } from '@/components/restClient/utils/urlUtils';
 import { setHeader, updateRestClientFormField } from '@/lib/store/slice/restClientFormSlice';
+import { decodeFromBase64, queryParamsToHeaders } from '@/lib/utils/urlUtils';
 const RestClient = dynamic(() => import('@/components/restClient/RestClient'), {
   loading: () => <Loader />,
 });
