@@ -72,7 +72,7 @@ export default function VariablesPanel({
           Add
         </Button>
       </Space.Compact>
-      <Card>
+      <Card style={{ width: '90%' }}>
         <Table
           dataSource={variables.map((v, index) => ({ ...v, key: index }))}
           columns={columns}
