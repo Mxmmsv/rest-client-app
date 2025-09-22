@@ -52,7 +52,7 @@
     "error": "Ошибка",
     "requestTime": "Время запроса",
     "noError": "-",
-    "paginationTotal": "{{from}}-{{to}} из {{total}}"
+    "paginationTotal": "{from}-{to} из {total}"
   },
   "AboutSection": {
     "aboutUs": "О нас",

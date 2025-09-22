@@ -52,7 +52,7 @@
     "error": "Error",
     "requestTime": "Request Time",
     "noError": "-",
-    "paginationTotal": "{{from}}-{{to}} of {{total}}"
+    "paginationTotal": "{from}-{to} of {total}"
   },
   "AboutSection": {
     "aboutUs": "About us",
