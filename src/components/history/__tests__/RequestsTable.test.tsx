@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { NextIntlClientProvider } from 'next-intl';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 import type { RequestHistoryItem } from '@/lib/requests/types';
@@ -44,25 +45,49 @@ describe('RequestsTable', () => {
     },
   ];
 
+  const messages = {
+    RequestsTable: {
+      method: 'Method',
+      url: 'URL',
+      status: 'Status',
+      latency: 'Latency (ms)',
+      requestSize: 'Request Size (bytes)',
+      responseSize: 'Response Size (bytes)',
+      error: 'Error',
+      noError: '-',
+      requestTime: 'Request Time',
+      paginationTotal: '{from}-{to} of {total}',
+    },
+  };
+
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it('renders table headers correctly', () => {
-    render(<RequestsTable history={history} />);
+    render(
+      <NextIntlClientProvider locale="en" messages={messages}>
+        <RequestsTable history={history} />
+      </NextIntlClientProvider>
+    );
 
-    expect(screen.getByText('Method')).toBeInTheDocument();
-    expect(screen.getByText('URL')).toBeInTheDocument();
-    expect(screen.getByText('Status')).toBeInTheDocument();
-    expect(screen.getByText('Latency (ms)')).toBeInTheDocument();
-    expect(screen.getByText('Request Size (bytes)')).toBeInTheDocument();
-    expect(screen.getByText('Response Size (bytes)')).toBeInTheDocument();
-    expect(screen.getByText('Error')).toBeInTheDocument();
-    expect(screen.getByText('Request Time')).toBeInTheDocument();
+    const headers = screen.getAllByRole('columnheader').map((h) => h.textContent);
+    expect(headers).toContain('Method');
+    expect(headers).toContain('URL');
+    expect(headers).toContain('Status');
+    expect(headers).toContain('Latency (ms)');
+    expect(headers).toContain('Request Size (bytes)');
+    expect(headers).toContain('Response Size (bytes)');
+    expect(headers).toContain('Error');
+    expect(headers).toContain('Request Time');
   });
 
   it('renders table rows with correct data', async () => {
-    render(<RequestsTable history={history} />);
+    render(
+      <NextIntlClientProvider locale="en" messages={messages}>
+        <RequestsTable history={history} />
+      </NextIntlClientProvider>
+    );
 
     const getCell = (text: string) => screen.findByText(text);
 
