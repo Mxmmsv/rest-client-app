@@ -82,7 +82,7 @@ export default function RestClient() {
         toast.error(errorMessage);
       }
     })();
-  }, [searchParams, dispatch]);
+  }, [searchParams, dispatch, headers.length]);
 
   const tabItems = [
     {

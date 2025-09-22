@@ -3,6 +3,7 @@
 import { Table } from 'antd';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 import type { RequestHistoryItem } from '@/lib/requests/types';
 
@@ -20,10 +21,12 @@ const LocalizedDate = dynamic(() => import('./LocalizedDate'), {
 });
 
 const RequestsTable = ({ history }: RequestsTableProps) => {
+  const t = useTranslations('RequestsTable');
+
   const columns: ColumnsType<RequestHistoryItem> = [
-    { title: 'Method', dataIndex: 'method', key: 'method', align: 'center' },
+    { title: t('method'), dataIndex: 'method', key: 'method', align: 'center' },
     {
-      title: 'URL',
+      title: t('url'),
       dataIndex: 'url',
       key: 'url',
       render: (url, record) => (
@@ -33,35 +36,35 @@ const RequestsTable = ({ history }: RequestsTableProps) => {
       ),
       align: 'center',
     },
-    { title: 'Status', dataIndex: 'statusCode', key: 'statusCode', align: 'center' },
+    { title: t('status'), dataIndex: 'statusCode', key: 'statusCode', align: 'center' },
     {
-      title: 'Latency (ms)',
+      title: t('latency'),
       dataIndex: 'latency',
       key: 'latency',
       render: (latency: number | null) => (latency !== null ? latency.toFixed(2) : '-'),
       align: 'center',
     },
     {
-      title: 'Request Size (bytes)',
+      title: t('requestSize'),
       dataIndex: 'requestSize',
       key: 'requestSize',
       align: 'center',
     },
     {
-      title: 'Response Size (bytes)',
+      title: t('responseSize'),
       dataIndex: 'responseSize',
       key: 'responseSize',
       align: 'center',
     },
     {
-      title: 'Error',
+      title: t('error'),
       dataIndex: 'error',
       key: 'error',
-      render: (error) => error || '-',
+      render: (error) => error || t('noError'),
       align: 'center',
     },
     {
-      title: 'Request Time',
+      title: t('requestTime'),
       dataIndex: 'timestamp',
       key: 'timestamp',
       render: (ts: Date) => <LocalizedDate date={ts} />,
@@ -77,7 +80,12 @@ const RequestsTable = ({ history }: RequestsTableProps) => {
       pagination={{
         showSizeChanger: true,
         pageSizeOptions: ['5', '10', '20'],
-        showTotal: (total, range) => `${range[0]}-${range[1]} из ${total}`,
+        showTotal: (total, range) =>
+          t('paginationTotal', {
+            from: range[0],
+            to: range[1],
+            total,
+          }),
         style: { margin: '40px 0' },
       }}
     />

@@ -4,6 +4,7 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 import { Button, Space } from 'antd';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 import type { RequestHistoryItem } from '@/lib/requests/types';
 
@@ -16,6 +17,8 @@ const RequestsTable = dynamic(() => import('./RequestsTable'), {
 export default function HistoryRequestsPage({
   history,
 }: Readonly<{ history: RequestHistoryItem[] }>) {
+  const t = useTranslations('HistoryRequestsPage');
+
   return (
     <Space
       direction="vertical"
@@ -28,7 +31,7 @@ export default function HistoryRequestsPage({
       <Link href="/rest-client" passHref>
         <Button>
           <ArrowLeftOutlined />
-          Back to RESTful Client
+          {t('backToClient')}
         </Button>
       </Link>
       <RequestsTable history={history} />
