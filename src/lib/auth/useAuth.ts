@@ -5,7 +5,10 @@ import {
   updateProfile,
 } from 'firebase/auth';
 import { collection, addDoc } from 'firebase/firestore';
+import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
+
+import { createSession, destroySession } from '@/app/api/auth/authApi';
 
 import { auth, db } from './firebase.config';
 
@@ -19,18 +22,15 @@ export type UserData = AuthInfo & {
 };
 
 export function useAuth() {
+  const router = useRouter();
+
   const logInWithEmailAndPassword = async ({ email, password }: AuthInfo) => {
     try {
       const result = await signInWithEmailAndPassword(auth, email, password);
 
       const idToken = await result.user.getIdToken();
 
-      await fetch('/api/auth/session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ idToken }),
-        credentials: 'include',
-      });
+      await createSession(idToken);
       toast.success('Success login!');
     } catch (err) {
       toast.error(`Login failed ${(err as Error).message}`);
@@ -53,12 +53,7 @@ export function useAuth() {
       }
 
       const idToken = await user.getIdToken();
-      await fetch('/api/auth/session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ idToken }),
-        credentials: 'include',
-      });
+      await createSession(idToken);
       toast.success('Success register!');
     } catch (err) {
       toast.error(`Register failed ${(err as Error).message}`);
@@ -68,11 +63,9 @@ export function useAuth() {
   const logout = async () => {
     try {
       signOut(auth);
-      await fetch('/api/auth/logout', {
-        method: 'POST',
-        credentials: 'include',
-      });
+      await destroySession();
       toast.success('Success logout! We will miss you!');
+      router.push('/');
     } catch (err) {
       toast.error(`Logout failed ${(err as Error).message}`);
     }

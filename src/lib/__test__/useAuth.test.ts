@@ -37,6 +37,10 @@ vi.mock('react-toastify', () => ({
   },
 }));
 
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({ push: vi.fn() }),
+}));
+
 const mockedToast = vi.mocked(toast);
 
 const mockUser: Partial<User> = {
