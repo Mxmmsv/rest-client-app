@@ -2,10 +2,10 @@
 
 import { Layout, Tabs, Typography } from 'antd';
 import { useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { useTranslations } from 'next-intl';
 
 import type { ApiResult, Header, ResponseInfo } from '@/components/restClient/types';
 import { getHeaders } from '@/lib/store/selectors/restClientFormSelectField';
@@ -82,7 +82,7 @@ export default function RestClient() {
         toast.error(errorMessage);
       }
     })();
-  }, [searchParams, dispatch]);
+  }, [searchParams, dispatch, headers.length]);
 
   const tabItems = [
     {

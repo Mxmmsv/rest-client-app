@@ -35,6 +35,25 @@
     "retry": "Попробуйте обновить страницу или вернуться позже.",
     "retry-button": "Обновить"
   },
+  "EmptyHistoryPage": {
+    "noRequests": "История запросов пуста. Отправьте первый запрос в",
+    "restClient": "REST Клиенте"
+  },
+  "HistoryRequestsPage": {
+    "backToClient": "Назад в REST Клиент"
+  },
+  "RequestsTable": {
+    "method": "Метод",
+    "url": "URL",
+    "status": "Статус",
+    "latency": "Задержка (мс)",
+    "requestSize": "Размер запроса (байты)",
+    "responseSize": "Размер ответа (байты)",
+    "error": "Ошибка",
+    "requestTime": "Время запроса",
+    "noError": "-",
+    "paginationTotal": "{from}-{to} из {total}"
+  },
   "AboutSection": {
     "aboutUs": "О нас",
     "description": "Это приложение было создано как финальный проект курса по реакту",

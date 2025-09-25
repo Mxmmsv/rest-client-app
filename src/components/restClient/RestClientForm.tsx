@@ -1,6 +1,6 @@
 import { Button, Flex, Form, Input, Select, Tabs } from 'antd';
-import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { restClient } from '@/lib/restClient/restClient';

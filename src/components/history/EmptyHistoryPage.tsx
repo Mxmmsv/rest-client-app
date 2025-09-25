@@ -1,10 +1,13 @@
 import { SmileOutlined } from '@ant-design/icons';
 import { Empty, Flex } from 'antd';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 import { cn } from '@/lib/cn';
 
 function EmptyHistoryPage() {
+  const t = useTranslations('EmptyHistoryPage');
+
   return (
     <Flex
       style={{
@@ -20,7 +23,7 @@ function EmptyHistoryPage() {
       }}
     >
       <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-      <p>No request history. Send your first request in</p>
+      <p>{t('noRequests')}</p>
       <Link
         href="/rest-client"
         passHref
@@ -36,7 +39,7 @@ function EmptyHistoryPage() {
           textDecoration: 'underline',
         }}
       >
-        RESTful Client
+        {t('restClient')}
       </Link>
       <SmileOutlined style={{ fontSize: 20 }} />
     </Flex>

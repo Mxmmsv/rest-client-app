@@ -5,6 +5,15 @@ import type { RequestHistoryItem } from '@/lib/requests/types';
 
 import HistoryRequestsPage from '../HistoryRequestsPage';
 
+vi.mock('next-intl', () => ({
+  useTranslations: () => (key: string) => {
+    const translations: Record<string, string> = {
+      backToClient: 'Back to RESTful Client',
+    };
+    return translations[key] || key;
+  },
+}));
+
 vi.mock('../RequestsTable', () => ({
   default: ({ history }: { history: RequestHistoryItem[] }) => (
     <div data-testid="requests-table">{history.length} rows</div>
@@ -47,10 +56,11 @@ describe('HistoryRequestsPage', () => {
     },
   ];
 
-  it('renders back button', () => {
+  it('renders back link', () => {
     render(<HistoryRequestsPage history={[]} />);
-    const backButton = screen.getByRole('button', { name: /Back to RESTful Client/i });
-    expect(backButton).toBeInTheDocument();
+    const backLink = screen.getByRole('link', { name: /Back to RESTful Client/i });
+    expect(backLink).toBeInTheDocument();
+    expect(backLink).toHaveAttribute('href', '/rest-client');
   });
 
   it('renders RequestsTable with history', () => {
