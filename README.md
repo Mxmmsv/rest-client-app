@@ -50,13 +50,19 @@ This application provides the following features:
 - Set up Firebase environment variables. Create a `.env.local` file in the root directory:
 
   ```bash
-  # Firebase Configuration
-  NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
-  NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=rest-client-22734.firebaseapp.com
-  NEXT_PUBLIC_FIREBASE_PROJECT_ID=rest-client-22734
-  NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=rest-client-22734.appspot.com
-  NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-  NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
+  FIREBASE_SERVICE_ACCOUNT_KEY='{
+    "type": "foo",
+    "project_id": "foo",
+    "private_key_id": "foo",
+    "private_key": "foo",
+    "client_email": "foo",
+    "client_id": "foo",
+    "auth_uri": "foo",
+    "token_uri": "foo",
+    "auth_provider_x509_cert_url": "foo",
+    "client_x509_cert_url": "foo",
+    "universe_domain": "foo"
+  }'
   ```
 
 - Start the development server:
@@ -128,6 +134,7 @@ In the project directory, you can run:
   ```
 
 - Run tests with UI:
+
   ```bash
   npm run test:ui
   ```
@@ -149,7 +156,7 @@ Special thanks to:
 
 ## 🌐 Live Demo
 
-Check out the live application: [Pawstman Demo](https://link.netlify.app/)
+Check out the live application: [Pawstman Demo](https://rest-client-app-git-develop-oikioikioikiabrams-4424s-projects.vercel.app/ru)
 
 ## 📄 License
 
