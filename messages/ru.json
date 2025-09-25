@@ -1,0 +1,154 @@
+{
+  "Footer": {
+    "created-by": "Создано командой"
+  },
+  "Team": {
+    "alla": "Алла Цаюкова",
+    "allaInitials": "АЦ",
+    "ekaterina": "Екатерина Дмитренко",
+    "ekaterinaInitials": "ЕД",
+    "maxim": "Максим Моисеев",
+    "maximInitials": "ММ"
+  },
+  "UnauthMain": {
+    "welcome": "Добро пожаловать в",
+    "subtitle": "Pawstman - ваш легкий и мощный помощник для разработки API. Отправляйте запросы, проверяйте ответы и отлаживайте с легкостью.",
+    "helpsHeader": "С Pawstman вы сможете:",
+    "feature1": "Тестировать API любыми методами (GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS)",
+    "feature2": "Добавить заголовки и редактировать запрос",
+    "feature3": "Смотреть историю запросов и анализировать ответы",
+    "feature4": "Управлять переменными окружения для динамических запросов",
+    "feature5": "Генерировать сниппеты кода для множества языков",
+    "feature6": "Наслаждаться интерфейсом на английском и русском",
+    "getStarted": "Начать работу",
+    "existingAccount": "Уже есть аккаунт?",
+    "signIn": "Войти в аккаунт",
+    "or": "или",
+    "createNew": "Создать новый аккаунт"
+  },
+  "NotFoundPage": {
+    "sorry": "Страница, которую вы ищите, не найдена.",
+    "button-back": "На главную"
+  },
+  "Messages": {
+    "error": "Что-то пошло не так!",
+    "retry": "Попробуйте обновить страницу или вернуться позже.",
+    "retry-button": "Обновить"
+  },
+  "EmptyHistoryPage": {
+    "noRequests": "История запросов пуста. Отправьте первый запрос в",
+    "restClient": "REST Клиенте"
+  },
+  "HistoryRequestsPage": {
+    "backToClient": "Назад в REST Клиент"
+  },
+  "RequestsTable": {
+    "method": "Метод",
+    "url": "URL",
+    "status": "Статус",
+    "latency": "Задержка (мс)",
+    "requestSize": "Размер запроса (байты)",
+    "responseSize": "Размер ответа (байты)",
+    "error": "Ошибка",
+    "requestTime": "Время запроса",
+    "noError": "-",
+    "paginationTotal": "{from}-{to} из {total}"
+  },
+  "AboutSection": {
+    "aboutUs": "О нас",
+    "description": "Это приложение было создано как финальный проект курса по реакту",
+    "rsCourse": "RS School React",
+    "byTeam": "командой",
+    "teamName": "\"Yet Another Dream Team\""
+  },
+  "Header": {
+    "home": "Главная",
+    "login": "Войти",
+    "logout": "Выйти",
+    "register": "Регистрация"
+  },
+  "SignUp": {
+    "welcome": "Добро пожаловать!",
+    "email": "Email",
+    "emailRequired": "Пожалуйста, введите ваш email!",
+    "emailInvalid": "Пожалуйста, введите корректный email!",
+    "password": "Пароль",
+    "passwordRequired": "Пожалуйста, введите пароль!",
+    "passwordInvalid": "Пароль должен быть не менее 8 символов и содержать букву, цифру и специальный символ.",
+    "confirmPassword": "Подтвердите пароль",
+    "confirmPasswordRequired": "Пожалуйста, подтвердите пароль!",
+    "passwordsMismatch": "Пароли не совпадают!",
+    "name": "Имя",
+    "nameRequired": "Пожалуйста, введите ваше имя!",
+    "nameMinLength": "Имя должно быть не менее 2 символов.",
+    "submit": "Зарегистрироваться"
+  },
+  "SignIn": {
+    "email": "Email",
+    "emailRequired": "Пожалуйста, введите ваш email!",
+    "password": "Пароль",
+    "passwordRequired": "Пожалуйста, введите пароль!",
+    "submit": "Войти"
+  },
+  "AuthMain": {
+    "welcomeBack": "С возвращением,",
+    "restClient": "REST Клиент",
+    "makeRequest": "Хотите сделать запрос?",
+    "history": "История",
+    "watchRequests": "Хотите посмотреть предыдущие запросы?",
+    "switchAccount": "Хотите сменить аккаунт?",
+    "logout": "Выйти"
+  },
+  "LeftPanel": {
+    "variables": "Переменные",
+    "history": "История"
+  },
+  "VariablesPanel": {
+    "variables": "Переменные",
+    "variableName": "Имя переменной",
+    "value": "Значение",
+    "add": "Добавить",
+    "delete": "Удалить"
+  },
+  "CodeSpace": {
+    "editorTheme": "Тема редактора:",
+    "status": "Статус:",
+    "time": "Время:",
+    "error": "Ошибка"
+  },
+  "BodyEditor": {
+    "contentType": "Тип контента:",
+    "formatJson": "Форматировать JSON",
+    "invalidJson": "Неверный формат JSON",
+    "json": "JSON",
+    "text": "Текст"
+  },
+  "UrlPreview": {
+    "urlPreview": "Предпросмотр URL",
+    "copied": "Скопировано!",
+    "placeholder": "Предпросмотр URL"
+  },
+  "HeadersEditor": {
+    "headerKey": "ключ заголовка",
+    "headerValue": "значение заголовка",
+    "addHeader": "Добавить заголовок"
+  },
+  "CodeGeneratorSection": {
+    "language": "Язык",
+    "variant": "Вариант",
+    "generateCode": "Сгенерировать код"
+  },
+  "RestClient": {
+    "response": "Ответ",
+    "generatedCode": "Сгенерированный код",
+    "request": "Запрос"
+  },
+  "RestClientForm": {
+    "bodyEditor": "Редактор тела запроса",
+    "headersEditor": "Редактор заголовков",
+    "generateCode": "Генерация кода",
+    "enterApiUrl": "Введите URL API",
+    "send": "Отправить",
+    "invalidJson": "Неверный формат JSON в теле запроса"
+  }
+}

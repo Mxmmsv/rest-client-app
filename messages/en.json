@@ -1,0 +1,154 @@
+{
+  "Footer": {
+    "created-by": "Created by"
+  },
+  "Team": {
+    "alla": "Alla Tsaiukova",
+    "allaInitials": "AT",
+    "ekaterina": "Ekaterina Dmitrenko",
+    "ekaterinaInitials": "ED",
+    "maxim": "Maxim Moiseev",
+    "maximInitials": "MM"
+  },
+  "UnauthMain": {
+    "welcome": "Welcome to",
+    "subtitle": "Pawstman is your lightweight and powerful companion for API development. Send requests, inspect responses, and debug effortlessly.",
+    "helpsHeader": "Pawstman helps you:",
+    "feature1": "Test APIs with any method (GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS)",
+    "feature2": "Organize headers and body with a structured editor",
+    "feature3": "Save your history for later reference",
+    "feature4": "Manage environment variables for dynamic requests",
+    "feature5": "Generate code snippets for multiple languages",
+    "feature6": "Enjoy localized interface in English and Russian",
+    "getStarted": "Get Started",
+    "existingAccount": "Already have an account?",
+    "signIn": "Sign In to Existing Account",
+    "or": "or",
+    "createNew": "Create New Account"
+  },
+  "NotFoundPage": {
+    "sorry": "Sorry, the page you are looking for can't be found.",
+    "button-back": "Back Home"
+  },
+  "Messages": {
+    "error": "Something went wrong!",
+    "retry": "Try refreshing the page or coming back later.",
+    "retry-button": "Try again"
+  },
+  "EmptyHistoryPage": {
+    "noRequests": "No request history. Send your first request in",
+    "restClient": "RESTful Client"
+  },
+  "HistoryRequestsPage": {
+    "backToClient": "Back to RESTful Client"
+  },
+  "RequestsTable": {
+    "method": "Method",
+    "url": "URL",
+    "status": "Status",
+    "latency": "Latency (ms)",
+    "requestSize": "Request Size (bytes)",
+    "responseSize": "Response Size (bytes)",
+    "error": "Error",
+    "requestTime": "Request Time",
+    "noError": "-",
+    "paginationTotal": "{from}-{to} of {total}"
+  },
+  "AboutSection": {
+    "aboutUs": "About us",
+    "description": "This application was created as a final project for the",
+    "rsCourse": "RS School React course",
+    "byTeam": "by the team",
+    "teamName": "\"Yet Another Dream Team\""
+  },
+  "Header": {
+    "home": "Home",
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register"
+  },
+  "SignUp": {
+    "welcome": "Welcome!",
+    "email": "Email",
+    "emailRequired": "Please input your email!",
+    "emailInvalid": "Please enter a valid email!",
+    "password": "Password",
+    "passwordRequired": "Please input your password!",
+    "passwordInvalid": "Password must be at least 8 characters long and contain a letter, a number, and a special character.",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordRequired": "Please confirm your password!",
+    "passwordsMismatch": "Passwords do not match!",
+    "name": "Name",
+    "nameRequired": "Please input your name!",
+    "nameMinLength": "Name must be at least 2 characters long.",
+    "submit": "Submit"
+  },
+  "SignIn": {
+    "email": "Email",
+    "emailRequired": "Please input your email!",
+    "password": "Password",
+    "passwordRequired": "Please input your password!",
+    "submit": "Submit"
+  },
+  "AuthMain": {
+    "welcomeBack": "Welcome back,",
+    "restClient": "Rest Client",
+    "makeRequest": "Wanna make request?",
+    "history": "History",
+    "watchRequests": "Wanna watch previous requests?",
+    "switchAccount": "Wanna switch account?",
+    "logout": "Logout"
+  },
+  "LeftPanel": {
+    "variables": "Variables",
+    "history": "History"
+  },
+  "VariablesPanel": {
+    "variables": "Variables",
+    "variableName": "Variable name",
+    "value": "Value",
+    "add": "Add",
+    "delete": "Delete"
+  },
+  "CodeSpace": {
+    "editorTheme": "Editor theme:",
+    "status": "Status:",
+    "time": "Time:",
+    "error": "Error"
+  },
+  "BodyEditor": {
+    "contentType": "Content Type:",
+    "formatJson": "Format JSON",
+    "invalidJson": "Invalid JSON format",
+    "json": "JSON",
+    "text": "Text"
+  },
+  "UrlPreview": {
+    "urlPreview": "URL Preview",
+    "copied": "Copied!",
+    "placeholder": "URL preview"
+  },
+  "HeadersEditor": {
+    "headerKey": "header key",
+    "headerValue": "header value",
+    "addHeader": "Add header"
+  },
+  "CodeGeneratorSection": {
+    "language": "Language",
+    "variant": "Variant",
+    "generateCode": "Generate code"
+  },
+  "RestClient": {
+    "response": "Response",
+    "generatedCode": "Generated Code",
+    "request": "Request"
+  },
+  "RestClientForm": {
+    "bodyEditor": "Body editor",
+    "headersEditor": "Headers editor",
+    "generateCode": "Generate code",
+    "enterApiUrl": "Enter API URL",
+    "send": "Send",
+    "invalidJson": "Invalid JSON format in request body"
+  }
+}
