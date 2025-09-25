@@ -156,7 +156,7 @@ Special thanks to:
 
 ## 🌐 Live Demo
 
-Check out the live application: [Pawstman Demo](https://rest-client-app-seven.vercel.app/ru)
+Check out the live application: [Pawstman Demo](https://pawstman.vercel.app/ru)
 
 ## 📄 License
 
