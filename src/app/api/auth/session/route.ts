@@ -14,8 +14,8 @@ export async function POST(req: Request) {
 
     const res = NextResponse.json({ ok: true });
     res.cookies.set('firebase_token', sessionCookie, {
-      httpOnly: false,
-      secure: false,
+      httpOnly: true,
+      secure: true,
       path: '/',
       maxAge: expiresIn / 1000,
       sameSite: 'lax',
