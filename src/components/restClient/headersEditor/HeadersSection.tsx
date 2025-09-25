@@ -5,7 +5,7 @@ import UrlPreview from './UrlPreview';
 
 export default function HeadersSection() {
   return (
-    <Row gutter={[16, 24]}>
+    <Row gutter={[16, 24]} style={{ padding: '0 10px' }}>
       <Col span={24}>
         <HeadersEditor />
       </Col>
