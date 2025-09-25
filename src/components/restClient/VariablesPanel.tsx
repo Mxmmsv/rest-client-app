@@ -34,6 +34,7 @@ export default function VariablesPanel({
       dataIndex: 'value',
       width: '45%',
       key: 'value',
+      render: (text: string) => <div style={{ wordBreak: 'break-all' }}>{text}</div>,
     },
     {
       title: t('delete'),
